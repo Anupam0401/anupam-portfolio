@@ -19,8 +19,7 @@ export function calculateDuration(startDate: string, endDate?: string): string {
   
   const years = end.getFullYear() - start.getFullYear()
   const months = end.getMonth() - start.getMonth()
-  
-  let totalMonths = years * 12 + months
+  const totalMonths = years * 12 + months
   
   if (totalMonths < 1) {
     return '1 month'

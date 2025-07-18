@@ -21,11 +21,12 @@ import { Button } from '@/components/ui/Button'
 import { blogPosts } from '@/data/blog'
 
 interface BlogPostPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
-const BlogPostPage = ({ params }: BlogPostPageProps) => {
-  const post = blogPosts.find(p => p.id === params.slug)
+const BlogPostPage = async ({ params }: BlogPostPageProps) => {
+  const { slug } = await params
+  const post = blogPosts.find(p => p.id === slug)
   
   if (!post) {
     notFound()

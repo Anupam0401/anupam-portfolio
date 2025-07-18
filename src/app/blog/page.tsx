@@ -58,7 +58,7 @@ const BlogPage = () => {
     }
   }
 
-  const BlogCard = ({ post, featured = false }: { post: any, featured?: boolean }) => (
+  const BlogCard = ({ post, featured = false }: { post: typeof blogPosts[0], featured?: boolean }) => (
     <motion.div
       variants={itemVariants}
       className={`${featured ? 'md:col-span-2' : ''} h-full`}
