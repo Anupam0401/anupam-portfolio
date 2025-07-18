@@ -311,21 +311,23 @@ const ProjectsPage = () => {
 
           {/* Projects Grid */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="space-y-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {filteredProjects.map((project, index) => (
-              <div key={project.id} className="relative">
-                <ProjectCard project={project} index={index} />
-                <AnimatePresence>
-                  {selectedProject === project.id && (
-                    <ProjectDetails project={project} />
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+            
+            {/* Project Details - Rendered outside grid */}
+            <AnimatePresence>
+              {selectedProject && (
+                <ProjectDetails project={filteredProjects.find(p => p.id === selectedProject)} />
+              )}
+            </AnimatePresence>
           </motion.div>
 
           {/* Project Stats */}

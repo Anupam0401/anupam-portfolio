@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -9,7 +9,12 @@ import { cn } from '@/lib/utils'
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -70,7 +75,7 @@ const Navigation = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {theme === 'dark' ? '☀️' : '🌙'}
+              {!mounted ? '🌙' : theme === 'dark' ? '☀️' : '🌙'}
             </motion.button>
 
             {/* Mobile menu button */}

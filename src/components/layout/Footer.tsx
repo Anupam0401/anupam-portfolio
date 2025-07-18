@@ -49,7 +49,7 @@ const Footer = () => {
                 Anupam Kumar
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
-                Senior Backend Engineer passionate about building scalable systems and elegant solutions. 
+                Software Engineer passionate about building scalable systems and elegant solutions. 
                 Specializing in Java, Kotlin, and Spring Boot.
               </p>
               <div className="flex space-x-4">

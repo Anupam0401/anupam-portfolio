@@ -48,10 +48,10 @@ const AboutPage = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                    Senior Backend Engineer
+                    Software Development Engineer
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                    With over 3 years of experience in backend development, I specialize in building 
+                    With over 2 years of experience in backend development, I specialize in building 
                     high-performance, scalable systems using Java, Kotlin, and Spring Boot. My expertise 
                     lies in microservices architecture, system design, and performance optimization.
                   </p>
