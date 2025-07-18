@@ -1,0 +1,202 @@
+\documentclass[a4paper,20pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[pdftex]{hyperref}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.530in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.45in}
+\addtolength{\textheight}{1in}
+
+\urlstyle{rm}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-10pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeItemWithoutTitle}[1]{
+  \item\small{
+    {\vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{#3} & \textit{#4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-3pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-----------------------------
+%%%%%%  CV STARTS HERE  %%%%%%
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{{\LARGE Anupam Kumar}} & Email: \href{mailto:anupamkumar0401@gmail.com}{anupamkumar0401@gmail.com}\\
+  {Software Developer} & Mobile:~~~+91-6202684631 \\
+  {}{} & \href{https://github.com/Anupam0401}{GitHub } \textbar{} \href{https://www.linkedin.com/in/anupam-kumar-17b0b9210/}{LinkedIn} \\
+\end{tabular*}
+
+%-----------EDUCATION-----------------
+\vspace{5pt}
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Indian Institute of Technology Bhilai}{Raipur, Chhatisgarh}
+      {Bachelor of Technology - Computer Science;  CGPA: 8.66}{July 2019 - April 2023}
+      {\scriptsize \textit{ \footnotesize{\newline{}\textbf{Courses:}  Data Structures and Algorithms, OOPS, Operating Systems, Database Management System, Machine Learning}}}
+    \resumeSubHeadingListEnd
+
+\vspace{5pt}
+\section{Technical Skills}
+	\resumeSubHeadingListStart
+	\resumeSubItem{Languages and Frameworks}{~JAVA, Kotlin, C++, Python, SpringBoot}
+	\resumeSubItem{Databases and Messaging}{~~~~SQL, PostgreSQL, MySQL, Kafka, MongoDB}
+	\resumeSubItem{Tools}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Git, Shell, Docker, Kubernetes, Prometheus, Grafana, JUnit, GraphQL, Gradle, Maven}
+	\resumeSubItem{Interests}{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Low Level and High Level Design, Microservice Architecture}
+
+\resumeSubHeadingListEnd
+\vspace{5pt}
+\section{Work Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading{\href{https://navi.com/}{Navi Technologies}}{On-site (Bangalore)}
+    {Software Developer (Full-time) \textbar{} Team: Personal Loan \textbar{} Language: Java, Kotlin}
+    {July 2023 - present}
+    \resumeItemListStart
+    \resumeItem {Processing Fee Introduction}{Led the end-to-end backend delivery of introducing Processing in Personal Loan journey across three different operations, direct contribution of ₹1CR per day in revenue}
+    \resumeItem {Revamped Loan Journeys}{Redesigned Personal Loan Repeat and Top-Up flows, including \textbf{Offer Generation}, \textbf{Mandate}, and \textbf{Disbursement}. Increased approval-to-disbursal rates (24\% → 29\%, 14\% → 25\%) and daily gross disbursal by \textbf{33.5\%} (₹17.6 Cr → ₹23.5 Cr) and \textbf{26.6\%} (₹10.5 Cr → ₹13.3 Cr), respectively.}
+    \resumeItem {EMI Date Standardization}{Streamlined EMI date logic by consolidating to 4 dates and integrating with a dedicated decisioning service. Revamped API workflows, streamlining processes and eliminating redundant code, resulting in significantly \textbf{enhanced collection efficiency}}.
+    \resumeItem {Comms in Vernacular Languages}{Implemented multi-language communication for disbursement success and loan closure in \textbf{10 vernacular languages}. Optimized workflows, reduced redundant read calls, and added document links to SMS, enhancing customer satisfaction and experience.}
+    \resumeItem {OKYC Integration}{Implemented \textbf{Aadhaar and PAN verification} using Digilocker, increasing KYC completion rate by \textbf{10.2\%} and reducing completion time.}
+    \resumeItem {Workflow Optimization}{Automated QA processes, reducing time from \textbf{10 minutes to less than 1 minute}, and simplified KYC verification for faster onboarding.}
+    % \resumeItem {Legacy Code Refactoring}{Optimized \textbf{APIs} for underwriting, validations, and document generation, improving system \textbf{reliability and scalability}.}
+    \resumeItem {On-Call Support}{Resolved high-priority customer issues during on-call rotations, ensuring minimal downtime and consistent \textbf{service reliability}.}
+\resumeItemListEnd
+
+\vspace{2pt}
+    \resumeSubheading
+		{\href{https://www.click2cloud.com/}{Click 2 Cloud}}{On-site (Bhilai)}
+		{SDE Intern (Full Time) \textbar{} Language: Python, SQL}{May 2022 - July 2022}
+		\resumeItemListStart
+        \resumeItem {Cloud Migration}{Executed the migration of cloud infrastructure from Microsoft Azure to Google BigQuery.}
+        \resumeItem {Key-Value Extraction}{Implemented algorithms to extract key-value pairs from diverse document formats.}
+        \resumeItem {SQL Injection Analysis}{Implemented techniques for information retrieval through SQL injection analysis and testing.}
+		\resumeItemListEnd
+\vspace{-5pt}
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------------
+\vspace{5pt}
+\section{Projects}
+\resumeSubHeadingListStart
+\resumeSubItem{Network Software Monitoring Tool}{Smart India Hackathon Project \textbar{} \href{https://drive.google.com/file/d/1qiZesrt7hEhPYErSuQzsLiEyiWKDYhZi/view?usp=sharing}{Design document}}
+\vspace{-2pt}
+\begin{itemize}
+\item Developed a \textbf{tool} to monitor and regulate \textbf{software installations} on network devices.  
+\vspace{-3pt}
+\item Designed and implemented the \textbf{Admin Dashboard} frontend for streamlined and efficient management.  
+\vspace{-3pt}
+\item Worked on \textbf{IP address discovery} within local networks, incorporating a \textbf{hot reload feature} for real-time updates.  
+\vspace{-3pt}
+\item Implemented \textbf{APIs} to enable network searches based on \textbf{IP addresses} and \textbf{software names}.  
+\end{itemize}
+% \vspace{2pt}
+\resumeSubItem{Medical Diagnosis Application}{Personal Project \textbar{} \href{https://github.com/Anupam0401/Medical-Diagnosis-App}{Project link on GitHub}}
+\vspace{-2pt}
+\begin{itemize}
+\item Developed a \textbf{Decision Tree Classifier} model to predict diseases based on patient symptoms.  
+\vspace{-3pt}
+\item Designed the model to identify and rank the top 10 most probable diseases based on input symptoms.  
+\vspace{-3pt}
+\item Created a user-friendly web application using \textbf{Streamlit} for seamless interaction and visualization.
+\end{itemize}
+% \vspace{2pt}
+\resumeSubItem{Client Server Application}{Personal Project \textbar{} \href{https://github.com/Anupam0401/Client_Server_Application}{Project link on GitHub}}
+\vspace{-2pt}
+\begin{itemize}
+\item Developed an \textbf{Echo Client-Server} application in Python for \textbf{Network Analysis}.  
+\vspace{-3pt}
+\item Integrated features like \textbf{File Viewing} and \textbf{Interactive Messaging} to enhance functionality.  
+\vspace{-3pt}
+\item Engineered the echo client-server to be \textbf{protocol independent} for broader applicability.  
+\end{itemize}
+\resumeSubHeadingListEnd
+% \vspace{-5pt}
+% \section{Publications}
+% \resumeSubHeadingListStart
+% \resumeSubItem{Book: Deep Learning on Web (Web Development, Deep Learning)}{Work in Progress book to be published by Packt Publishing in late 2019. Tech: Django, Python, AWS, GCP, Azure (November '18)}
+% \vspace{2pt}
+% \resumeSubItem{Book: Deep Learning on Mobile Devices (Flutter App Development, Deep Learning)}{Work in Progress book to be published by Packt Publishing in late 2019. Tech: Flutter, Android, Firebase, TensorFlow, Python, Dart (December '18)}
+% \resumeSubHeadingListEnd
+\vspace{5pt}
+%-----------Awards-----------------
+\section{Achievements}
+\begin{description}[font=$\bullet$]
+\item {2022 \textbar{} Grand finalist in the Software category in \textbf{SIH 2022}.}
+    \vspace{-5pt}
+    \item {2022 \textbar{} Secured \textbf{Global Rank 2329} in Google Hash Code.}
+    \vspace{-5pt}
+    \item {2021 \textbar{} Secured \textbf{Global Rank 2436} in Google KickStart Round D.}
+    \vspace{-5pt}
+    \item {2019 \textbar{} \textbf{99 percentile} in JEE Mains/Advanced.}
+    \vspace{-5pt}
+    \item {2017 \textbar{} Achieved \textbf{Rank 1} in Darjeeling district in ICSE 10\textsuperscript{th} Board Exams.}
+
+\end{description}
+
+% \vspace{-5pt}
+% \section{Volunteer Experience}
+%   \resumeSubHeadingListStart
+% 	\resumeSubheading
+%     {Community Lead at Developer Student Clubs NSEC}{Kolkata, India}
+%     {Conducted online and offline technical \& soft-skills training impacting over 3000 students.}{Jan 2019 - Present}
+% \vspace{5pt}
+%     % \vspace{10pt}\textbf{\large{Community Experience}}
+%     \resumeSubheading
+%     {Event Organizer at Google Developers Group Kolkata}{Kolkata, India}
+%     {Organized events, conducted workshops and delivered workshops reaching over 7000 developers.}{Jan 2018 - Present}
+
+% \resumeSubHeadingListEnd
+
+\end{document}
