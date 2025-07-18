@@ -40,6 +40,7 @@ export interface Project {
     github?: string
     demo?: string
     case_study?: string
+    design?: string
   }
   images?: string[]
   status: 'completed' | 'in-progress' | 'planned'
@@ -75,6 +76,8 @@ export interface Education {
   startDate: string
   endDate: string
   grade?: string
+  gpa?: string
+  percentage?: string
   location: string
   achievements?: string[]
 }

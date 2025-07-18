@@ -85,66 +85,98 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
-    id: "processing-fee-system",
-    title: "Processing Fee Introduction System",
-    description: "Architected and developed a comprehensive fee processing system for fintech applications",
-    longDescription: "Led the design and implementation of a scalable processing fee system that handles multiple fee types, calculation engines, and real-time processing. The system integrates with existing loan processing workflows and provides detailed analytics for business insights.",
-    technologies: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Kafka", "Docker"],
+    id: "network-software-monitoring-tool",
+    title: "Network Software Monitoring Tool",
+    description: "Smart India Hackathon Project - Tool to monitor and regulate software installations on network devices",
+    longDescription: "Developed a comprehensive monitoring solution for network devices that tracks software installations, provides real-time updates, and enables efficient management through an admin dashboard. The project was developed as part of Smart India Hackathon and showcases advanced networking concepts.",
+    technologies: ["Java", "Spring Boot", "React", "PostgreSQL", "Network Programming", "REST APIs"],
     features: [
-      "Dynamic fee calculation engine",
-      "Real-time processing capabilities",
-      "Comprehensive audit trail",
-      "Integration with existing loan systems",
-      "Advanced analytics and reporting"
+      "Real-time software installation monitoring",
+      "Admin Dashboard for streamlined management",
+      "IP address discovery within local networks",
+      "Hot reload feature for real-time updates",
+      "Network search APIs based on IP addresses and software names"
     ],
     challenges: [
-      "Handling high-frequency transactions without performance degradation",
-      "Ensuring data consistency across distributed systems",
-      "Implementing complex business rules with flexibility"
+      "Implementing real-time monitoring across network devices",
+      "Efficient IP address discovery algorithms",
+      "Managing network communication protocols"
     ],
     learnings: [
-      "Advanced distributed systems design patterns",
-      "Performance optimization techniques",
-      "Business domain modeling in fintech"
+      "Network programming concepts",
+      "Real-time system design",
+      "Admin dashboard development"
     ],
     links: {
-      github: "https://github.com/Anupam0401/processing-fee-system"
+      design: "https://drive.google.com/file/d/1qiZesrt7hEhPYErSuQzsLiEyiWKDYhZi/view?usp=sharing",
+      github: "https://github.com/TeamGravitas/Software-Monitoring-Tool"
     },
     status: "completed",
     featured: true,
-    startDate: "2023-03-01",
-    endDate: "2023-08-01"
+    startDate: "2022-08-01",
+    endDate: "2022-12-01"
   },
   {
-    id: "emi-logic-revamp",
-    title: "EMI Logic Revamp",
-    description: "Redesigned and optimized EMI calculation algorithms for better accuracy and performance",
-    longDescription: "Completely overhauled the existing EMI calculation system to handle complex financial scenarios, improve accuracy, and enhance performance. The new system supports multiple loan types, variable interest rates, and advanced repayment options.",
-    technologies: ["Kotlin", "Spring Boot", "PostgreSQL", "JUnit", "Mockito"],
+    id: "medical-diagnosis-application",
+    title: "Medical Diagnosis Application",
+    description: "Personal Project - Decision Tree Classifier model to predict diseases based on patient symptoms",
+    longDescription: "Developed a machine learning-based medical diagnosis system that uses a Decision Tree Classifier to predict diseases based on patient symptoms. The application can identify and rank the top 10 most probable diseases, providing healthcare professionals with valuable diagnostic insights.",
+    technologies: ["Python", "Scikit-learn", "Streamlit", "Pandas", "NumPy", "Decision Tree Classifier"],
     features: [
-      "Advanced EMI calculation algorithms",
-      "Support for variable interest rates",
-      "Multiple loan type handling",
-      "Comprehensive unit testing",
-      "Performance optimization"
+      "Decision Tree Classifier model for disease prediction",
+      "Top 10 disease ranking based on symptoms",
+      "User-friendly web interface using Streamlit",
+      "Interactive symptom input system",
+      "Visualization of prediction results"
     ],
     challenges: [
-      "Maintaining backward compatibility with existing data",
-      "Ensuring calculation accuracy for complex scenarios",
-      "Optimizing performance for high-volume calculations"
+      "Handling imbalanced medical datasets",
+      "Ensuring model accuracy for reliable predictions",
+      "Creating intuitive user interface for medical professionals"
     ],
     learnings: [
-      "Financial mathematics and algorithms",
-      "Test-driven development practices",
-      "Performance profiling and optimization"
+      "Machine learning model development",
+      "Medical data processing and analysis",
+      "Streamlit web application development"
     ],
     links: {
-      github: "https://github.com/Anupam0401/emi-logic-revamp"
+      github: "https://github.com/Anupam0401/Medical-Diagnosis-App"
     },
     status: "completed",
     featured: true,
-    startDate: "2023-09-01",
-    endDate: "2023-12-01"
+    startDate: "2022-01-01",
+    endDate: "2022-04-01"
+  },
+  {
+    id: "client-server-application",
+    title: "Client Server Application",
+    description: "Personal Project - Echo Client-Server application in Python for Network Analysis",
+    longDescription: "Developed a protocol-independent Echo Client-Server application designed for network analysis. The application features file viewing capabilities, interactive messaging, and robust network communication protocols, making it suitable for various networking scenarios.",
+    technologies: ["Python", "Socket Programming", "Network Protocols", "Threading", "File I/O"],
+    features: [
+      "Echo Client-Server architecture",
+      "Protocol-independent design for broader applicability",
+      "File viewing capabilities",
+      "Interactive messaging system",
+      "Network analysis and monitoring tools"
+    ],
+    challenges: [
+      "Implementing protocol-independent communication",
+      "Handling concurrent client connections",
+      "Ensuring robust error handling and recovery"
+    ],
+    learnings: [
+      "Network programming fundamentals",
+      "Socket programming in Python",
+      "Client-server architecture patterns"
+    ],
+    links: {
+      github: "https://github.com/Anupam0401/Client_Server_Application"
+    },
+    status: "completed",
+    featured: true,
+    startDate: "2021-09-01",
+    endDate: "2021-12-01"
   },
   {
     id: "multi-language-comms",
@@ -266,17 +298,47 @@ export const achievements: Achievement[] = [
 export const education: Education[] = [
   {
     id: "college-education",
-    institution: "Engineering College",
+    institution: "Indian Institute of Technology Bhilai",
     degree: "Bachelor of Technology",
-    field: "Computer Science & Engineering",
-    startDate: "2019-08-01",
-    endDate: "2023-06-01",
-    location: "India",
+    field: "Computer Science",
+    startDate: "2019-07-01",
+    endDate: "2023-04-01",
+    location: "Raipur, Chhattisgarh",
+    gpa: "8.66",
     achievements: [
-      "Graduated with distinction",
-      "Active member of coding club",
-      "Participated in multiple hackathons",
-      "Led technical workshops"
+      "CGPA: 8.66",
+      "Relevant Courses: Data Structures and Algorithms, OOPS, Operating Systems, Database Management System, Machine Learning",
+      "Smart India Hackathon 2022 Grand Finalist",
+      "Global Rank 2329 in Google Hash Code 2022"
+    ]
+  },
+  {
+    id: "senior-secondary",
+    institution: "St. Paul Public School",
+    degree: "12th Board",
+    field: "CBSE",
+    startDate: "2017-04-01",
+    endDate: "2019-05-01",
+    location: "Begusarai",
+    percentage: "92.2%",
+    achievements: [
+      "Percentage: 92.2%",
+      "Graduated May 2019"
+    ]
+  },
+  {
+    id: "secondary",
+    institution: "Victoria Boys' School",
+    degree: "10th Board",
+    field: "ICSE",
+    startDate: "2015-04-01",
+    endDate: "2017-05-01",
+    location: "Darjeeling",
+    percentage: "96%",
+    achievements: [
+      "Percentage: 96%",
+      "Rank 1 in Darjeeling district in ICSE 10th Board Exams",
+      "Graduated May 2017"
     ]
   }
 ]
