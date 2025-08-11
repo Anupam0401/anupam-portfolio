@@ -105,6 +105,15 @@ html.dark [class*="Card"] .bg-white {
   background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e3a8a20 100%) !important;
 }
 
+/* 4b. Interests page hero gradient (purple variant) */
+.bg-gradient-to-br.from-slate-50.via-white.to-purple-50 {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #faf5ff 100%) !important;
+}
+
+.dark .bg-gradient-to-br.from-slate-50.via-white.to-purple-50 {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #6b21a820 100%) !important;
+}
+
 /* 5. Contact page send button gradient */
 .bg-gradient-to-r.from-blue-600.via-purple-600.to-purple-700 {
   background: linear-gradient(to right, #2563eb, #9333ea, #7e22ce) !important;
