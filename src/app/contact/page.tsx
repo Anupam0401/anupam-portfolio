@@ -156,7 +156,7 @@ const ContactPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <Card className="shadow-xl">
-                <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                   <CardTitle className="text-2xl font-bold flex items-center">
                     <PaperAirplaneIcon className="w-6 h-6 mr-3" />
                     Send Me a Message

@@ -74,17 +74,17 @@ const ExperiencePage = () => {
                 className="relative"
               >
                 <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                  <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-white/20 rounded-full">
+                        <div className="p-3 bg-white/20 dark:bg-white/10 rounded-full">
                           <BuildingOfficeIcon className="w-8 h-8" />
                         </div>
                         <div>
                           <CardTitle className="text-2xl font-bold text-white">
                             {exp.position}
                           </CardTitle>
-                          <p className="text-blue-100 text-lg font-medium">
+                          <p className="text-blue-100 dark:text-blue-200 text-lg font-medium">
                             {exp.company}
                           </p>
                         </div>
@@ -110,7 +110,7 @@ const ExperiencePage = () => {
                           <MapPinIcon className="w-4 h-4 mr-2" />
                           <span className="text-sm">{exp.location}</span>
                         </div>
-                        <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                        <Badge variant="secondary" className="bg-white/20 dark:bg-white/10 text-white border-white/30 dark:border-white/20">
                           {calculateDuration(exp.startDate, exp.endDate)}
                         </Badge>
                       </div>
@@ -241,7 +241,7 @@ const ExperiencePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 Ready for the Next Challenge
               </h2>

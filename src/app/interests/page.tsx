@@ -198,7 +198,7 @@ const InterestsPage = () => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="h-full"
     >
-      <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-center justify-between mb-4">
             <div className="text-4xl">{interest.icon}</div>
@@ -411,7 +411,7 @@ const InterestsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+            <Card className="p-8 bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 The Developer's Renaissance
               </h2>
@@ -431,7 +431,7 @@ const InterestsPage = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-purple-600"
+                  className="border-white text-white hover:bg-white hover:text-purple-600 dark:hover:bg-white/90 dark:hover:text-purple-500"
                 >
                   <HeartIcon className="w-5 h-5 mr-2" />
                   Get in Touch

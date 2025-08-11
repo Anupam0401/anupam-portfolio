@@ -1,18 +1,476 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* COMPREHENSIVE DARK MODE SUPPORT FOR ALL COMPONENTS */
+
+/* CRITICAL: Card component and other dark mode backgrounds */
+/* Tailwind v4 doesn't process dark: variants, so we need manual overrides */
+
+/* AGGRESSIVE FIX: Force ALL cards to have proper backgrounds */
+/* Light mode - white backgrounds */
+.bg-white {
+  background-color: #ffffff !important;
 }
 
-/* Class-based dark mode - responds to .dark class on html element */
+/* Dark mode - force ALL white backgrounds to dark */
+html.dark .bg-white,
+html.dark div.bg-white,
+html.dark main .bg-white,
+html.dark section .bg-white,
+html.dark article .bg-white,
+:root.dark .bg-white {
+  background-color: #111827 !important; /* gray-900 */
+}
+
+/* Super specific for Card components */
+html.dark .rounded-xl.border.border-gray-200.bg-white,
+html.dark .overflow-hidden.shadow-lg.bg-white,
+html.dark [class*="Card"] .bg-white {
+  background-color: #111827 !important;
+}
+
+/* Navigation should stay transparent in dark mode */
+.dark nav .bg-white,
+.dark header .bg-white {
+  background-color: rgba(17, 24, 39, 0.8) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Gray backgrounds for cards/sections */
+.bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1f2937 !important; /* gray-800 */
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #374151 !important; /* gray-700 */
+}
+
+/* Ensure bg-gray-900 is properly dark */
+.bg-gray-900 {
+  background-color: #111827 !important;
+}
+
+.dark .bg-gray-900 {
+  background-color: #111827 !important;
+}
+
+/* 1. Basic white/gray card gradients */
+.bg-gradient-to-br.from-white.to-gray-50,
+.bg-gradient-to-r.from-white.to-gray-50 {
+  background: linear-gradient(to bottom right, #ffffff, #f9fafb) !important;
+}
+
+.dark .bg-gradient-to-br.from-white.to-gray-50,
+.dark .bg-gradient-to-r.from-white.to-gray-50 {
+  background: linear-gradient(to bottom right, #111827, #1f2937) !important;
+}
+
+/* 2. Blue/purple colored gradients */
+.bg-gradient-to-r.from-blue-600.to-purple-600,
+.bg-gradient-to-br.from-blue-600.to-purple-600,
+.bg-gradient-to-r.from-blue-500.to-purple-600,
+.bg-gradient-to-br.from-blue-500.to-purple-600 {
+  background: linear-gradient(135deg, #2563eb, #9333ea) !important;
+}
+
+.dark .bg-gradient-to-r.from-blue-600.to-purple-600,
+.dark .bg-gradient-to-br.from-blue-600.to-purple-600,
+.dark .bg-gradient-to-r.from-blue-500.to-purple-600,
+.dark .bg-gradient-to-br.from-blue-500.to-purple-600 {
+  background: linear-gradient(135deg, #3b82f6, #a855f7) !important;
+}
+
+/* 3. Light blue/purple tinted backgrounds */
+.bg-gradient-to-br.from-blue-50.to-purple-50 {
+  background: linear-gradient(to bottom right, #eff6ff, #faf5ff) !important;
+}
+
+.dark .bg-gradient-to-br.from-blue-50.to-purple-50 {
+  background: linear-gradient(to bottom right, #1e3a8a20, #6b21a820) !important;
+}
+
+/* 4. Experience/About page hero gradients */
+.bg-gradient-to-br.from-slate-50.via-white.to-blue-50 {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #eff6ff 100%) !important;
+}
+
+.dark .bg-gradient-to-br.from-slate-50.via-white.to-blue-50 {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e3a8a20 100%) !important;
+}
+
+/* 5. Contact page send button gradient */
+.bg-gradient-to-r.from-blue-600.via-purple-600.to-purple-700 {
+  background: linear-gradient(to right, #2563eb, #9333ea, #7e22ce) !important;
+}
+
+.dark .bg-gradient-to-r.from-blue-600.via-purple-600.to-purple-700 {
+  background: linear-gradient(to right, #3b82f6, #a855f7, #9333ea) !important;
+}
+
+/* 6. Green/emerald gradients (Contact page success message) */
+.bg-gradient-to-r.from-green-50.to-emerald-50 {
+  background: linear-gradient(to right, #f0fdf4, #ecfdf5) !important;
+}
+
+.dark .bg-gradient-to-r.from-green-50.to-emerald-50 {
+  background: linear-gradient(to right, #14532d20, #064e3b20) !important;
+}
+
+/* 7. Profile avatar gradient */
+.bg-gradient-to-br.from-blue-500.to-purple-600 {
+  background: linear-gradient(to bottom right, #3b82f6, #9333ea) !important;
+}
+
+.dark .bg-gradient-to-br.from-blue-500.to-purple-600 {
+  background: linear-gradient(to bottom right, #60a5fa, #a855f7) !important;
+}
+
+/* 8. Additional colored gradients for cards */
+.bg-gradient-to-r.from-blue-50.to-blue-100 {
+  background: linear-gradient(to right, #eff6ff, #dbeafe) !important;
+}
+
+.dark .bg-gradient-to-r.from-blue-50.to-blue-100 {
+  background: linear-gradient(to right, #1e3a8a20, #1e40af20) !important;
+}
+
+.bg-gradient-to-br.from-blue-50.to-blue-100 {
+  background: linear-gradient(to bottom right, #eff6ff, #dbeafe) !important;
+}
+
+.dark .bg-gradient-to-br.from-blue-50.to-blue-100 {
+  background: linear-gradient(to bottom right, #1e3a8a20, #1e40af20) !important;
+}
+
+.bg-gradient-to-br.from-green-50.to-green-100 {
+  background: linear-gradient(to bottom right, #f0fdf4, #dcfce7) !important;
+}
+
+.dark .bg-gradient-to-br.from-green-50.to-green-100 {
+  background: linear-gradient(to bottom right, #14532d20, #15803d20) !important;
+}
+
+.bg-gradient-to-br.from-purple-50.to-purple-100 {
+  background: linear-gradient(to bottom right, #faf5ff, #f3e8ff) !important;
+}
+
+.dark .bg-gradient-to-br.from-purple-50.to-purple-100 {
+  background: linear-gradient(to bottom right, #6b21a820, #7c3aed20) !important;
+}
+
+/* Override gradient color variables */
+.from-gray-900 { --tw-gradient-from: #ffffff !important; }
+.to-gray-900 { --tw-gradient-to: #f9fafb !important; }
+.from-gray-800 { --tw-gradient-from: #ffffff !important; }
+.to-gray-800 { --tw-gradient-to: #f9fafb !important; }
+
+.dark .from-gray-900 { --tw-gradient-from: #111827 !important; }
+.dark .to-gray-900 { --tw-gradient-to: #111827 !important; }
+.dark .from-gray-800 { --tw-gradient-from: #1f2937 !important; }
+.dark .to-gray-800 { --tw-gradient-to: #1f2937 !important; }
+
+/* Professional Theme System - Senior Architect Level */
+:root {
+  /* LIGHT MODE - Elegant & Professional */
+  --background: #fafafa;  /* Off-white for sophistication */
+  --foreground: #0a0a0a;  /* Rich black for contrast */
+  
+  /* Component backgrounds */
+  --card-bg: #ffffff;  /* Pure white cards for clean look */
+  --nav-bg: rgba(250, 250, 250, 0.85);  /* Subtle translucent nav */
+  --border-color: #e4e4e7;  /* Soft grey borders */
+  
+  /* Text colors - Carefully crafted hierarchy */
+  --text-primary: #18181b;  /* Almost black for headers */
+  --text-secondary: #52525b;  /* Balanced grey for body text */
+  --text-muted: #71717a;  /* Lighter grey for metadata */
+  
+  /* Gradients - Subtle and elegant */
+  --gradient-start: #fafafa;
+  --gradient-middle: #f4f4f5;
+  --gradient-end: #fafafa;
+  
+  /* Accent colors */
+  --accent-primary: #2563eb;  /* Professional blue */
+  --accent-hover: #1d4ed8;
+  
+  /* Surface levels for depth */
+  --surface-0: #fafafa;
+  --surface-1: #ffffff;
+  --surface-2: #f4f4f5;
+  --surface-3: #e4e4e7;
+}
+
+/* DARK MODE - Modern & Sophisticated */
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #09090b;  /* Rich black, not pure black */
+  --foreground: #fafafa;  /* Soft white */
+  
+  /* Component backgrounds */
+  --card-bg: #18181b;  /* Elevated surface */
+  --nav-bg: rgba(9, 9, 11, 0.85);  /* Dark translucent nav */
+  --border-color: #27272a;  /* Subtle borders */
+  
+  /* Text colors */
+  --text-primary: #fafafa;  /* Soft white for headers */
+  --text-secondary: #a1a1aa;  /* Muted grey for body */
+  --text-muted: #71717a;  /* Dimmed for metadata */
+  
+  /* Gradients - Dark and subtle */
+  --gradient-start: #18181b;
+  --gradient-middle: #09090b;
+  --gradient-end: #18181b;
+  
+  /* Accent colors */
+  --accent-primary: #3b82f6;  /* Brighter blue in dark mode */
+  --accent-hover: #60a5fa;
+  
+  /* Surface levels */
+  --surface-0: #09090b;
+  --surface-1: #18181b;
+  --surface-2: #27272a;
+  --surface-3: #3f3f46;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* PROFESSIONAL THEME SYSTEM - Component Styling */
+
+/* Light Mode Enhancements */
+/* Hero section gradients only - more specific selector */
+section.min-h-screen[class*="from-slate-50"][class*="via-white"][class*="to-blue-50"],
+section.min-h-screen[class*="from-slate-50"][class*="via-white"][class*="to-purple-50"] {
+  background: linear-gradient(135deg, var(--surface-0) 0%, var(--surface-1) 50%, var(--surface-2) 100%) !important;
+}
+
+/* Professional navigation styling */
+nav[class*="bg-white"] {
+  background-color: var(--nav-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+nav[class*="border-gray-200"] {
+  border-bottom-color: var(--border-color) !important;
+}
+
+/* Text colors for light mode - essential for readability */
+.text-gray-900 { color: #111827 !important; }
+.text-gray-800 { color: #1f2937 !important; }
+.text-gray-700 { color: #374151 !important; }
+.text-gray-600 { color: #4b5563 !important; }
+.text-gray-500 { color: #6b7280 !important; }
+.text-gray-400 { color: #9ca3af !important; }
+.text-white { color: #ffffff !important; }
+
+/* Background colors - only for non-gradient elements */
+.bg-white:not([class*="gradient"]):not([class*="from-"]) { 
+  background-color: #ffffff; 
+}
+.bg-gray-50:not([class*="from-"]):not([class*="to-"]) { 
+  background-color: #f9fafb; 
+}
+.bg-gray-100:not([class*="from-"]):not([class*="to-"]) { 
+  background-color: #f3f4f6; 
+}
+
+/* Borders */
+.border-gray-200 { border-color: var(--border-color) !important; }
+.border-gray-300 { border-color: var(--border-color) !important; }
+
+/* Accent colors */
+.text-blue-600 { color: var(--accent-primary) !important; }
+.text-blue-500 { color: var(--accent-primary) !important; }
+.bg-blue-600 { background-color: var(--accent-primary) !important; }
+
+/* Hover states */
+.hover\:text-blue-600:hover { color: var(--accent-hover) !important; }
+.hover\:bg-gray-100:hover { background-color: var(--surface-2) !important; }
+.hover\:bg-gray-200:hover { background-color: var(--surface-3) !important; }
+
+/* DARK MODE OVERRIDES */
+/* Navigation in dark mode */
+.dark nav[class*="bg-white"] {
+  background-color: var(--nav-bg) !important;
+}
+
+.dark nav[class*="border-gray-200"] {
+  border-bottom-color: var(--border-color) !important;
+}
+
+/* Text colors in dark mode */
+.dark .text-gray-900 { color: var(--text-primary) !important; }
+.dark .text-gray-800 { color: var(--text-primary) !important; }
+.dark .text-gray-700 { color: var(--text-secondary) !important; }
+.dark .text-gray-600 { color: var(--text-secondary) !important; }
+.dark .text-gray-500 { color: var(--text-muted) !important; }
+.dark .text-gray-400 { color: var(--text-muted) !important; }
+.dark .text-gray-300 { color: var(--text-secondary) !important; }
+
+/* Backgrounds in dark mode - only apply to non-gradient elements */
+.dark .bg-white:not([class*="hover"]):not([class*="gradient"]):not([class*="from-"]) { 
+  background-color: var(--card-bg) !important; 
+}
+.dark .bg-gray-50:not([class*="from-"]):not([class*="to-"]) { 
+  background-color: var(--surface-0) !important; 
+}
+.dark .bg-gray-100:not([class*="hover"]):not([class*="from-"]):not([class*="to-"]) { 
+  background-color: var(--surface-2) !important; 
+}
+.dark .bg-gray-200:not([class*="from-"]):not([class*="to-"]) { 
+  background-color: var(--surface-3) !important; 
+}
+
+/* Borders in dark mode */
+.dark .border-gray-200 { border-color: var(--border-color) !important; }
+.dark .border-gray-300 { border-color: var(--border-color) !important; }
+
+/* Accent colors in dark mode */
+.dark .text-blue-600 { color: var(--accent-primary) !important; }
+.dark .text-blue-500 { color: var(--accent-primary) !important; }
+.dark .text-blue-400 { color: var(--accent-primary) !important; }
+
+/* Hover states in dark mode */
+.dark .hover\:text-blue-600:hover { color: var(--accent-hover) !important; }
+.dark .hover\:text-blue-400:hover { color: var(--accent-hover) !important; }
+.dark .hover\:bg-gray-100:hover { background-color: var(--surface-2) !important; }
+.dark .hover\:bg-gray-200:hover { background-color: var(--surface-3) !important; }
+.dark .hover\:bg-gray-700:hover { background-color: var(--surface-2) !important; }
+
+/* Gradients in dark mode - only for hero sections */
+.dark section.min-h-screen[class*="from-slate-50"][class*="via-white"][class*="to-blue-50"],
+.dark section.min-h-screen[class*="from-slate-50"][class*="via-white"][class*="to-purple-50"] {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-middle) 50%, var(--gradient-end) 100%) !important;
+}
+
+/* Professional button styling - only for theme toggle */
+nav button[class*="bg-gray-100"] {
+  background-color: var(--surface-2) !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.2s ease !important;
+}
+
+nav button[class*="bg-gray-100"]:hover {
+  background-color: var(--surface-3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.dark nav button[class*="bg-gray-100"] {
+  background-color: var(--surface-2) !important;
+  color: var(--text-secondary) !important;
+}
+
+.dark nav button[class*="bg-gray-100"]:hover {
+  background-color: var(--surface-3) !important;
+}
+
+/* Elegant card shadows */
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Alpha backgrounds for glassmorphism */
+.bg-white\/80 { background-color: rgba(255, 255, 255, 0.8) !important; }
+.bg-white\/20 { background-color: rgba(255, 255, 255, 0.2) !important; }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.1) !important; }
+
+.dark .bg-white\/80 { background-color: rgba(24, 24, 27, 0.8) !important; }
+.dark .bg-white\/20 { background-color: rgba(255, 255, 255, 0.08) !important; }
+.dark .bg-white\/10 { background-color: rgba(255, 255, 255, 0.04) !important; }
+
+/* Professional accent gradients */
+.bg-gradient-to-r[class*="from-blue-600"][class*="to-purple-600"] {
+  background: linear-gradient(135deg, var(--accent-primary), #8b5cf6) !important;
+}
+
+.bg-gradient-to-br[class*="from-blue-600"][class*="to-purple-600"] {
+  background: linear-gradient(135deg, var(--accent-primary), #8b5cf6) !important;
+}
+
+/* COMPLETE FIX: Override Tailwind v4's broken dark mode gradients */
+
+/* Force light mode gradients for ALL cards */
+:root .bg-gradient-to-br.from-white.to-gray-50,
+:root .bg-gradient-to-r.from-white.to-gray-50,
+:root .bg-gradient-to-br.from-gray-50.to-white,
+:root .bg-gradient-to-r.from-gray-50.to-white {
+  background: linear-gradient(to bottom right, #ffffff, #f9fafb) !important;
+}
+
+/* These dark gradient classes should NEVER apply in light mode */
+:root:not(.dark) .from-gray-900,
+:root:not(.dark) .to-gray-900,
+:root:not(.dark) .from-gray-800,
+:root:not(.dark) .to-gray-800 {
+  --tw-gradient-from: #ffffff !important;
+  --tw-gradient-to: #f9fafb !important;
+  background: linear-gradient(to bottom right, #ffffff, #f9fafb) !important;
+}
+
+/* Dark mode gradients - only when .dark is present */
+.dark .bg-gradient-to-br.from-white.to-gray-50,
+.dark .bg-gradient-to-r.from-white.to-gray-50,
+.dark .bg-gradient-to-br.from-gray-900.to-gray-800,
+.dark .bg-gradient-to-r.from-gray-900.to-gray-800 {
+  background: linear-gradient(to bottom right, #111827, #1f2937) !important;
+}
+
+/* Fix gradient text visibility */
+.bg-gradient-to-r.from-blue-600.to-purple-600.bg-clip-text.text-transparent {
+  background: linear-gradient(135deg, #1e40af, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.dark .bg-gradient-to-r.from-blue-600.to-purple-600.bg-clip-text.text-transparent {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Ensure text-transparent works properly */
+.text-transparent {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }

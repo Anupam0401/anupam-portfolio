@@ -90,7 +90,7 @@ const AchievementsPage = () => {
         whileHover={{ y: -8, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <Card className="h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+        <Card className="h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
           <CardHeader className="relative">
             {/* Background Pattern */}
             <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
@@ -359,7 +359,7 @@ const AchievementsPage = () => {
                       <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white dark:border-gray-900 shadow-lg z-10"></div>
                       
                       <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'} md:w-5/12`}>
-                        <Card className="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+                        <Card className="p-6 bg-gradient-to-br from-white to-gray-50">
                           <div className="flex items-center mb-3">
                             <div className="text-2xl mr-3">{achievement.icon}</div>
                             <div>

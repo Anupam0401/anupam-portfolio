@@ -310,7 +310,7 @@ const BlogPostPage = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-center"
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 Enjoyed this post?
               </h2>
