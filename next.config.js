@@ -21,6 +21,11 @@ const nextConfig = {
       }
     ]
   },
+  // Do not fail the production build on ESLint errors.
+  // Lint errors are treated in CI and during development.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async headers() {
     return [
       {
@@ -52,18 +57,6 @@ const nextConfig = {
             value: 'public, max-age=31536000, immutable',
           },
         ],
-      },
-    ]
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-      {
-        source: '/robots.txt',
-        destination: '/api/robots',
       },
     ]
   },
