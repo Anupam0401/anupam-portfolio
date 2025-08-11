@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [ opened, synchronize, reopened, closed ]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -15,17 +16,23 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: Checkout merged commit
       uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.merge_commit_sha }}
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: package-lock.json
+    
+    - name: Ensure npm registry
+      run: npm config set registry https://registry.npmjs.org/
         
     - name: Install dependencies
-      run: npm ci
+      run: npm ci || npm install
       
     - name: Run ESLint
       run: npm run lint
@@ -41,7 +48,7 @@ jobs:
 
   deploy-preview:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: ${{ false }}
     needs: lint-and-test
     
     steps:
@@ -68,7 +75,7 @@ jobs:
 
   deploy-production:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     needs: lint-and-test
     
     steps:

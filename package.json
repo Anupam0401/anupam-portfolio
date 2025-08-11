@@ -35,5 +35,8 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "napi-postinstall": "0.3.0"
   }
 }
