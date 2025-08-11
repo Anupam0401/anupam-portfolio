@@ -69,7 +69,18 @@ const nextConfig = {
   },
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production'
+    removeConsole: process.env.NODE_ENV === 'production',
+    reactRemoveProperties: process.env.NODE_ENV === 'production' ? { properties: ['^data-testid$'] } : false,
+  },
+  // Enable compression
+  compress: true,
+  // Enable static optimization
+  staticPageGenerationTimeout: 300,
+  // Enhanced experimental features
+  experimental: {
+    optimizePackageImports: ['framer-motion', '@heroicons/react'],
+    optimizeServerReact: true,
+    ppr: false,
   },
   // Bundle analyzer
   ...(process.env.ANALYZE === 'true' && {

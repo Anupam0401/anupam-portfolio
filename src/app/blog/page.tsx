@@ -17,6 +17,7 @@ import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import NewsletterSignup from '@/components/ui/NewsletterSignup'
 import { blogPosts, blogTags } from '@/data/blog'
 
 const BlogPage = () => {
@@ -287,32 +288,12 @@ const BlogPage = () => {
 
           {/* Newsletter Section */}
           <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ delay: 0.4 }}
+            className="mt-16"
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-              <h2 className="text-2xl font-bold mb-4">
-                Stay Updated
-              </h2>
-              <p className="text-lg text-blue-100 mb-6">
-                Get notified when I publish new posts about backend development, system design, and creative writing.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg text-gray-900 bg-white/90 focus:bg-white focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                />
-                <Button
-                  variant="secondary"
-                  className="bg-white text-blue-600 hover:bg-gray-100"
-                >
-                  Subscribe
-                </Button>
-              </div>
-            </Card>
+            <NewsletterSignup className="max-w-2xl mx-auto" />
           </motion.div>
         </div>
       </div>
