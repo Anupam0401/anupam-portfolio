@@ -18,8 +18,10 @@ import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { useRouter } from 'next/navigation'
 
 const InterestsPage = () => {
+  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
@@ -424,14 +426,18 @@ const InterestsPage = () => {
               <div className="flex justify-center space-x-4">
                 <Button
                   variant="secondary"
-                  className="bg-white text-purple-600 hover:bg-gray-100"
+                  className="bg-white text-purple-600 hover:bg-gray-100 transition-colors"
+                  onClick={() => router.push('/blog')}
+                  aria-label="Read my blog"
                 >
                   <BookOpenIcon className="w-5 h-5 mr-2" />
                   Read My Blog
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-purple-600 dark:hover:bg-white/90 dark:hover:text-purple-500"
+                  className="border-white/80 text-white hover:bg-white/95 hover:text-purple-700 dark:hover:bg-white/90 dark:hover:text-purple-600 focus:ring-white/40 transition-colors"
+                  onClick={() => router.push('/contact')}
+                  aria-label="Get in touch"
                 >
                   <HeartIcon className="w-5 h-5 mr-2" />
                   Get in Touch

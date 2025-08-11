@@ -295,7 +295,7 @@ const ContactPage = () => {
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                               {method.title}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">
+                            <p className="text-gray-600 dark:text-gray-400 font-medium break-all sm:break-words max-w-full">
                               {method.value}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
