@@ -1,14 +1,42 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { personalInfo } from '@/data/portfolio'
 
+// Deterministic particle positions to prevent hydration mismatch
+const PARTICLE_POSITIONS = [
+  { left: 15.5, top: 20.3 },
+  { left: 85.2, top: 75.8 },
+  { left: 25.7, top: 85.1 },
+  { left: 75.3, top: 35.9 },
+  { left: 45.8, top: 15.4 },
+  { left: 65.1, top: 95.2 }
+]
+
 const HeroSection = () => {
+  const [mounted, setMounted] = useState(false)
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true)
   const skills = ['Java', 'Kotlin', 'Spring Boot', 'Microservices', 'System Design', 'PostgreSQL']
+
+  // Handle scroll-based visibility for scroll indicator
+  useEffect(() => {
+    setMounted(true)
+    
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const viewportHeight = window.innerHeight
+      
+      // Hide scroll indicator when user scrolls past 10% of viewport height
+      setShowScrollIndicator(scrollY < viewportHeight * 0.1)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleDownloadResume = () => {
     const link = document.createElement('a')
@@ -35,28 +63,33 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(71,85,105,0.15)_1px,transparent_0)] [background-size:24px_24px]"></div>
       </div>
       
-      {/* Floating Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-blue-500/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Floating Elements - Only render on client to prevent hydration mismatch */}
+      {mounted && (
+        <div className="absolute inset-0 overflow-hidden">
+          {PARTICLE_POSITIONS.map((position, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-blue-500/20 rounded-full"
+              style={{
+                left: `${position.left}%`,
+                top: `${position.top}%`,
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{
+                duration: 3 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.2
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -71,7 +104,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            👋 Hello, I'm
+            👋 Hello, I&apos;m
           </motion.p>
 
           {/* Name */}
@@ -200,17 +233,21 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Only show when at top of page */}
         <motion.div
-          className="absolute bottom left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.5 }}
+          animate={{ 
+            opacity: showScrollIndicator ? 1 : 0, 
+            y: showScrollIndicator ? 0 : 20 
+          }}
+          transition={{ duration: 0.3 }}
+          style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
         >
           <motion.button
             onClick={scrollToNext}
             className="flex flex-col items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            animate={{ y: [0, 8, 0] }}
+            animate={{ y: showScrollIndicator ? [0, 8, 0] : 0 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
             <span className="text-sm font-medium mb-2">Scroll to explore</span>

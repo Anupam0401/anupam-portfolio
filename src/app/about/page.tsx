@@ -75,7 +75,7 @@ const AboutPage = () => {
                   <motion.div
                     className="w-64 h-64 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-6xl font-bold shadow-2xl"
                     whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                   >
                     AK
                   </motion.div>

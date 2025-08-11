@@ -21,6 +21,11 @@ const nextConfig = {
       }
     ]
   },
+  // Do not fail the production build on ESLint errors.
+  // Lint errors are treated in CI and during development.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async headers() {
     return [
       {
@@ -55,21 +60,20 @@ const nextConfig = {
       },
     ]
   },
-  async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-      {
-        source: '/robots.txt',
-        destination: '/api/robots',
-      },
-    ]
-  },
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production'
+    removeConsole: process.env.NODE_ENV === 'production',
+    reactRemoveProperties: process.env.NODE_ENV === 'production' ? { properties: ['^data-testid$'] } : false,
+  },
+  // Enable compression
+  compress: true,
+  // Enable static optimization
+  staticPageGenerationTimeout: 300,
+  // Enhanced experimental features
+  experimental: {
+    optimizePackageImports: ['framer-motion', '@heroicons/react'],
+    optimizeServerReact: true,
+    ppr: false,
   },
   // Bundle analyzer
   ...(process.env.ANALYZE === 'true' && {

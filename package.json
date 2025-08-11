@@ -10,8 +10,7 @@
     "type-check": "tsc --noEmit",
     "test": "echo \"No tests specified\" && exit 0",
     "analyze": "ANALYZE=true npm run build",
-    "export": "next export",
-    "postbuild": "next-sitemap"
+    "export": "next export"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -36,5 +35,8 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "napi-postinstall": "0.3.0"
   }
 }

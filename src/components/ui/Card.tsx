@@ -1,25 +1,60 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
+'use client'
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+import React, { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { motion, HTMLMotionProps } from 'framer-motion'
+
+interface CardProps extends Omit<HTMLMotionProps<"div">, 'style'> {
   children: React.ReactNode
   hoverable?: boolean
   gradient?: boolean
+  style?: React.CSSProperties
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, hoverable = false, gradient = false, ...props }, ref) => {
-    const baseStyles = 'rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900'
+  ({ className, children, hoverable = false, gradient = false, style = {}, ...props }, ref) => {
+    const [isDark, setIsDark] = useState(false)
+    
+    useEffect(() => {
+      // Check if dark mode is active
+      const checkDarkMode = () => {
+        setIsDark(document.documentElement.classList.contains('dark'))
+      }
+      
+      checkDarkMode()
+      
+      // Watch for theme changes
+      const observer = new MutationObserver(checkDarkMode)
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      })
+      
+      return () => observer.disconnect()
+    }, [])
+    
+    // Use inline styles for backgrounds to ensure dark mode works
+    const backgroundStyle = isDark 
+      ? { backgroundColor: '#111827' } // gray-900
+      : { backgroundColor: '#ffffff' } // white
+    
+    const borderColor = isDark ? '#1f2937' : '#e5e7eb' // gray-800 : gray-200
+    
+    const baseStyles = `rounded-xl border shadow-sm`
     const hoverStyles = hoverable ? 'hover:shadow-lg transition-all duration-300 cursor-pointer' : ''
-    const gradientStyles = gradient ? 'bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800' : ''
+    const gradientStyles = gradient ? 'bg-gradient-to-br from-white to-gray-50' : ''
 
     return (
       <motion.div
         ref={ref}
         className={cn(baseStyles, hoverStyles, gradientStyles, className)}
+        style={{
+          ...backgroundStyle,
+          borderColor,
+          ...style
+        }}
         whileHover={hoverable ? { y: -4, scale: 1.02 } : {}}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
         {...props}
       >
         {children}
@@ -37,9 +72,11 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 )
 CardHeader.displayName = 'CardHeader'
 
-const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('text-2xl font-semibold leading-none tracking-tight', className)} {...props} />
+const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement> & { children: React.ReactNode }>(
+  ({ className, children, ...props }, ref) => (
+    <h3 ref={ref} className={cn('text-2xl font-semibold leading-none tracking-tight', className)} {...props}>
+      {children}
+    </h3>
   )
 )
 CardTitle.displayName = 'CardTitle'

@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { 
   CalendarIcon, 
   ClockIcon, 
@@ -20,16 +20,34 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { blogPosts } from '@/data/blog'
 
-interface BlogPostPageProps {
-  params: Promise<{ slug: string }>
-}
-
-const BlogPostPage = async ({ params }: BlogPostPageProps) => {
-  const { slug } = await params
+const BlogPostPage = () => {
+  const params = useParams()
+  const slug = params.slug as string
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+  
   const post = blogPosts.find(p => p.id === slug)
   
+  // Handle post not found in client component
+  if (!mounted) {
+    return <div>Loading...</div>
+  }
+  
   if (!post) {
-    notFound()
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-16 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Post Not Found</h1>
+          <p className="text-gray-600 dark:text-gray-300 mb-8">The blog post you're looking for doesn't exist.</p>
+          <Link href="/blog">
+            <Button>Back to Blog</Button>
+          </Link>
+        </div>
+      </Layout>
+    )
   }
 
   const relatedPosts = blogPosts
@@ -292,7 +310,7 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-center"
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 Enjoyed this post?
               </h2>

@@ -1,0 +1,65 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#gradient)"/>
+  
+  <!-- Grid Pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3730a3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Main Content -->
+  <g transform="translate(80, 0)">
+    <!-- Name -->
+    <text x="0" y="180" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="white">
+      Anupam Kumar
+    </text>
+    
+    <!-- Title -->
+    <text x="0" y="240" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="500" fill="rgba(255,255,255,0.9)">
+      Backend Developer
+    </text>
+    
+    <!-- Tech Stack -->
+    <text x="0" y="290" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="400" fill="rgba(255,255,255,0.8)">
+      Java • Kotlin • Spring Boot • Android
+    </text>
+    
+    <!-- Education -->
+    <text x="0" y="340" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="400" fill="rgba(255,255,255,0.7)">
+      IIT Bhilai Graduate
+    </text>
+    
+    <!-- Experience -->
+    <text x="0" y="380" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="400" fill="rgba(255,255,255,0.7)">
+      Navi Technologies • Click2Cloud
+    </text>
+    
+    <!-- URL -->
+    <text x="0" y="520" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.6)">
+      anupam-portfolio.vercel.app
+    </text>
+  </g>
+  
+  <!-- Code Icon -->
+  <g transform="translate(900, 200)">
+    <rect x="0" y="0" width="200" height="140" rx="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <circle cx="20" cy="20" r="4" fill="#ef4444"/>
+    <circle cx="35" cy="20" r="4" fill="#f59e0b"/>
+    <circle cx="50" cy="20" r="4" fill="#10b981"/>
+    
+    <!-- Code lines -->
+    <rect x="20" y="40" width="120" height="3" rx="1.5" fill="rgba(255,255,255,0.7)"/>
+    <rect x="20" y="50" width="80" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+    <rect x="20" y="60" width="100" height="3" rx="1.5" fill="rgba(255,255,255,0.6)"/>
+    <rect x="20" y="80" width="140" height="3" rx="1.5" fill="rgba(255,255,255,0.7)"/>
+    <rect x="20" y="90" width="90" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+    <rect x="20" y="100" width="110" height="3" rx="1.5" fill="rgba(255,255,255,0.6)"/>
+  </g>
+</svg>

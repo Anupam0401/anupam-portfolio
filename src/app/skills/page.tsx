@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   CodeBracketIcon, 
   CpuChipIcon, 
@@ -57,7 +58,7 @@ const SkillsPage = () => {
     }
   }
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -67,13 +68,13 @@ const SkillsPage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
@@ -85,9 +86,9 @@ const SkillsPage = () => {
       variants={itemVariants}
       className="group"
       whileHover={{ y: -5, scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
-      <Card className="h-full p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-lg hover:shadow-xl transition-all duration-300">
+      <Card className="h-full p-6 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className={`p-3 rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg`}>
@@ -256,7 +257,7 @@ const SkillsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+            <Card className="p-8 bg-gradient-to-br from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
               <div className="flex items-center mb-6">
                 <FireIcon className="w-8 h-8 mr-4" />
                 <h2 className="text-2xl font-bold">Core Strengths</h2>
@@ -281,7 +282,7 @@ const SkillsPage = () => {
               </div>
             </Card>
             
-            <Card className="p-8 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
+            <Card className="p-8 bg-gradient-to-br from-green-600 to-emerald-600 dark:from-green-500 dark:to-emerald-500 text-white">
               <div className="flex items-center mb-6">
                 <SparklesIcon className="w-8 h-8 mr-4" />
                 <h2 className="text-2xl font-bold">Currently Learning</h2>
@@ -314,7 +315,7 @@ const SkillsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-700 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 Ready to Build Something Amazing?
               </h2>
@@ -333,7 +334,7 @@ const SkillsPage = () => {
                 <Button
                   onClick={() => window.location.href = '/projects'}
                   variant="outline"
-                  className="flex items-center bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  className="flex items-center bg-white/10 dark:bg-white/5 text-white border-white/30 dark:border-white/20 hover:bg-white/20 dark:hover:bg-white/10"
                 >
                   <span>View My Work</span>
                 </Button>

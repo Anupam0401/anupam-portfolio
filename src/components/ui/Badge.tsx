@@ -1,8 +1,9 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import type { HTMLMotionProps } from 'framer-motion'
 
-interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+interface BadgeProps extends HTMLMotionProps<'div'> {
   variant?: 'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'
   size?: 'sm' | 'md' | 'lg'
   children: React.ReactNode

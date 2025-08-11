@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   BuildingOfficeIcon, 
   CalendarDaysIcon, 
@@ -18,7 +19,7 @@ import { experiences } from '@/data/portfolio'
 import { calculateDuration } from '@/lib/utils'
 
 const ExperiencePage = () => {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -28,13 +29,13 @@ const ExperiencePage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
@@ -74,17 +75,17 @@ const ExperiencePage = () => {
                 className="relative"
               >
                 <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                  <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-white/20 rounded-full">
+                        <div className="p-3 bg-white/20 dark:bg-white/10 rounded-full">
                           <BuildingOfficeIcon className="w-8 h-8" />
                         </div>
                         <div>
                           <CardTitle className="text-2xl font-bold text-white">
                             {exp.position}
                           </CardTitle>
-                          <p className="text-blue-100 text-lg font-medium">
+                          <p className="text-blue-100 dark:text-blue-200 text-lg font-medium">
                             {exp.company}
                           </p>
                         </div>
@@ -110,7 +111,7 @@ const ExperiencePage = () => {
                           <MapPinIcon className="w-4 h-4 mr-2" />
                           <span className="text-sm">{exp.location}</span>
                         </div>
-                        <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                        <Badge variant="secondary" className="bg-white/20 dark:bg-white/10 text-white border-white/30 dark:border-white/20">
                           {calculateDuration(exp.startDate, exp.endDate)}
                         </Badge>
                       </div>
@@ -141,7 +142,7 @@ const ExperiencePage = () => {
                             key={projIndex}
                             className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
                             whileHover={{ scale: 1.02 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                           >
                             <div className="flex items-start">
                               <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
@@ -190,8 +191,8 @@ const ExperiencePage = () => {
                             <motion.div
                               key={metricIndex}
                               className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-6 text-center border border-blue-200 dark:border-blue-800"
-                              whileHover={{ scale: 1.05 }}
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                              whileHover={{ y: -8, scale: 1.02 }}
+                              transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                             >
                               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                                 {metric.value}
@@ -241,7 +242,7 @@ const ExperiencePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
               <h2 className="text-2xl font-bold mb-4">
                 Ready for the Next Challenge
               </h2>
