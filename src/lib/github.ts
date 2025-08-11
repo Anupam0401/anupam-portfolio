@@ -45,6 +45,17 @@ export interface GitHubRepoStats {
   total: number
 }
 
+interface GitHubContributorWeek {
+  w: number
+  a: number
+  d: number
+  c: number
+}
+
+interface GitHubContributor {
+  weeks: GitHubContributorWeek[]
+}
+
 export interface EnhancedGitHubRepo extends GitHubRepo {
   languages: GitHubRepoLanguages
   primaryLanguage: string
@@ -172,24 +183,24 @@ class GitHubService {
       const response = await this.fetchWithRetry(
         `${this.baseUrl}/repos/${owner}/${repo}/stats/contributors`
       )
-      const contributors = await response.json()
+      const contributors = (await response.json()) as unknown as GitHubContributor[]
       
       if (Array.isArray(contributors)) {
-        const stats = contributors.reduce((total, contributor) => {
-          const weeks = contributor.weeks || []
-          const authorStats = weeks.reduce((sum: any, week: any) => ({
-            additions: sum.additions + (week.a || 0),
-            deletions: sum.deletions + (week.d || 0),
-            total: sum.total + (week.c || 0)
+        const stats = contributors.reduce<GitHubRepoStats>((total, contributor) => {
+          const weeks: GitHubContributorWeek[] = Array.isArray(contributor.weeks) ? contributor.weeks : []
+          const authorStats = weeks.reduce<GitHubRepoStats>((sum, week) => ({
+            additions: sum.additions + (week.a ?? 0),
+            deletions: sum.deletions + (week.d ?? 0),
+            total: sum.total + (week.c ?? 0)
           }), { additions: 0, deletions: 0, total: 0 })
-          
+
           return {
             additions: total.additions + authorStats.additions,
             deletions: total.deletions + authorStats.deletions,
             total: total.total + authorStats.total
           }
         }, { additions: 0, deletions: 0, total: 0 })
-        
+
         return stats
       }
       

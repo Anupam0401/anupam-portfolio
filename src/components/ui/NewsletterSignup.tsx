@@ -39,7 +39,7 @@ export default function NewsletterSignup({ className = '' }: NewsletterSignupPro
       
       setIsSubscribed(true);
       setEmail('');
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -60,7 +60,7 @@ export default function NewsletterSignup({ className = '' }: NewsletterSignupPro
               Thanks for subscribing!
             </h3>
             <p className="text-green-600 dark:text-green-300">
-              You'll receive updates about new blog posts and projects.
+              You&apos;ll receive updates about new blog posts and projects.
             </p>
           </div>
         </div>
