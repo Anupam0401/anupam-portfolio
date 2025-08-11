@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   CodeBracketIcon, 
   GlobeAltIcon, 
@@ -32,7 +33,7 @@ const ProjectsPage = () => {
     return true
   })
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -42,13 +43,13 @@ const ProjectsPage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
@@ -60,7 +61,7 @@ const ProjectsPage = () => {
       variants={itemVariants}
       className="h-full"
       whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
       <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative overflow-hidden">

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   BuildingOfficeIcon, 
   CalendarDaysIcon, 
@@ -18,7 +19,7 @@ import { experiences } from '@/data/portfolio'
 import { calculateDuration } from '@/lib/utils'
 
 const ExperiencePage = () => {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -28,13 +29,13 @@ const ExperiencePage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
@@ -141,7 +142,7 @@ const ExperiencePage = () => {
                             key={projIndex}
                             className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
                             whileHover={{ scale: 1.02 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                           >
                             <div className="flex items-start">
                               <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
@@ -190,8 +191,8 @@ const ExperiencePage = () => {
                             <motion.div
                               key={metricIndex}
                               className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-6 text-center border border-blue-200 dark:border-blue-800"
-                              whileHover={{ scale: 1.05 }}
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                              whileHover={{ y: -8, scale: 1.02 }}
+                              transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                             >
                               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                                 {metric.value}

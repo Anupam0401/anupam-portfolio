@@ -54,7 +54,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           ...style
         }}
         whileHover={hoverable ? { y: -4, scale: 1.02 } : {}}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
         {...props}
       >
         {children}

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   TrophyIcon, 
   AcademicCapIcon, 
@@ -56,7 +57,7 @@ const AchievementsPage = () => {
     }
   }
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -66,7 +67,7 @@ const AchievementsPage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -88,7 +89,7 @@ const AchievementsPage = () => {
         variants={itemVariants}
         className="h-full"
         whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
       >
         <Card className="h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
           <CardHeader className="relative">

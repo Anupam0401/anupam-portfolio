@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { 
   CodeBracketIcon, 
   CpuChipIcon, 
@@ -57,7 +58,7 @@ const SkillsPage = () => {
     }
   }
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -67,13 +68,13 @@ const SkillsPage = () => {
     }
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12
       }
@@ -85,7 +86,7 @@ const SkillsPage = () => {
       variants={itemVariants}
       className="group"
       whileHover={{ y: -5, scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
       <Card className="h-full p-6 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-between mb-4">

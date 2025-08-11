@@ -195,7 +195,7 @@ const InterestsPage = () => {
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
       className="h-full"
     >
       <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">

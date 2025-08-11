@@ -64,7 +64,7 @@ const BlogPage = () => {
       variants={itemVariants}
       className={`${featured ? 'md:col-span-2' : ''} h-full`}
       whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
       <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
