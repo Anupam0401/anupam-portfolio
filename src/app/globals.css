@@ -188,13 +188,14 @@ html.dark [class*="Card"] .bg-white {
 /* Professional Theme System - Senior Architect Level */
 :root {
   /* LIGHT MODE - Elegant & Professional */
-  --background: #fafafa;  /* Off-white for sophistication */
+  --background: #f7f6f3;  /* Warm off-white for calmer light mode */
   --foreground: #0a0a0a;  /* Rich black for contrast */
+  color-scheme: light;
   
   /* Component backgrounds */
   --card-bg: #ffffff;  /* Pure white cards for clean look */
-  --nav-bg: rgba(250, 250, 250, 0.85);  /* Subtle translucent nav */
-  --border-color: #e4e4e7;  /* Soft grey borders */
+  --nav-bg: rgba(247, 246, 243, 0.85);  /* Subtle translucent nav matching warm bg */
+  --border-color: #e7e5e4;  /* Warmer stone-like borders */
   
   /* Text colors - Carefully crafted hierarchy */
   --text-primary: #18181b;  /* Almost black for headers */
@@ -202,13 +203,23 @@ html.dark [class*="Card"] .bg-white {
   --text-muted: #71717a;  /* Lighter grey for metadata */
   
   /* Gradients - Subtle and elegant */
-  --gradient-start: #fafafa;
-  --gradient-middle: #f4f4f5;
-  --gradient-end: #fafafa;
+  --gradient-start: #f7f6f3;
+  --gradient-middle: #f1f0ec;
+  --gradient-end: #f7f6f3;
   /* Layered radial overlays (light) */
-  --bg-radial-1: rgba(99, 102, 241, 0.14);   /* indigo-500 */
-  --bg-radial-2: rgba(236, 72, 153, 0.10);   /* pink-500  */
-  --bg-radial-3: rgba(16, 185, 129, 0.08);   /* emerald-500 */
+  --bg-radial-1: rgba(245, 158, 11, 0.12);   /* amber-500, increased warmth */
+  --bg-radial-2: rgba(244, 114, 182, 0.10);  /* pink-400, gently stronger */
+  --bg-radial-3: rgba(16, 185, 129, 0.10);   /* emerald-500, more present */
+  /* Ambient overlay controls (light) */
+  --ambient-1-size: 80rem 40rem;
+  --ambient-1-pos: 110% -10%;
+  --ambient-1-stop: 72%;
+  --ambient-2-size: 72rem 36rem;
+  --ambient-2-pos: -10% 25%;
+  --ambient-2-stop: 74%;
+  --ambient-3-size: 96rem 48rem;
+  --ambient-3-pos: 50% 120%;
+  --ambient-3-stop: 76%;
   --bg-noise: rgba(0,0,0,0.02);
   
   /* Accent colors */
@@ -216,21 +227,22 @@ html.dark [class*="Card"] .bg-white {
   --accent-hover: #1d4ed8;
   
   /* Surface levels for depth */
-  --surface-0: #fafafa;
+  --surface-0: #f7f6f3;
   --surface-1: #ffffff;
-  --surface-2: #f4f4f5;
-  --surface-3: #e4e4e7;
+  --surface-2: #f2f1ee;
+  --surface-3: #e7e5e4;
 }
 
 /* DARK MODE - Modern & Sophisticated */
 .dark {
-  --background: #09090b;  /* Rich black, not pure black */
+  --background: #0b0c10;  /* Cooler deep near-black */
   --foreground: #fafafa;  /* Soft white */
+  color-scheme: dark;
   
   /* Component backgrounds */
   --card-bg: #18181b;  /* Elevated surface */
-  --nav-bg: rgba(9, 9, 11, 0.85);  /* Dark translucent nav */
-  --border-color: #27272a;  /* Subtle borders */
+  --nav-bg: rgba(13, 17, 23, 0.85);  /* Cooler translucent nav (GitHub-esque) */
+  --border-color: #2a2f3a;  /* Cooler slate-like borders */
   
   /* Text colors */
   --text-primary: #fafafa;  /* Soft white for headers */
@@ -238,13 +250,23 @@ html.dark [class*="Card"] .bg-white {
   --text-muted: #71717a;  /* Dimmed for metadata */
   
   /* Gradients - Dark and subtle */
-  --gradient-start: #18181b;
-  --gradient-middle: #09090b;
-  --gradient-end: #18181b;
+  --gradient-start: #0d1117;
+  --gradient-middle: #0b0c10;
+  --gradient-end: #0d1117;
   /* Layered radial overlays (dark) */
-  --bg-radial-1: rgba(56, 189, 248, 0.12);  /* cyan-400 */
-  --bg-radial-2: rgba(168, 85, 247, 0.12);  /* purple-500 */
-  --bg-radial-3: rgba(16, 185, 129, 0.10);  /* emerald-500 */
+  --bg-radial-1: rgba(56, 189, 248, 0.16);  /* cyan-400, more visible */
+  --bg-radial-2: rgba(99, 102, 241, 0.14);  /* indigo-500, cooler and stronger */
+  --bg-radial-3: rgba(14, 165, 233, 0.12);  /* sky-500, subtle but present */
+  /* Ambient overlay controls (dark) */
+  --ambient-1-size: 84rem 42rem;
+  --ambient-1-pos: 110% -10%;
+  --ambient-1-stop: 70%;
+  --ambient-2-size: 76rem 38rem;
+  --ambient-2-pos: -10% 25%;
+  --ambient-2-stop: 72%;
+  --ambient-3-size: 100rem 50rem;
+  --ambient-3-pos: 50% 120%;
+  --ambient-3-stop: 74%;
   --bg-noise: rgba(255,255,255,0.02);
   
   /* Accent colors */
@@ -254,8 +276,8 @@ html.dark [class*="Card"] .bg-white {
   /* Surface levels */
   --surface-0: #09090b;
   --surface-1: #18181b;
-  --surface-2: #27272a;
-  --surface-3: #3f3f46;
+  --surface-2: #262a33; /* Slightly cooler */
+  --surface-3: #3a3f4a; /* Slightly cooler */
 }
 
 body {
@@ -268,9 +290,9 @@ body {
 /* App-wide elegant background inspired by GitHub/ChatGPT */
 .app-background {
   background-image:
-    radial-gradient(72rem 36rem at 110% -10%, var(--bg-radial-1), transparent 60%),
-    radial-gradient(64rem 32rem at -10% 25%, var(--bg-radial-2), transparent 62%),
-    radial-gradient(80rem 40rem at 50% 120%, var(--bg-radial-3), transparent 64%),
+    radial-gradient(var(--ambient-1-size) at var(--ambient-1-pos), var(--bg-radial-1), transparent var(--ambient-1-stop)),
+    radial-gradient(var(--ambient-2-size) at var(--ambient-2-pos), var(--bg-radial-2), transparent var(--ambient-2-stop)),
+    radial-gradient(var(--ambient-3-size) at var(--ambient-3-pos), var(--bg-radial-3), transparent var(--ambient-3-stop)),
     linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-middle) 30%, var(--gradient-end) 100%);
   background-attachment: fixed, fixed, fixed, scroll;
   background-repeat: no-repeat;
@@ -531,3 +553,29 @@ nav button[class*="bg-gray-100"]:hover {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
+
+/* Motion and scroll preferences */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Mobile buttery scroll and nested areas */
+.overflow-y-auto,
+.overflow-x-auto,
+.scroll-area {
+  -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */
+  overscroll-behavior: contain;      /* prevent scroll chaining */
+  touch-action: pan-y;               /* smooth vertical panning */
+}
+
+/* Avoid fixed backgrounds on mobile to prevent jank */
+@media (max-width: 768px) {
+  .app-background {
+    background-attachment: scroll, scroll, scroll, scroll;
+  }
+}
+
+/* Anchor link offset so content doesn't jump under sticky nav */
+:where(h1, h2, h3, h4, h5, h6, [id]) { scroll-margin-top: 72px; }

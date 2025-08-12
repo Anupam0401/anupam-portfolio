@@ -75,6 +75,14 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
   metadataBase: new URL("https://anupam-portfolio.vercel.app"),
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0c10" }
+  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
   alternates: {
     canonical: "/",
   },
