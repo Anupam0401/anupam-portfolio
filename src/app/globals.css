@@ -455,6 +455,30 @@ nav button[class*="bg-gray-100"]:hover {
   background-color: var(--surface-3) !important;
 }
 
+/* Button hover readability (for our Button variants) */
+.btn-outline:hover,
+.btn-ghost:hover {
+  background-color: var(--surface-2) !important; /* avoid pure white */
+  color: var(--text-primary) !important;        /* ensure contrast */
+}
+
+.dark .btn-outline:hover,
+.dark .btn-ghost:hover {
+  background-color: var(--surface-2) !important; /* dark surface */
+  color: var(--text-primary) !important;         /* soft white */
+}
+
+.btn-contrast:hover {
+  /* on white-ish hover bg, switch text to accent for clarity */
+  color: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+.btn-outline,
+.btn-outline:hover {
+  border-color: var(--border-color) !important;
+}
+
 /* Elegant card shadows */
 .shadow-sm {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;

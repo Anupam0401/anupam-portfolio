@@ -393,18 +393,18 @@ const AchievementsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-              <h2 className="text-2xl font-bold mb-4">
+            <Card className="p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                 Ready to Achieve More Together?
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                 These achievements represent my commitment to excellence and continuous growth. 
                 I'm excited to bring this same dedication to your next project.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   onClick={() => window.location.href = '/contact'}
-                  variant="secondary"
+                  variant="primary"
                   className="flex items-center"
                 >
                   <span>Let's Connect</span>
@@ -412,7 +412,7 @@ const AchievementsPage = () => {
                 <Button
                   onClick={() => window.location.href = '/projects'}
                   variant="outline"
-                  className="flex items-center bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  className="flex items-center"
                 >
                   <span>View My Work</span>
                 </Button>

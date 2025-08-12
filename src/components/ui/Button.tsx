@@ -11,10 +11,11 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+    const baseStyles = 'btn inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
     
     const variants = {
       primary: [
+        'btn-primary',
         'text-white',
         'bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)]',
         'shadow-lg hover:shadow-xl',
@@ -22,24 +23,27 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'focus-visible:ring-[color:var(--accent-hover)]/50',
       ].join(' '),
       secondary: [
+        'btn-secondary',
         'text-white',
         'bg-gray-900 hover:bg-gray-800',
         'shadow-lg hover:shadow-xl',
         'ring-1 ring-black/10',
       ].join(' '),
       outline: [
+        'btn-outline',
         'border border-gray-300 text-gray-700 hover:bg-gray-50',
         'focus-visible:ring-gray-400',
         'dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
       ].join(' '),
       contrast: [
+        'btn-contrast',
         'border border-white/80 text-white',
         'backdrop-blur-sm',
         'hover:bg-white/95 hover:text-[color:var(--accent-primary)]',
         'focus-visible:ring-white/40',
         'dark:hover:bg-white/90 dark:hover:text-[color:var(--accent-primary)]',
       ].join(' '),
-      ghost: 'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800'
+      ghost: 'btn-ghost text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800'
     }
     
     const sizes = {
