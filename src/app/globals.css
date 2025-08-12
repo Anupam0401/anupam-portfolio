@@ -205,6 +205,10 @@ html.dark [class*="Card"] .bg-white {
   --gradient-start: #fafafa;
   --gradient-middle: #f4f4f5;
   --gradient-end: #fafafa;
+  /* Layered radial overlays (light) */
+  --bg-radial-1: rgba(99, 102, 241, 0.06);   /* indigo-500 @6% */
+  --bg-radial-2: rgba(236, 72, 153, 0.06);   /* pink-500 @6% */
+  --bg-noise: rgba(0,0,0,0.015);
   
   /* Accent colors */
   --accent-primary: #2563eb;  /* Professional blue */
@@ -236,6 +240,10 @@ html.dark [class*="Card"] .bg-white {
   --gradient-start: #18181b;
   --gradient-middle: #09090b;
   --gradient-end: #18181b;
+  /* Layered radial overlays (dark) */
+  --bg-radial-1: rgba(56, 189, 248, 0.08);  /* cyan-400 */
+  --bg-radial-2: rgba(168, 85, 247, 0.08);  /* purple-500 */
+  --bg-noise: rgba(255,255,255,0.02);
   
   /* Accent colors */
   --accent-primary: #3b82f6;  /* Brighter blue in dark mode */
@@ -253,6 +261,43 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* App-wide elegant background inspired by GitHub/ChatGPT */
+.app-background {
+  background-image:
+    radial-gradient(60rem 30rem at 110% -10%, var(--bg-radial-1), transparent 60%),
+    radial-gradient(50rem 25rem at -10% 20%, var(--bg-radial-2), transparent 60%),
+    linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-middle) 30%, var(--gradient-end) 100%);
+  background-attachment: fixed, fixed, scroll;
+  background-repeat: no-repeat;
+  background-size: auto, auto, 100% 100%;
+}
+
+/* Optional subtle grain for depth */
+.app-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, var(--bg-noise), transparent 40%),
+    radial-gradient(1px 1px at 80% 30%, var(--bg-noise), transparent 40%),
+    radial-gradient(1px 1px at 50% 80%, var(--bg-noise), transparent 40%);
+  background-repeat: repeat;
+  background-size: 12px 12px;
+  mix-blend-mode: normal;
+}
+
+/* Gradient card with readable content on vivid backgrounds */
+.gradient-card {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: rgba(255,255,255,0.96);
+}
+.gradient-card p { color: rgba(255,255,255,0.86); }
+.gradient-card h2, .gradient-card h3 { color: #fff; }
+.dark .gradient-card {
+  background: linear-gradient(135deg, #6d28d9, #db2777);
 }
 
 /* PROFESSIONAL THEME SYSTEM - Component Styling */

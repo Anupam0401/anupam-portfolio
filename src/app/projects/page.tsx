@@ -260,7 +260,7 @@ const ProjectsPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -371,18 +371,18 @@ const ProjectsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
+            <Card className="p-8 gradient-card">
               <h2 className="text-2xl font-bold mb-4">
                 Interested in My Work?
               </h2>
-              <p className="text-lg text-blue-100 mb-6">
+              <p className="text-lg mb-6">
                 I'm always excited to discuss new projects and opportunities. 
                 Let's connect and explore how we can work together.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   onClick={() => window.open('https://github.com/Anupam0401', '_blank')}
-                  variant="secondary"
+                  variant="primary"
                   className="flex items-center"
                 >
                   <CodeBracketIcon className="w-5 h-5 mr-2" />
@@ -390,8 +390,8 @@ const ProjectsPage = () => {
                 </Button>
                 <Button
                   onClick={() => window.location.href = 'mailto:anupamkumar0401@gmail.com'}
-                  variant="outline"
-                  className="flex items-center bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  variant="contrast"
+                  className="flex items-center"
                 >
                   <span>Get In Touch</span>
                   <ArrowTopRightOnSquareIcon className="w-4 h-4 ml-2" />

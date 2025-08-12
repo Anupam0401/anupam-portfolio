@@ -33,12 +33,16 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       return () => observer.disconnect()
     }, [])
     
-    // Use inline styles for backgrounds to ensure dark mode works
-    const backgroundStyle = isDark 
-      ? { backgroundColor: '#111827' } // gray-900
-      : { backgroundColor: '#ffffff' } // white
+    // Use inline styles for backgrounds to ensure dark mode works, but
+    // allow gradient cards to manage their own background.
+    const wantsGradient = gradient || (typeof className === 'string' && className.includes('gradient-card'))
+    const backgroundStyle = wantsGradient
+      ? {}
+      : (isDark 
+        ? { backgroundColor: '#111827' } // gray-900
+        : { backgroundColor: '#ffffff' }) // white
     
-    const borderColor = isDark ? '#1f2937' : '#e5e7eb' // gray-800 : gray-200
+    const borderColor = wantsGradient ? 'transparent' : (isDark ? '#1f2937' : '#e5e7eb') // gray-800 : gray-200
     
     const baseStyles = `rounded-xl border shadow-sm`
     const hoverStyles = hoverable ? 'hover:shadow-lg transition-all duration-300 cursor-pointer' : ''

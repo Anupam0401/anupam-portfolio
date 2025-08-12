@@ -57,7 +57,7 @@ const HeroSection = () => {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(71,85,105,0.15)_1px,transparent_0)] [background-size:24px_24px]"></div>
@@ -180,7 +180,7 @@ const HeroSection = () => {
             </Button>
             <Button
               onClick={handleContact}
-              variant="outline"
+              variant="contrast"
               className="flex items-center gap-2 text-lg px-8 py-4"
               size="lg"
             >

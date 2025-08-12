@@ -156,7 +156,7 @@ const SkillsPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -315,26 +315,26 @@ const SkillsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-700 text-white">
+            <Card className="p-8 gradient-card">
               <h2 className="text-2xl font-bold mb-4">
                 Ready to Build Something Amazing?
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className="text-lg mb-6">
                 With expertise across the full backend stack, I'm ready to tackle your next challenge. 
                 Let's discuss how my skills can contribute to your project's success.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   onClick={() => window.location.href = '/contact'}
-                  variant="secondary"
+                  variant="contrast"
                   className="flex items-center"
                 >
                   <span>Get In Touch</span>
                 </Button>
                 <Button
                   onClick={() => window.location.href = '/projects'}
-                  variant="outline"
-                  className="flex items-center bg-white/10 dark:bg-white/5 text-white border-white/30 dark:border-white/20 hover:bg-white/20 dark:hover:bg-white/10"
+                  variant="primary"
+                  className="flex items-center"
                 >
                   <span>View My Work</span>
                 </Button>

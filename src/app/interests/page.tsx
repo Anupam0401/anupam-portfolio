@@ -342,7 +342,7 @@ const InterestsPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -413,7 +413,7 @@ const InterestsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 text-white">
+            <Card className="p-8 gradient-card">
               <h2 className="text-2xl font-bold mb-4">
                 The Developer's Renaissance
               </h2>
@@ -425,8 +425,7 @@ const InterestsPage = () => {
               </p>
               <div className="flex justify-center space-x-4">
                 <Button
-                  variant="secondary"
-                  className="bg-white text-purple-600 hover:bg-gray-100 transition-colors"
+                  variant="primary"
                   onClick={() => router.push('/blog')}
                   aria-label="Read my blog"
                 >
@@ -434,8 +433,7 @@ const InterestsPage = () => {
                   Read My Blog
                 </Button>
                 <Button
-                  variant="outline"
-                  className="border-white/80 text-white hover:bg-white/95 hover:text-purple-700 dark:hover:bg-white/90 dark:hover:text-purple-600 focus:ring-white/40 transition-colors"
+                  variant="contrast"
                   onClick={() => router.push('/contact')}
                   aria-label="Get in touch"
                 >
