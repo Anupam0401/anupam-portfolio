@@ -206,9 +206,10 @@ html.dark [class*="Card"] .bg-white {
   --gradient-middle: #f4f4f5;
   --gradient-end: #fafafa;
   /* Layered radial overlays (light) */
-  --bg-radial-1: rgba(99, 102, 241, 0.06);   /* indigo-500 @6% */
-  --bg-radial-2: rgba(236, 72, 153, 0.06);   /* pink-500 @6% */
-  --bg-noise: rgba(0,0,0,0.015);
+  --bg-radial-1: rgba(99, 102, 241, 0.14);   /* indigo-500 */
+  --bg-radial-2: rgba(236, 72, 153, 0.10);   /* pink-500  */
+  --bg-radial-3: rgba(16, 185, 129, 0.08);   /* emerald-500 */
+  --bg-noise: rgba(0,0,0,0.02);
   
   /* Accent colors */
   --accent-primary: #2563eb;  /* Professional blue */
@@ -241,8 +242,9 @@ html.dark [class*="Card"] .bg-white {
   --gradient-middle: #09090b;
   --gradient-end: #18181b;
   /* Layered radial overlays (dark) */
-  --bg-radial-1: rgba(56, 189, 248, 0.08);  /* cyan-400 */
-  --bg-radial-2: rgba(168, 85, 247, 0.08);  /* purple-500 */
+  --bg-radial-1: rgba(56, 189, 248, 0.12);  /* cyan-400 */
+  --bg-radial-2: rgba(168, 85, 247, 0.12);  /* purple-500 */
+  --bg-radial-3: rgba(16, 185, 129, 0.10);  /* emerald-500 */
   --bg-noise: rgba(255,255,255,0.02);
   
   /* Accent colors */
@@ -266,12 +268,13 @@ body {
 /* App-wide elegant background inspired by GitHub/ChatGPT */
 .app-background {
   background-image:
-    radial-gradient(60rem 30rem at 110% -10%, var(--bg-radial-1), transparent 60%),
-    radial-gradient(50rem 25rem at -10% 20%, var(--bg-radial-2), transparent 60%),
+    radial-gradient(72rem 36rem at 110% -10%, var(--bg-radial-1), transparent 60%),
+    radial-gradient(64rem 32rem at -10% 25%, var(--bg-radial-2), transparent 62%),
+    radial-gradient(80rem 40rem at 50% 120%, var(--bg-radial-3), transparent 64%),
     linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-middle) 30%, var(--gradient-end) 100%);
-  background-attachment: fixed, fixed, scroll;
+  background-attachment: fixed, fixed, fixed, scroll;
   background-repeat: no-repeat;
-  background-size: auto, auto, 100% 100%;
+  background-size: auto, auto, auto, 100% 100%;
 }
 
 /* Optional subtle grain for depth */
