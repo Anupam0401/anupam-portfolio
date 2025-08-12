@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from 'next-themes'
@@ -10,10 +11,14 @@ import { cn } from '@/lib/utils'
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(false)
   const { theme, setTheme } = useTheme()
+  const pathname = usePathname()
 
   useEffect(() => {
     setMounted(true)
+    // Mark animation as done after first mount
+    setHasAnimated(true)
   }, [])
 
   const navItems = [
@@ -31,8 +36,8 @@ const Navigation = () => {
   return (
     <motion.nav
       className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-800"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={hasAnimated ? false : { y: -100 }}
+      animate={hasAnimated ? false : { y: 0 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,20 +55,34 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {navItems.map((item) => (
-                <motion.div
-                  key={item.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+              {navItems.map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <motion.div
+                    key={item.name}
+                    whileHover={!isActive ? { scale: 1.05 } : {}}
+                    whileTap={!isActive ? { scale: 0.95 } : {}}
                   >
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={(e) => {
+                        // Prevent navigation if already on the same page
+                        if (isActive) {
+                          e.preventDefault()
+                        }
+                      }}
+                      className={cn(
+                        "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200",
+                        isActive
+                          ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 cursor-default"
+                          : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                )
+              })}
             </div>
           </div>
 
@@ -108,22 +127,35 @@ const Navigation = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-              {navItems.map((item) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200"
-                    onClick={() => setIsOpen(false)}
+              {navItems.map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
                   >
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "block px-3 py-2 rounded-md text-base font-medium transition-all duration-200",
+                        isActive
+                          ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
+                          : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      )}
+                      onClick={(e) => {
+                        if (isActive) {
+                          e.preventDefault()
+                        }
+                        setIsOpen(false)
+                      }}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                )
+              })}
             </div>
           </motion.div>
         )}
