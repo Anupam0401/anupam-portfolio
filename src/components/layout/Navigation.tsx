@@ -14,6 +14,7 @@ const Navigation = () => {
   const [hasAnimated, setHasAnimated] = useState(false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+  const isDark = mounted && theme === 'dark'
 
   useEffect(() => {
     setMounted(true)
@@ -75,7 +76,12 @@ const Navigation = () => {
                         "px-3 py-2 rounded-md text-sm font-medium transition-all duration-200",
                         isActive
                           ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 cursor-default"
-                          : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                          : cn(
+                              "text-gray-700",
+                              isDark
+                                ? "hover:text-blue-400 hover:bg-gray-800"
+                                : "hover:text-blue-600 hover:bg-[#f2f1ee]"
+                            )
                       )}
                     >
                       {item.name}
@@ -142,7 +148,12 @@ const Navigation = () => {
                         "block px-3 py-2 rounded-md text-base font-medium transition-all duration-200",
                         isActive
                           ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
-                          : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                          : cn(
+                              "text-gray-700",
+                              isDark
+                                ? "hover:text-blue-400 hover:bg-gray-800"
+                                : "hover:text-blue-600 hover:bg-[#f2f1ee]"
+                            )
                       )}
                       onClick={(e) => {
                         if (isActive) {
