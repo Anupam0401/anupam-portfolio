@@ -37,11 +37,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ].join(' '),
       contrast: [
         'btn-contrast',
-        'border border-white/80 text-white',
+        'border-2 border-gray-900 text-gray-900',
         'backdrop-blur-sm',
-        'hover:bg-white/95 hover:text-[color:var(--accent-primary)]',
-        'focus-visible:ring-white/40',
-        'dark:hover:bg-white/90 dark:hover:text-[color:var(--accent-primary)]',
+        'hover:bg-gray-900 hover:text-white',
+        'focus-visible:ring-gray-900/40',
+        'dark:border-white/80 dark:text-white',
+        'dark:hover:bg-white/90 dark:hover:text-gray-900',
       ].join(' '),
       ghost: 'btn-ghost text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800'
     }
