@@ -124,15 +124,15 @@ const HeroSection = () => {
             </span>
           </motion.h1>
 
-          {/* Title */}
-          <motion.h2
-            className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 mb-8"
-            initial={{ opacity: 0, y: 20 }}
+          {/* Sub-title under name for natural reading order */}
+          <motion.p
+            className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-8"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
           >
             {personalInfo.title}
-          </motion.h2>
+          </motion.p>
 
           {/* Description */}
           <motion.p
@@ -141,9 +141,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            I craft scalable backend systems and elegant solutions with a passion for clean code, 
-            system design, and performance optimization. Currently building fintech applications 
-            that serve millions of users at{' '}
+            I craft <span className="font-medium text-gray-800 dark:text-gray-200">scalable backend systems</span> and elegant solutions with a passion for <span className="font-medium text-gray-800 dark:text-gray-200">clean code</span>, 
+            system design, and performance optimization. Currently building fintech applications that serve millions of users at{' '}
             <span className="text-blue-600 dark:text-blue-400 font-semibold">Navi Technologies</span>.
           </motion.p>
 
