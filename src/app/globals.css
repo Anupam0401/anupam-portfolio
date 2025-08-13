@@ -208,39 +208,39 @@ html.dark [class*="Card"] .bg-white {
 /* Professional Theme System - Senior Architect Level */
 :root {
   /* LIGHT MODE - Elegant & Professional */
-  --background: #f7f6f3;  /* Warm off-white for calmer light mode */
+  --background: #f3f1ed;  /* Slightly darker warm off-white for less brightness */
   --foreground: #0a0a0a;  /* Rich black for contrast */
   color-scheme: light;
   
   /* Component backgrounds */
-  --card-bg: #ffffff;  /* Pure white cards for clean look */
-  --nav-bg: rgba(247, 246, 243, 0.85);  /* Subtle translucent nav matching warm bg */
-  --border-color: #e7e5e4;  /* Warmer stone-like borders */
+  --card-bg: #fdfcfb;  /* Warmer white for softer cards */
+  --nav-bg: rgba(237, 235, 230, 0.92);  /* Slightly darker and more opaque nav */
+  --border-color: #ddd9d6;  /* Slightly stronger border for structure */
   
   /* Text colors - Carefully crafted hierarchy */
   --text-primary: #18181b;  /* Almost black for headers */
   --text-secondary: #52525b;  /* Balanced grey for body text */
   --text-muted: #71717a;  /* Lighter grey for metadata */
   
-  /* Gradients - Subtle and elegant */
-  --gradient-start: #f7f6f3;
-  --gradient-middle: #f1f0ec;
-  --gradient-end: #f7f6f3;
+  /* Gradients - Subtle and elegant (more visible) */
+  --gradient-start: #f3f1ed;
+  --gradient-middle: #eceae5;
+  --gradient-end: #f3f1ed;
   /* Layered radial overlays (light) */
-  --bg-radial-1: rgba(245, 158, 11, 0.15);   /* amber-500, top-right contrast */
-  --bg-radial-2: rgba(244, 114, 182, 0.15);  /* pink-400, top-left */
-  --bg-radial-3: rgba(16, 185, 129, 0.14);   /* emerald-500, bottom */
+  --bg-radial-1: rgba(245, 158, 11, 0.15);   /* amber-500, top-right contrast (user-tuned) */
+  --bg-radial-2: rgba(244, 114, 182, 0.15);  /* pink-400, top-left stronger */
+  --bg-radial-3: rgba(16, 185, 129, 0.17);   /* emerald-500, bottom stronger */
   /* Ambient overlay controls (light) */
-  --ambient-1-size: 92rem 46rem;  /* larger for better balance */
+  --ambient-1-size: 92rem 46rem;  /* keep size; already balanced */
   --ambient-1-pos: 98% -5%;       /* bring slightly inward from edge */
-  --ambient-1-stop: 78%;          /* extend presence */
-  --ambient-2-size: 72rem 36rem;
-  --ambient-2-pos: -10% 25%;
-  --ambient-2-stop: 74%;
-  --ambient-3-size: 96rem 48rem;
+  --ambient-1-stop: 74%;          /* slightly tighter for contrast */
+  --ambient-2-size: 68rem 34rem;  /* smaller for more concentration */
+  --ambient-2-pos: -8% 22%;
+  --ambient-2-stop: 70%;          /* tighter stop to increase visibility */
+  --ambient-3-size: 88rem 44rem;  /* smaller for more concentration */
   --ambient-3-pos: 50% 120%;
-  --ambient-3-stop: 76%;
-  --bg-noise: rgba(0,0,0,0.02);
+  --ambient-3-stop: 72%;
+  --bg-noise: rgba(0,0,0,0.03);
   
   /* Accent colors */
   --accent-primary: #2563eb;  /* Professional blue */
