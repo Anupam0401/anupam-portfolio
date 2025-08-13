@@ -20,6 +20,28 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
+/* Glass surface helper: adds a faint top highlight to convey transparency even on static backgrounds */
+.glass-surface {
+  position: relative;
+}
+.glass-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--glass-top-glow), transparent 55%);
+  pointer-events: none;
+}
+.glass-surface::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--glass-top-shadow), transparent);
+  pointer-events: none;
+}
+
 /* COMPREHENSIVE DARK MODE SUPPORT FOR ALL COMPONENTS */
 
 /* CRITICAL: Card component and other dark mode backgrounds */
@@ -215,6 +237,7 @@ html.dark [class*="Card"] .bg-white {
   /* Component backgrounds */
   --card-bg: #fdfcfb;  /* Warmer white for softer cards */
   --nav-bg: rgba(237, 235, 230, 0.92);  /* Slightly darker and more opaque nav */
+  --footer-bg: rgba(237, 235, 230, 0.82);  /* Footer a bit more translucent than nav */
   --border-color: #ddd9d6;  /* Slightly stronger border for structure */
   
   /* Text colors - Carefully crafted hierarchy */
@@ -252,6 +275,10 @@ html.dark [class*="Card"] .bg-white {
   --surface-2: #f2f1ee;
   --surface-3: #e7e5e4;
   
+  /* Glass helpers */
+  --glass-top-glow: rgba(255, 255, 255, 0.18);
+  --glass-top-shadow: rgba(0, 0, 0, 0.06);
+  
   /* Typography tokens */
   --fw-regular: 400;
   --fw-medium: 500;
@@ -271,6 +298,7 @@ html.dark [class*="Card"] .bg-white {
   /* Component backgrounds */
   --card-bg: #18181b;  /* Elevated surface */
   --nav-bg: rgba(13, 17, 23, 0.85);  /* Cooler translucent nav (GitHub-esque) */
+  --footer-bg: rgba(13, 17, 23, 0.78);  /* Footer slightly more translucent than nav */
   --border-color: #2a2f3a;  /* Cooler slate-like borders */
   
   /* Text colors */
@@ -307,6 +335,10 @@ html.dark [class*="Card"] .bg-white {
   --surface-1: #18181b;
   --surface-2: #262a33; /* Slightly cooler */
   --surface-3: #3a3f4a; /* Slightly cooler */
+  
+  /* Glass helpers */
+  --glass-top-glow: rgba(255, 255, 255, 0.07);
+  --glass-top-shadow: rgba(255, 255, 255, 0.06);
   
   /* Typography tokens (dark shares same metrics) */
   --fw-regular: 400;
