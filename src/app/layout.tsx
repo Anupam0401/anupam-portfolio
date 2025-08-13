@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 
@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
 const inter = Inter({
   variable: "--font-inter-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat-script",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -111,7 +118,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${caveat.variable} antialiased`}
       >
         <ThemeProvider>
           {children}
