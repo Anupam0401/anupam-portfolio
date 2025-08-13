@@ -112,9 +112,22 @@ const HeroSection = () => {
             </span>
           </motion.p>
 
+          {/* Hero local top accent blob for clear presence above name */}
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 -top-10 z-0 w-[18rem] h-[18rem] md:w-[22rem] md:h-[22rem] pointer-events-none"
+            style={{
+              background: 'radial-gradient(closest-side, var(--blob-indigo) 0%, transparent 50%)',
+              filter: 'blur(24px)',
+            }}
+            initial={{ opacity: 0.0, y: -8 }}
+            animate={{ opacity: 1, y: [-6, 0, -6] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            aria-hidden="true"
+          />
+
           {/* Name */}
           <motion.h1
-            className="text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6"
+            className="relative z-10 text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}

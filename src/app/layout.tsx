@@ -121,7 +121,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${caveat.variable} antialiased`}
       >
         <ThemeProvider>
-          {children}
+          <div className="min-h-screen app-background transition-colors duration-300">
+            <main className="relative z-10 pt-16">
+              {children}
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

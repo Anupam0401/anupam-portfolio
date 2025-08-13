@@ -265,6 +265,13 @@ html.dark [class*="Card"] .bg-white {
   --ambient-3-stop: 72%;
   --bg-noise: rgba(0,0,0,0.03);
   
+  /* Animated blob colors (light) - brand-biased */
+  --blob-pink: rgba(244, 114, 182, 0.16);
+  --blob-amber: rgba(245, 158, 11, 0.12);
+  --blob-emerald: rgba(16, 185, 129, 0.10);
+  --blob-cyan: rgba(6, 182, 212, 0.12);
+  --blob-indigo: rgba(99, 102, 241, 0.18);
+  
   /* Accent colors */
   --accent-primary: #2563eb;  /* Professional blue */
   --accent-hover: #1d4ed8;
@@ -325,6 +332,13 @@ html.dark [class*="Card"] .bg-white {
   --ambient-3-pos: 50% 120%;
   --ambient-3-stop: 74%;
   --bg-noise: rgba(255,255,255,0.02);
+  
+  /* Animated blob colors (dark) - brand-biased */
+  --blob-pink: rgba(244, 114, 182, 0.11);
+  --blob-amber: rgba(245, 158, 11, 0.10);
+  --blob-emerald: rgba(16, 185, 129, 0.09);
+  --blob-cyan: rgba(6, 182, 212, 0.10);
+  --blob-indigo: rgba(99, 102, 241, 0.14);
   
   /* Accent colors */
   --accent-primary: #3b82f6;  /* Brighter blue in dark mode */
