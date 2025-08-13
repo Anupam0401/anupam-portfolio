@@ -82,7 +82,7 @@ const BlogPage = () => {
                   </Badge>
                 )}
               </div>
-              <CardTitle className={`${featured ? 'text-2xl' : 'text-xl'} font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors`}>
+              <CardTitle className={`${featured ? 'text-2xl' : 'text-xl'} font-semibold tracking-tight text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors`}>
                 <Link href={`/blog/${post.id}`}>
                   {post.title}
                 </Link>
@@ -161,7 +161,7 @@ const BlogPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6">
               Blog & Writing
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
@@ -239,7 +239,7 @@ const BlogPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-8 flex items-center">
                 <StarIcon className="w-6 h-6 mr-2 text-yellow-500" />
                 Featured Posts
               </h2>
@@ -259,7 +259,7 @@ const BlogPage = () => {
             className="mb-16"
           >
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white flex items-center">
                 <PencilIcon className="w-6 h-6 mr-2 text-blue-600" />
                 {selectedTag === 'all' && !searchTerm ? 'All Posts' : 'Search Results'}
               </h2>

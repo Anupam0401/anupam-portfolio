@@ -48,8 +48,13 @@ const Navigation = () => {
             className="flex-shrink-0"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white">
-              AK
+            <Link href="/" aria-label="Anupam Kumar Home" className="inline-flex items-center">
+              <span
+                className="text-xl md:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                style={{ fontFamily: 'var(--font-geist-sans)' }}
+              >
+                AK
+              </span>
             </Link>
           </motion.div>
 

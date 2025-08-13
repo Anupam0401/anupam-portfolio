@@ -251,6 +251,15 @@ html.dark [class*="Card"] .bg-white {
   --surface-1: #ffffff;
   --surface-2: #f2f1ee;
   --surface-3: #e7e5e4;
+  
+  /* Typography tokens */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --ls-tight: -0.01em;
+  --ls-tighter: -0.02em;
+  --ls-normal: 0em;
+  --ls-wide: 0.01em;
 }
 
 /* DARK MODE - Modern & Sophisticated */
@@ -298,13 +307,39 @@ html.dark [class*="Card"] .bg-white {
   --surface-1: #18181b;
   --surface-2: #262a33; /* Slightly cooler */
   --surface-3: #3a3f4a; /* Slightly cooler */
+  
+  /* Typography tokens (dark shares same metrics) */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --ls-tight: -0.01em;
+  --ls-tighter: -0.02em;
+  --ls-normal: 0em;
+  --ls-wide: 0.01em;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  line-height: 1.65;
+  font-weight: var(--fw-regular, 400);
+  letter-spacing: var(--ls-normal, 0);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography defaults: headings use Geist, body uses Inter via body rule */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: var(--text-primary);
+  letter-spacing: var(--ls-tight, -0.01em);
+}
+
+/* Button typography adjustments */
+.btn {
+  font-weight: var(--fw-medium, 500);
+  letter-spacing: var(--ls-wide, 0.01em);
+  font-family: var(--font-inter-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
 }
 
 /* App-wide elegant background inspired by GitHub/ChatGPT */

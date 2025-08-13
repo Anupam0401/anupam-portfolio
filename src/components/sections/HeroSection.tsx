@@ -114,7 +114,7 @@ const HeroSection = () => {
 
           {/* Name */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+            className="text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -126,7 +126,7 @@ const HeroSection = () => {
 
           {/* Title */}
           <motion.h2
-            className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-8"
+            className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
