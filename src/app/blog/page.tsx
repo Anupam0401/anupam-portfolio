@@ -11,7 +11,8 @@ import {
   BookOpenIcon,
   FunnelIcon,
   MagnifyingGlassIcon,
-  PencilIcon
+  PencilIcon,
+  DocumentTextIcon
 } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -275,7 +276,9 @@ const BlogPage = () => {
               </div>
             ) : (
               <div className="text-center py-16">
-                <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">📝</div>
+                <div className="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600">
+                  <DocumentTextIcon className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   No posts found
                 </h3>

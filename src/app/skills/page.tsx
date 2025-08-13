@@ -20,6 +20,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { skills } from '@/data/portfolio'
+import BrandIcon from '@/components/ui/BrandIcon'
+import MaterialIcon from '@/components/ui/MaterialIcon'
+import { getBrandIcon } from '@/lib/brand-icons'
 
 const SkillsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -46,6 +49,43 @@ const SkillsPage = () => {
       case 'beginner': return 'from-gray-500 to-slate-500'
       default: return 'from-gray-500 to-slate-500'
     }
+  }
+  const getMaterialNameForSkill = (skill: any): string => {
+    const n = String(skill.name || '').toLowerCase()
+    switch (skill.category) {
+      case 'language':
+        if (n.includes('sql')) return 'database'
+        if (n.includes('xml')) return 'code'
+        return 'code'
+      case 'framework':
+        if (n.includes('retrofit')) return 'link'
+        if (n.includes('room')) return 'database'
+        if (n.includes('junit')) return 'task_alt'
+        if (n.includes('mockito')) return 'rule'
+        return 'integration_instructions'
+      case 'database':
+        return 'database'
+      case 'tool':
+        return 'build'
+      case 'cloud':
+        return 'cloud'
+      default:
+        if (n.includes('microservices')) return 'account_tree'
+        if (n.includes('system design')) return 'account_tree'
+        if (n.includes('api')) return 'api'
+        if (n.includes('performance')) return 'speed'
+        if (n.includes('mobile')) return 'phone_android'
+        if (n.includes('mvvm')) return 'account_tree'
+        return 'star'
+    }
+  }
+
+  const renderSkillIcon = (skill: any) => {
+    const hasBrand = !!getBrandIcon(skill.name)
+    if (hasBrand) {
+      return <BrandIcon name={skill.name} className="w-5 h-5" />
+    }
+    return <MaterialIcon name={getMaterialNameForSkill(skill)} className="text-[18px]" />
   }
 
   const getLevelBadgeVariant = (level: string) => {
@@ -92,7 +132,7 @@ const SkillsPage = () => {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className={`p-3 rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg`}>
-              <span className="text-2xl font-bold">{skill.icon}</span>
+              {renderSkillIcon(skill)}
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

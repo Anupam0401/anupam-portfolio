@@ -123,10 +123,9 @@ const AchievementsPage = () => {
                   </div>
                 </div>
               </div>
-              
-              <div className="text-right">
-                <div className="text-2xl">
-                  {achievement.icon}
+              <div className="text-right opacity-70">
+                <div className={`inline-flex p-2 rounded-full bg-gradient-to-r ${colorClass} text-white`}>
+                  <Icon className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -362,7 +361,15 @@ const AchievementsPage = () => {
                       <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'} md:w-5/12`}>
                         <Card className="p-6 bg-gradient-to-br from-white to-gray-50">
                           <div className="flex items-center mb-3">
-                            <div className="text-2xl mr-3">{achievement.icon}</div>
+                            {(() => {
+                              const TimelineIcon = getAchievementIcon(achievement.type)
+                              const colorClass = getAchievementColor(achievement.type)
+                              return (
+                                <div className={`mr-3 inline-flex p-2 rounded-full bg-gradient-to-r ${colorClass} text-white`}>
+                                  <TimelineIcon className="w-5 h-5" />
+                                </div>
+                              )
+                            })()}
                             <div>
                               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                 {achievement.title}

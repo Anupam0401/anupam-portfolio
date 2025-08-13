@@ -12,13 +12,15 @@ import {
   PlayIcon,
   EyeIcon,
   ChevronDownIcon,
-  ChevronUpIcon
+  ChevronUpIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
+import MaterialIcon from '@/components/ui/MaterialIcon'
 
 const InterestsPage = () => {
   const router = useRouter()
@@ -193,6 +195,39 @@ const InterestsPage = () => {
     }
   }
 
+  const getInterestIconName = (interest: any, category: string): string => {
+    if (category === 'sports') return 'sports_tennis'
+    if (category === 'arts') return interest.id === 'painting' ? 'brush' : 'draw'
+    if (category === 'writing') {
+      switch (interest.id) {
+        case 'novels':
+          return 'menu_book'
+        case 'short-stories':
+          return 'book'
+        case 'poetry':
+          return 'auto_awesome'
+        case 'calligraphy':
+          return 'ink_pen'
+        default:
+          return 'edit'
+      }
+    }
+    return 'star'
+  }
+
+  const getInterestColor = (category: string) => {
+    switch (category) {
+      case 'sports':
+        return 'from-green-600 to-emerald-600'
+      case 'arts':
+        return 'from-pink-500 to-purple-500'
+      case 'writing':
+        return 'from-blue-600 to-purple-600'
+      default:
+        return 'from-gray-500 to-slate-500'
+    }
+  }
+
   const InterestCard = ({ interest, category }: { interest: any, category: string }) => (
     <motion.div
       variants={itemVariants}
@@ -203,7 +238,15 @@ const InterestsPage = () => {
       <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-4xl">{interest.icon}</div>
+            {(() => {
+              const iconName = getInterestIconName(interest, category)
+              const colorClass = getInterestColor(category)
+              return (
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${colorClass} text-white shadow-lg`}>
+                  <MaterialIcon name={iconName} className="text-[20px]" />
+                </div>
+              )
+            })()}
             <Badge variant="info" size="sm">
               {interest.level}
             </Badge>

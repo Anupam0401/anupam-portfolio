@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon, HandRaisedIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { personalInfo } from '@/data/portfolio'
@@ -104,7 +104,12 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            👋 Hello, I&apos;m
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center justify-center p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                <HandRaisedIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              </span>
+              Hello, I'm
+            </span>
           </motion.p>
 
           {/* Name */}

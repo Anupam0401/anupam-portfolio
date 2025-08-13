@@ -5,21 +5,21 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { SunIcon, MoonIcon } from '@heroicons/react/24/solid'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [hasAnimated, setHasAnimated] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(true) // Always skip animation to prevent header issues
+  const [isThemeChanging, setIsThemeChanging] = useState(false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
   const isDark = mounted && theme === 'dark'
 
   useEffect(() => {
     setMounted(true)
-    // Mark animation as done after first mount
-    setHasAnimated(true)
   }, [])
 
   const navItems = [
@@ -95,12 +95,32 @@ const Navigation = () => {
           {/* Theme Toggle & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             <motion.button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setIsThemeChanging(true)
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+                setTimeout(() => setIsThemeChanging(false), 200)
+              }}
+              className="relative h-9 w-9 rounded-xl ring-1 ring-[color:var(--border-color)]/60 bg-gray-100 text-gray-700 dark:text-gray-300 hover:shadow-md hover:ring-[color:var(--accent-primary)]/30 transition-all"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle theme"
             >
-              {!mounted ? '🌙' : theme === 'dark' ? '☀️' : '🌙'}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={mounted ? theme : 'loading'}
+                  initial={isThemeChanging && mounted ? { opacity: 0, rotate: -90, scale: 0.6 } : { opacity: 1, rotate: 0, scale: 1 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={isThemeChanging && mounted ? { opacity: 0, rotate: 90, scale: 0.6 } : { opacity: 1, rotate: 0, scale: 1 }}
+                  transition={isThemeChanging ? { duration: 0.18, ease: 'easeOut' } : { duration: 0 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  {!mounted || theme === 'light' ? (
+                    <MoonIcon className="h-5 w-5" />
+                  ) : (
+                    <SunIcon className="h-5 w-5 text-yellow-400" />
+                  )}
+                </motion.span>
+              </AnimatePresence>
             </motion.button>
 
             {/* Mobile menu button */}
