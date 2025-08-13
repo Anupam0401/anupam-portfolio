@@ -248,7 +248,7 @@ const HeroSection = () => {
           <motion.button
             onClick={scrollToNext}
             title="Scroll to explore"
-            className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/70 dark:bg-gray-900/60 backdrop-blur-md ring-1 ring-[color:var(--border-color)]/60 hover:ring-[color:var(--accent-primary)]/40 shadow-md hover:shadow-lg text-gray-700 dark:text-gray-300 transition-colors"
+            className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-[color:var(--surface-1)]/55 hover:bg-[color:var(--surface-1)]/70 dark:bg-gray-900/60 dark:hover:bg-gray-900/70 backdrop-blur-md ring-1 ring-[color:var(--border-color)]/35 hover:ring-[color:var(--accent-primary)]/25 shadow-sm hover:shadow-md text-gray-600 dark:text-gray-300 transition-colors"
             animate={{ y: showScrollIndicator ? [0, 6, 0] : 0 }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
             aria-label="Scroll to explore"
