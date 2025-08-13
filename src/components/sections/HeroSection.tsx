@@ -238,24 +238,22 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator - Only show when at top of page */}
+        {/* Scroll Indicator - Compact FAB at bottom-right to avoid content overlap */}
         <motion.div
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-10"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ 
-            opacity: showScrollIndicator ? 1 : 0, 
-            y: showScrollIndicator ? 0 : 20 
-          }}
+          animate={{ opacity: showScrollIndicator ? 1 : 0, y: showScrollIndicator ? 0 : 20 }}
           transition={{ duration: 0.3 }}
           style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
         >
           <motion.button
             onClick={scrollToNext}
-            className="flex flex-col items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            animate={{ y: showScrollIndicator ? [0, 8, 0] : 0 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            title="Scroll to explore"
+            className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-white/70 dark:bg-gray-900/60 backdrop-blur-md ring-1 ring-[color:var(--border-color)]/60 hover:ring-[color:var(--accent-primary)]/40 shadow-md hover:shadow-lg text-gray-700 dark:text-gray-300 transition-colors"
+            animate={{ y: showScrollIndicator ? [0, 6, 0] : 0 }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            aria-label="Scroll to explore"
           >
-            <span className="text-sm font-medium mb-2">Scroll to explore</span>
             <ChevronDownIcon className="w-5 h-5" />
           </motion.button>
         </motion.div>
