@@ -227,13 +227,13 @@ html.dark [class*="Card"] .bg-white {
   --gradient-middle: #f1f0ec;
   --gradient-end: #f7f6f3;
   /* Layered radial overlays (light) */
-  --bg-radial-1: rgba(245, 158, 11, 0.12);   /* amber-500, increased warmth */
-  --bg-radial-2: rgba(244, 114, 182, 0.10);  /* pink-400, gently stronger */
-  --bg-radial-3: rgba(16, 185, 129, 0.10);   /* emerald-500, more present */
+  --bg-radial-1: rgba(245, 158, 11, 0.15);   /* amber-500, top-right contrast */
+  --bg-radial-2: rgba(244, 114, 182, 0.15);  /* pink-400, top-left */
+  --bg-radial-3: rgba(16, 185, 129, 0.14);   /* emerald-500, bottom */
   /* Ambient overlay controls (light) */
-  --ambient-1-size: 80rem 40rem;
-  --ambient-1-pos: 110% -10%;
-  --ambient-1-stop: 72%;
+  --ambient-1-size: 92rem 46rem;  /* larger for better balance */
+  --ambient-1-pos: 98% -5%;       /* bring slightly inward from edge */
+  --ambient-1-stop: 78%;          /* extend presence */
   --ambient-2-size: 72rem 36rem;
   --ambient-2-pos: -10% 25%;
   --ambient-2-stop: 74%;
@@ -283,13 +283,13 @@ html.dark [class*="Card"] .bg-white {
   --gradient-middle: #0b0c10;
   --gradient-end: #0d1117;
   /* Layered radial overlays (dark) */
-  --bg-radial-1: rgba(56, 189, 248, 0.16);  /* cyan-400, more visible */
-  --bg-radial-2: rgba(99, 102, 241, 0.14);  /* indigo-500, cooler and stronger */
-  --bg-radial-3: rgba(14, 165, 233, 0.12);  /* sky-500, subtle but present */
+  --bg-radial-1: rgba(245, 158, 11, 0.12);  /* amber-500 for warm contrast at top-right */
+  --bg-radial-2: rgba(99, 102, 241, 0.14);  /* indigo-500, top-left */
+  --bg-radial-3: rgba(14, 165, 233, 0.16);  /* sky-500, bottom */
   /* Ambient overlay controls (dark) */
-  --ambient-1-size: 84rem 42rem;
-  --ambient-1-pos: 110% -10%;
-  --ambient-1-stop: 70%;
+  --ambient-1-size: 96rem 48rem;  /* larger for better balance */
+  --ambient-1-pos: 98% -5%;       /* bring slightly inward from edge */
+  --ambient-1-stop: 76%;          /* extend presence */
   --ambient-2-size: 76rem 38rem;
   --ambient-2-pos: -10% 25%;
   --ambient-2-stop: 72%;
