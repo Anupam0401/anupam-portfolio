@@ -87,11 +87,9 @@ const AchievementsPage = () => {
     return (
       <motion.div
         variants={itemVariants}
-        className="h-full"
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
+        className="h-full transition-transform duration-200 will-change-transform hover:-translate-y-2 hover:scale-[1.02]"
       >
-        <Card className="h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+        <Card className="h-full shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
           <CardHeader className="relative">
             {/* Background Pattern */}
             <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
@@ -100,13 +98,11 @@ const AchievementsPage = () => {
             
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-4">
-                <motion.div 
-                  className={`p-4 rounded-full bg-gradient-to-r ${colorClass} text-white shadow-lg`}
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
+                <div 
+                  className={`p-4 rounded-full bg-gradient-to-r ${colorClass} text-white shadow-lg transition-transform duration-500 hover:rotate-[360deg]`}
                 >
                   <Icon className="w-8 h-8" />
-                </motion.div>
+                </div>
                 <div>
                   <CardTitle className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     {achievement.title}
@@ -149,17 +145,15 @@ const AchievementsPage = () => {
               </div>
               
               {achievement.link && (
-                <motion.a
+                <a
                   href={achievement.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-blue-600 dark:text-blue-400 hover:underline"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center text-blue-600 dark:text-blue-400 hover:underline transition-transform hover:scale-[1.05] active:scale-95"
                 >
                   <LinkIcon className="w-4 h-4 mr-1" />
                   View Details
-                </motion.a>
+                </a>
               )}
             </div>
           </CardContent>
@@ -343,13 +337,13 @@ const AchievementsPage = () => {
             </h2>
             <div className="relative">
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-blue-200 dark:bg-blue-800"></div>
-              <div className="space-y-8">
+              <div className="space-y-8 snap-y snap-proximity">
                 {achievements
                   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                   .map((achievement, index) => (
                     <motion.div
                       key={achievement.id}
-                      className={`relative flex items-center ${
+                      className={`relative flex items-center snap-start ${
                         index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                       }`}
                       initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}

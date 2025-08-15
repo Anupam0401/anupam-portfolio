@@ -74,7 +74,7 @@ const ExperiencePage = () => {
                 variants={itemVariants}
                 className="relative"
               >
-                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div className="flex items-center space-x-4">

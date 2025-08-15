@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import AppBackground from '@/components/layout/AppBackground'
+import PerfHUD from '@/components/debug/PerfHUD'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -121,11 +123,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${caveat.variable} antialiased`}
       >
         <ThemeProvider>
-          <div className="min-h-screen app-background transition-colors duration-300">
+          <AppBackground>
             <main className="relative z-10 pt-16">
               {children}
             </main>
-          </div>
+            {/* Dev-only Perf HUD (enabled via ?perf=1&glowdebug=1) */}
+            <PerfHUD />
+          </AppBackground>
         </ThemeProvider>
       </body>
     </html>

@@ -67,7 +67,7 @@ const BlogPage = () => {
       whileHover={{ y: -5 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
-      <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+      <Card className="h-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-start justify-between">
             <div className="flex-1">

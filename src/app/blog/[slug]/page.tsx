@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -24,10 +24,41 @@ const BlogPostPage = () => {
   const params = useParams()
   const slug = params.slug as string
   const [mounted, setMounted] = useState(false)
+  const [progress, setProgress] = useState(0)
   
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Reading progress bar (rAF-throttled)
+  useEffect(() => {
+    if (!mounted) return
+    let ticking = false
+    let rafId = 0
+    const update = () => {
+      const scrollTop = typeof window !== 'undefined' ? (window.scrollY || document.documentElement.scrollTop) : 0
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const p = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0
+      setProgress(p)
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        rafId = requestAnimationFrame(() => {
+          update()
+          ticking = false
+        })
+      }
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
+  }, [mounted])
   
   const post = blogPosts.find(p => p.id === slug)
   
@@ -72,12 +103,27 @@ const BlogPostPage = () => {
     // You could add a toast notification here
   }
 
-  // Simple markdown-to-HTML converter for content
+  const slugify = (str: string) =>
+    str.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
+
+  const headings = useMemo(() => {
+    const hs: { id: string; text: string; level: 2 | 3 }[] = []
+    const lines = post?.content?.split('\n') || []
+    for (const line of lines) {
+      const h2 = line.match(/^##\s+(.*)$/)
+      if (h2) { const text = h2[1].trim(); hs.push({ id: slugify(text), text, level: 2 }); continue }
+      const h3 = line.match(/^###\s+(.*)$/)
+      if (h3) { const text = h3[1].trim(); hs.push({ id: slugify(text), text, level: 3 }); continue }
+    }
+    return hs
+  }, [post?.content])
+
+  // Simple markdown-to-HTML converter for content (adds ids for headings)
   const formatContent = (content: string) => {
     return content
       .replace(/^# (.*$)/gm, '<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-8">$1</h1>')
-      .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-6">$1</h2>')
-      .replace(/^### (.*$)/gm, '<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-5">$1</h3>')
+      .replace(/^## (.*)$/gm, (_m, t) => `<h2 id="${slugify(t)}" class="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-6">${t}</h2>`)
+      .replace(/^### (.*)$/gm, (_m, t) => `<h3 id="${slugify(t)}" class="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-5">${t}</h3>`)
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-white">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
       .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"><code class="language-$1">$2</code></pre>')
@@ -92,6 +138,13 @@ const BlogPostPage = () => {
 
   return (
     <Layout>
+      {/* Reading progress bar */}
+      <div className="fixed top-0 left-0 right-0 h-1.5 z-[9999]" aria-hidden>
+        <div
+          className="h-full bg-gradient-to-r from-blue-600 to-purple-600"
+          style={{ width: `${Math.round(progress * 100)}%`, transition: 'width 80ms linear' }}
+        />
+      </div>
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Back Button */}
@@ -216,6 +269,16 @@ const BlogPostPage = () => {
           >
             <Card className="overflow-hidden shadow-lg">
               <CardContent className="p-8 md:p-12">
+                {headings.length > 0 && (
+                  <div className="mb-6 hidden md:flex flex-wrap gap-2">
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400 mr-2">On this page:</span>
+                    {headings.map((h) => (
+                      <a key={h.id} href={`#${h.id}`} className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        {h.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
                 <div 
                   className="prose prose-lg max-w-none dark:prose-invert"
                   dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
@@ -276,7 +339,7 @@ const BlogPostPage = () => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedPosts.map(relatedPost => (
-                  <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <Card key={relatedPost.id} className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-6">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600 transition-colors">
                         <Link href={`/blog/${relatedPost.id}`}>

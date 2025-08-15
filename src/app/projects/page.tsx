@@ -63,7 +63,7 @@ const ProjectsPage = () => {
       whileHover={{ y: -5 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
-      <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-gray-50">
+      <Card className="h-full shadow-lg hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-bl-full opacity-10"></div>
           <div className="flex items-start justify-between">

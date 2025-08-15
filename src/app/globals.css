@@ -42,6 +42,8 @@
   pointer-events: none;
 }
 
+/* Glow classes removed intentionally for performance */
+
 /* COMPREHENSIVE DARK MODE SUPPORT FOR ALL COMPONENTS */
 
 /* CRITICAL: Card component and other dark mode backgrounds */
@@ -285,6 +287,7 @@ html.dark [class*="Card"] .bg-white {
   /* Glass helpers */
   --glass-top-glow: rgba(255, 255, 255, 0.18);
   --glass-top-shadow: rgba(0, 0, 0, 0.06);
+  /* Card glow helpers removed */
   
   /* Typography tokens */
   --fw-regular: 400;
@@ -353,6 +356,7 @@ html.dark [class*="Card"] .bg-white {
   /* Glass helpers */
   --glass-top-glow: rgba(255, 255, 255, 0.07);
   --glass-top-shadow: rgba(255, 255, 255, 0.06);
+  /* Card glow helpers removed (dark) */
   
   /* Typography tokens (dark shares same metrics) */
   --fw-regular: 400;
@@ -672,12 +676,7 @@ nav button[class*="bg-gray-100"]:hover {
   -webkit-text-fill-color: transparent !important;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
+/* Smooth transitions are now applied selectively via utility classes to avoid global overhead */
 
 /* Motion and scroll preferences */
 html { scroll-behavior: smooth; }

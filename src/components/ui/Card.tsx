@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { cn } from '@/lib/utils'
 import { motion, HTMLMotionProps } from 'framer-motion'
 
@@ -13,36 +13,10 @@ interface CardProps extends Omit<HTMLMotionProps<"div">, 'style'> {
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, children, hoverable = false, gradient = false, style = {}, ...props }, ref) => {
-    const [isDark, setIsDark] = useState(false)
-    
-    useEffect(() => {
-      // Check if dark mode is active
-      const checkDarkMode = () => {
-        setIsDark(document.documentElement.classList.contains('dark'))
-      }
-      
-      checkDarkMode()
-      
-      // Watch for theme changes
-      const observer = new MutationObserver(checkDarkMode)
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class']
-      })
-      
-      return () => observer.disconnect()
-    }, [])
-    
-    // Use inline styles for backgrounds to ensure dark mode works, but
-    // allow gradient cards to manage their own background.
+    // Let CSS variables drive theming to avoid per-card observers
     const wantsGradient = gradient || (typeof className === 'string' && className.includes('gradient-card'))
-    const backgroundStyle = wantsGradient
-      ? {}
-      : (isDark 
-        ? { backgroundColor: '#111827' } // gray-900
-        : { backgroundColor: '#ffffff' }) // white
-    
-    const borderColor = wantsGradient ? 'transparent' : (isDark ? '#1f2937' : '#e5e7eb') // gray-800 : gray-200
+    const backgroundStyle = wantsGradient ? {} : { backgroundColor: 'var(--card-bg)' }
+    const borderColor = wantsGradient ? 'transparent' : 'var(--border-color)'
     
     const baseStyles = `rounded-xl border shadow-sm`
     const hoverStyles = hoverable ? 'hover:shadow-lg transition-all duration-300 cursor-pointer' : ''

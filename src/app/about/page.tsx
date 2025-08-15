@@ -99,11 +99,11 @@ const AboutPage = () => {
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-blue-200 dark:bg-blue-800"></div>
               
               {/* Experience Items */}
-              <div className="space-y-8">
+              <div className="space-y-8 snap-y snap-proximity">
                 {experiences.map((exp, index) => (
                   <motion.div
                     key={exp.id}
-                    className={`relative flex items-center ${
+                    className={`relative flex items-center snap-start ${
                       index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                     }`}
                     initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
@@ -115,7 +115,7 @@ const AboutPage = () => {
                     
                     {/* Content */}
                     <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'} md:w-5/12`}>
-                      <Card hoverable className="p-6">
+                      <Card hoverable className="p-6 bg-gradient-to-br from-white to-gray-50">
                         <div className="flex items-center mb-4">
                           <BriefcaseIcon className="w-6 h-6 text-blue-600 mr-3" />
                           <div>
