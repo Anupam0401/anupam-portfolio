@@ -1,3 +1,9 @@
+/* Footer bar gradient overlay (light & dark via CSS vars) */
+.footer-bar {
+  background-color: var(--footer-bg);
+  background-image: linear-gradient(135deg, var(--footer-grad-1), var(--footer-grad-2));
+  background-blend-mode: normal;
+}
 @import "tailwindcss";
 /* Material Symbols stylesheet is now loaded via <head> link in layout.tsx to satisfy CSS @import ordering rules */
 
@@ -23,6 +29,8 @@
 /* Glass surface helper: adds a faint top highlight to convey transparency even on static backgrounds */
 .glass-surface {
   position: relative;
+  border-radius: inherit; /* ensure children and overlays follow radius */
+  overflow: hidden; /* clip pseudo-elements to rounded corners */
 }
 .glass-surface::before {
   content: "";
@@ -30,6 +38,7 @@
   inset: 0;
   background: linear-gradient(to bottom, var(--glass-top-glow), transparent 55%);
   pointer-events: none;
+  border-radius: inherit; /* match parent rounding */
 }
 .glass-surface::after {
   content: "";
@@ -40,6 +49,7 @@
   height: 1px;
   background: linear-gradient(to right, transparent, var(--glass-top-shadow), transparent);
   pointer-events: none;
+  border-radius: inherit; /* match parent rounding */
 }
 
 /* Glow classes removed intentionally for performance */
@@ -238,8 +248,12 @@ html.dark [class*="Card"] .bg-white {
   
   /* Component backgrounds */
   --card-bg: #fdfcfb;  /* Warmer white for softer cards */
-  --nav-bg: rgba(237, 235, 230, 0.92);  /* Slightly darker and more opaque nav */
-  --footer-bg: rgba(237, 235, 230, 0.82);  /* Footer a bit more translucent than nav */
+  /* Light nav/footer: darker yet translucent */
+  --nav-bg: rgba(222, 220, 214, 0.90);
+  --footer-bg: rgba(222, 220, 214, 0.86);
+  /* Footer gradient accents (light) */
+  --footer-grad-1: rgba(99, 102, 241, 0.10);  /* indigo */
+  --footer-grad-2: rgba(244, 114, 182, 0.08); /* pink */
   --border-color: #ddd9d6;  /* Slightly stronger border for structure */
   
   /* Text colors - Carefully crafted hierarchy */
@@ -309,6 +323,9 @@ html.dark [class*="Card"] .bg-white {
   --card-bg: #18181b;  /* Elevated surface */
   --nav-bg: rgba(13, 17, 23, 0.85);  /* Cooler translucent nav (GitHub-esque) */
   --footer-bg: rgba(13, 17, 23, 0.78);  /* Footer slightly more translucent than nav */
+  /* Footer gradient accents (dark) */
+  --footer-grad-1: rgba(99, 102, 241, 0.16);
+  --footer-grad-2: rgba(14, 165, 233, 0.14);
   --border-color: #2a2f3a;  /* Cooler slate-like borders */
   
   /* Text colors */

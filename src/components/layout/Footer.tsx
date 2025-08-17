@@ -34,7 +34,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="glass-surface bg-[color:var(--footer-bg)] backdrop-blur-md backdrop-saturate-150 border-t border-[color:var(--border-color)]/60 shadow-sm">
+    <footer className="footer-bar glass-surface backdrop-blur-md backdrop-saturate-150 border-t border-[color:var(--border-color)]/60 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}

@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import Navigation from './Navigation'
 import Footer from './Footer'
 import AnimatedBlobs from '@/components/ui/AnimatedBlobs'
+import BackToTop from '@/components/ui/BackToTop'
 import { usePathname } from 'next/navigation'
 
 interface LayoutProps {
@@ -17,11 +18,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="relative min-h-screen app-background transition-colors duration-300">
-        {isHome && <AnimatedBlobs />}
+        <AnimatedBlobs variant={isHome ? 'home' : 'global'} />
         <Navigation />
         <main className="relative z-10 pt-16">
           {children}
         </main>
+        <BackToTop />
         <Footer />
       </div>
     </ThemeProvider>

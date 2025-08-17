@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon, ChartBarIcon, ShieldCheckIcon, BoltIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { personalInfo } from '@/data/portfolio'
@@ -180,6 +180,27 @@ const HeroSection = () => {
             ))}
           </motion.div>
 
+          {/* Highlights (Recruiter KPIs) */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 mb-12"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+          >
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <ChartBarIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">Revenue Impact: ₹10M+ annually</span>
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <ShieldCheckIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">99.9% Uptime</span>
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <BoltIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">Performance: 500ms → 50ms</span>
+            </span>
+          </motion.div>
+
           {/* Call to Action Buttons */}
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
@@ -250,25 +271,7 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator - Compact FAB at bottom-right to avoid content overlap */}
-        <motion.div
-          className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: showScrollIndicator ? 1 : 0, y: showScrollIndicator ? 0 : 20 }}
-          transition={{ duration: 0.3 }}
-          style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
-        >
-          <motion.button
-            onClick={scrollToNext}
-            title="Scroll to explore"
-            className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-[color:var(--surface-1)]/55 hover:bg-[color:var(--surface-1)]/70 dark:bg-gray-900/60 dark:hover:bg-gray-900/70 backdrop-blur-md ring-1 ring-[color:var(--border-color)]/35 hover:ring-[color:var(--accent-primary)]/25 shadow-sm hover:shadow-md text-gray-600 dark:text-gray-300 transition-colors"
-            animate={{ y: showScrollIndicator ? [0, 6, 0] : 0 }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            aria-label="Scroll to explore"
-          >
-            <ChevronDownIcon className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
+        {/* Global BackToTop handles scroll affordance across pages; hero FAB removed */}
       </div>
     </section>
   )

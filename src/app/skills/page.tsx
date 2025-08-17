@@ -85,7 +85,7 @@ const SkillsPage = () => {
     if (hasBrand) {
       return <BrandIcon name={skill.name} className="w-5 h-5" />
     }
-    return <MaterialIcon name={getMaterialNameForSkill(skill)} className="text-[18px]" />
+    return <MaterialIcon name={getMaterialNameForSkill(skill)} className="text-[20px] leading-none" />
   }
 
   const getLevelBadgeVariant = (level: string) => {
@@ -131,7 +131,7 @@ const SkillsPage = () => {
       <Card className="h-full p-6 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className={`p-3 rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg`}>
+            <div className={`w-10 h-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg shrink-0`}>
               {renderSkillIcon(skill)}
             </div>
             <div>
