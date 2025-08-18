@@ -86,15 +86,11 @@ export default function InterestDetailsModal({
           exit={{ opacity: 0 }}
         >
           {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            role="button"
-            tabIndex={0}
+          <button
+            type="button"
             aria-label="Close dialog"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-default"
             onClick={onClose}
-            onKeyDown={(e) => {
-              if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') onClose()
-            }}
           />
 
           {/* Panel */}
