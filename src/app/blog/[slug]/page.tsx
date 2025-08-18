@@ -61,12 +61,27 @@ const BlogPostPage = () => {
   }, [mounted])
   
   const post = blogPosts.find(p => p.id === slug)
-  
+
+  const slugify = (str: string) =>
+    str.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
+
+  const headings = useMemo(() => {
+    const hs: { id: string; text: string; level: 2 | 3 }[] = []
+    const lines = post?.content?.split('\n') || []
+    for (const line of lines) {
+      const h2 = line.match(/^##\s+(.*)$/)
+      if (h2) { const text = h2[1].trim(); hs.push({ id: slugify(text), text, level: 2 }); continue }
+      const h3 = line.match(/^###\s+(.*)$/)
+      if (h3) { const text = h3[1].trim(); hs.push({ id: slugify(text), text, level: 3 }); continue }
+    }
+    return hs
+  }, [post?.content])
+
   // Handle post not found in client component
   if (!mounted) {
     return <div>Loading...</div>
   }
-  
+
   if (!post) {
     return (
       <Layout>
@@ -103,20 +118,7 @@ const BlogPostPage = () => {
     // You could add a toast notification here
   }
 
-  const slugify = (str: string) =>
-    str.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
-
-  const headings = useMemo(() => {
-    const hs: { id: string; text: string; level: 2 | 3 }[] = []
-    const lines = post?.content?.split('\n') || []
-    for (const line of lines) {
-      const h2 = line.match(/^##\s+(.*)$/)
-      if (h2) { const text = h2[1].trim(); hs.push({ id: slugify(text), text, level: 2 }); continue }
-      const h3 = line.match(/^###\s+(.*)$/)
-      if (h3) { const text = h3[1].trim(); hs.push({ id: slugify(text), text, level: 3 }); continue }
-    }
-    return hs
-  }, [post?.content])
+  
 
   // Simple markdown-to-HTML converter for content (adds ids for headings)
   const formatContent = (content: string) => {

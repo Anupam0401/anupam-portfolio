@@ -21,11 +21,14 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import MaterialIcon from '@/components/ui/MaterialIcon'
+import InterestDetailsModal from '@/components/interests/InterestDetailsModal'
 
 const InterestsPage = () => {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [expandedItem, setExpandedItem] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalInterest, setModalInterest] = useState<any | null>(null)
+  const [modalCategory, setModalCategory] = useState<string | null>(null)
 
   const interests = {
     sports: [
@@ -233,9 +236,9 @@ const InterestsPage = () => {
       variants={itemVariants}
       whileHover={{ y: -5 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
-      className="h-full"
+      className="self-start"
     >
-      <Card className="h-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+      <Card className="shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-center justify-between mb-4">
             {(() => {
@@ -309,75 +312,18 @@ const InterestsPage = () => {
 
           {/* Expand/Collapse Button */}
           <Button
-            onClick={() => setExpandedItem(expandedItem === interest.id ? null : interest.id)}
+            onClick={() => {
+              setModalInterest(interest)
+              setModalCategory(category)
+              setModalOpen(true)
+            }}
             variant="outline"
             size="sm"
             className="w-full flex items-center justify-center"
           >
-            {expandedItem === interest.id ? (
-              <>
-                <ChevronUpIcon className="w-4 h-4 mr-2" />
-                Show Less
-              </>
-            ) : (
-              <>
-                <ChevronDownIcon className="w-4 h-4 mr-2" />
-                Learn More
-              </>
-            )}
+            <EyeIcon className="w-4 h-4 mr-2" />
+            View Details
           </Button>
-
-          {/* Expanded Content */}
-          {expandedItem === interest.id && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
-            >
-              <div className="space-y-4">
-                <div>
-                  <h5 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                    Why It Matters to Me
-                  </h5>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    {interest.why}
-                  </p>
-                </div>
-
-                <div>
-                  <h5 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                    Complete Gallery
-                  </h5>
-                  <div className="grid grid-cols-2 gap-2">
-                    {interest.gallery.map((item: any, index: number) => (
-                      <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
-                        <div className="text-xs font-medium text-gray-900 dark:text-white">
-                          {item.title}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                          {item.year}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                    All Activities
-                  </h5>
-                  <div className="flex flex-wrap gap-1">
-                    {interest.activities.map((activity: string, index: number) => (
-                      <Badge key={index} variant="secondary" size="sm" className="text-xs">
-                        {activity}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </CardContent>
       </Card>
     </motion.div>
@@ -435,7 +381,7 @@ const InterestsPage = () => {
             animate="visible"
             className="mb-16"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
               {getFilteredInterests().map((interest, index) => {
                 const category = selectedCategory === 'all' 
                   ? (interests.sports.includes(interest) ? 'sports' 
@@ -487,6 +433,12 @@ const InterestsPage = () => {
             </Card>
           </motion.div>
         </div>
+        <InterestDetailsModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          interest={modalInterest}
+          category={modalCategory}
+        />
       </div>
     </Layout>
   )
