@@ -48,13 +48,17 @@ const Navigation = () => {
             className="flex-shrink-0"
             whileHover={{ scale: 1.05 }}
           >
-            <Link href="/" aria-label="Anupam Kumar Home" className="inline-flex items-center">
-              <span
-                className="text-xl md:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-                style={{ fontFamily: 'var(--font-geist-sans)' }}
-              >
-                AK
-              </span>
+            <Link href="/" aria-label="Anupam Kumar Home" className="inline-flex items-center group">
+              <span className="sr-only">Anupam Kumar</span>
+              <div className="relative h-9 px-3 rounded-full flex items-center justify-center ring-1 ring-[color:var(--border-color)]/60 shadow-sm transition-all duration-300 
+                bg-gradient-to-br from-blue-600 to-purple-600 text-white 
+                dark:bg-transparent dark:text-white dark:border dark:border-white/30 dark:ring-white/40">
+                <span className="text-xs font-semibold tracking-wide" style={{ fontFamily: 'var(--font-geist-sans)' }}>
+                  AK
+                </span>
+                {/* Subtle hover ring */}
+                <span className="pointer-events-none absolute inset-0 rounded-full ring-0 group-hover:ring-4 ring-blue-500/15 transition-all duration-300"></span>
+              </div>
             </Link>
           </motion.div>
 
