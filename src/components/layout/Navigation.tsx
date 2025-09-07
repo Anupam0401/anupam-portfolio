@@ -97,7 +97,7 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Theme Toggle & Mobile Menu Button */}
+          {/* Right Controls: Theme Toggle, Mobile Menu */}
           <div className="flex items-center space-x-4">
             <motion.button
               onClick={() => {

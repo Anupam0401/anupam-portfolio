@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     default: "Anupam Kumar - Backend Developer | Java, Kotlin, Spring Boot",
     template: "%s | Anupam Kumar - Backend Developer"
   },
-  description: "Backend Developer specializing in Java, Kotlin, Spring Boot, and Android development. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud. Explore my projects, blog posts, and technical expertise.",
+  description: "Backend Developer specializing in Java, Kotlin, and Spring Boot. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud. Explore my projects, blog posts, and technical expertise.",
   keywords: [
     "Backend Developer",
     "Java Developer",
     "Kotlin Developer", 
     "Spring Boot",
-    "Android Development",
+    
     "Software Engineer",
     "IIT Bhilai",
     "Navi Technologies",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://anupam-portfolio.vercel.app",
     title: "Anupam Kumar - Backend Developer | Java, Kotlin, Spring Boot",
-    description: "Backend Developer specializing in Java, Kotlin, Spring Boot, and Android development. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud.",
+    description: "Backend Developer specializing in Java, Kotlin, and Spring Boot. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud.",
     siteName: "Anupam Kumar Portfolio",
     images: [
       {
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Anupam Kumar - Backend Developer | Java, Kotlin, Spring Boot",
-    description: "Backend Developer specializing in Java, Kotlin, Spring Boot, and Android development. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud.",
+    description: "Backend Developer specializing in Java, Kotlin, and Spring Boot. IIT Bhilai graduate with experience at Navi Technologies and Click2Cloud.",
     images: ["/og-image.png"],
     creator: "@anupamkumar",
   },

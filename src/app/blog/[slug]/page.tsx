@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -11,7 +12,6 @@ import {
   ArrowLeftIcon,
   ShareIcon,
   BookOpenIcon,
-  UserIcon,
   LinkIcon
 } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
@@ -25,6 +25,7 @@ const BlogPostPage = () => {
   const slug = params.slug as string
   const [mounted, setMounted] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [authorImgOk, setAuthorImgOk] = useState(true)
   
   useEffect(() => {
     setMounted(true)
@@ -191,10 +192,6 @@ const BlogPostPage = () => {
                 {/* Meta Information */}
                 <div className="flex flex-wrap items-center gap-6 mb-8 text-gray-600 dark:text-gray-400">
                   <div className="flex items-center">
-                    <UserIcon className="w-5 h-5 mr-2" />
-                    <span className="font-medium">Anupam Kumar</span>
-                  </div>
-                  <div className="flex items-center">
                     <CalendarIcon className="w-5 h-5 mr-2" />
                     <span>
                       {new Date(post.publishedDate).toLocaleDateString('en-US', {
@@ -299,8 +296,23 @@ const BlogPostPage = () => {
             <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
               <CardContent className="p-8">
                 <div className="flex items-start space-x-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    AK
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden ring-1 ring-[color:var(--border-color)]/60 shadow-md flex-shrink-0">
+                    {authorImgOk ? (
+                      <Image
+                        src="/images/anupam.png"
+                        alt="Anupam Kumar"
+                        fill
+                        placeholder="empty"
+                        quality={95}
+                        sizes="64px"
+                        className="object-cover"
+                        onError={() => setAuthorImgOk(false)}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold text-xl">
+                        AK
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">

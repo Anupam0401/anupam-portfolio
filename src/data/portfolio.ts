@@ -2,7 +2,7 @@ import { PersonalInfo, Experience, Project, Skill, Achievement, Education, Socia
 
 export const personalInfo: PersonalInfo = {
   name: "Anupam Kumar",
-  title: "Backend Developer | Java | Kotlin | Spring Boot | Android",
+  title: "Backend Developer | Java | Kotlin | Spring Boot",
   email: "anupamkumar0401@gmail.com",
   location: "India",
   github: "https://github.com/Anupam0401",
@@ -11,20 +11,49 @@ export const personalInfo: PersonalInfo = {
 }
 
 export const experiences: Experience[] = [
+  // Navi SDE II - Backend (Promotion Jul 2025)
   {
-    id: 'navi-technologies',
+    id: 'navi-sde-2',
     company: 'Navi Technologies',
-    position: 'Software Developer',
-    startDate: "2023-07-01",
+    companyUrl: 'https://navi.com/',
+    position: 'SDE II - Backend',
+    startDate: '2025-07-01',
     location: 'Bangalore, India',
-    description: 'Working on Personal Loan team, developing scalable backend systems for fintech solutions using Java and Kotlin.',
+    description: 'Leading backend initiatives in the Personal Loan team with focus on scalability, reliability, and performance. Mentoring engineers and driving architecture improvements.',
+    achievements: [
+      'Drove system-level performance optimizations and reliability improvements across loan services',
+      'Owned high-impact roadmap items and cross-team integrations',
+      'Mentored junior engineers and improved engineering best practices'
+    ],
+    keyProjects: [
+      'Loan Services Scale & Resilience Program',
+      'Cross-Service Contract Standardization',
+      'Observability & Performance Tuning'
+    ],
+    technologies: ['Java', 'Kotlin', 'Spring Boot', 'PostgreSQL', 'Apache Kafka', 'Docker', 'Kubernetes'],
+    metrics: [
+      { label: 'System Uptime', value: '99.9%' },
+      { label: 'Latency Reduction', value: 'Targeted < p95 200ms' }
+    ]
+  },
+
+  // Navi SDE I - Backend (Apr 2024 - Jun 2025)
+  {
+    id: 'navi-sde-1',
+    company: 'Navi Technologies',
+    companyUrl: 'https://navi.com/',
+    position: 'SDE I - Backend',
+    startDate: '2024-04-01',
+    endDate: '2025-06-30',
+    location: 'Bangalore, India',
+    description: 'Built and scaled backend services for fintech products with Java/Kotlin and Spring Boot.',
     achievements: [
       'Processing Fee Introduction: Led end-to-end backend delivery contributing ₹1CR per day in revenue',
-      'Revamped Loan Journeys: Increased approval-to-disbursal rates (24% → 29%, 14% → 25%) and daily gross disbursal by 33.5% and 26.6%',
-      'EMI Date Standardization: Streamlined EMI date logic, enhanced collection efficiency by consolidating to 4 dates',
-      'Comms in Vernacular Languages: Implemented multi-language communication in 10 vernacular languages',
-      'OKYC Integration: Implemented Aadhaar and PAN verification using Digilocker, increased KYC completion by 10.2%',
-      'Workflow Optimization: Automated QA processes, reduced time from 10 minutes to less than 1 minute'
+      'Revamped Loan Journeys: Improved approval-to-disbursal rates and increased daily gross disbursal by 33.5% and 26.6%',
+      'EMI Date Standardization: Consolidated EMI dates to 4, improving collection efficiency',
+      'Comms in Vernacular Languages: Implemented 10 vernacular languages for customer comms',
+      'OKYC Integration: Aadhaar and PAN verification via Digilocker; +10.2% KYC completion',
+      'Workflow Optimization: Automated QA processes; reduced time from 10 minutes to < 1 minute'
     ],
     keyProjects: [
       'Personal Loan Processing Fee System',
@@ -35,35 +64,39 @@ export const experiences: Experience[] = [
     ],
     technologies: ['Java', 'Kotlin', 'Spring Boot', 'PostgreSQL', 'Apache Kafka', 'Docker', 'Kubernetes'],
     metrics: [
-      { label: "Revenue Impact", value: "₹10M+ annually" },
-      { label: "Transaction Volume", value: "1M+ daily" },
-      { label: "System Uptime", value: "99.9%" }
+      { label: 'Revenue Impact', value: '₹10M+ annually' },
+      { label: 'Transaction Volume', value: '1M+ daily' }
     ]
   },
+
+  // Navi Android Developer (Jul 2023 - Mar 2024)
   {
-    id: "android-development",
-    company: "Personal Projects & Learning",
-    position: "Android Developer",
-    startDate: "2022-01-01",
-    endDate: "2022-07-31",
-    location: "India",
-    description: "Focused on mobile application development using Android SDK, Java, and Kotlin. Built several mobile applications with modern Android development practices including MVVM architecture and Room database.",
-    keyProjects: [
-      "Medical Diagnosis App - Android application for healthcare diagnostics",
-      "Client Server App - Mobile client with backend integration",
-      "Learning Projects - Various Android apps exploring different features and APIs"
-    ],
-    technologies: ["Android SDK", "Java", "Kotlin", "MVVM", "Room Database", "Retrofit", "Material Design"],
+    id: 'navi-android',
+    company: 'Navi Technologies',
+    companyUrl: 'https://navi.com/',
+    position: 'SDE I - Android',
+    startDate: '2023-07-01',
+    endDate: '2024-03-31',
+    location: 'Bangalore, India',
+    description: 'Built Android app features and integrations for fintech flows, collaborating closely with backend teams before transitioning full-time to backend engineering.',
     achievements: [
-      "Built 3+ fully functional Android applications",
-      "Implemented modern Android architecture patterns",
-      "Integrated REST APIs with mobile interfaces",
-      "Gained proficiency in mobile UI/UX design principles"
-    ]
+      'Delivered several Android app features aligned with loan journey improvements',
+      'Collaborated on API design and integration with backend services',
+      'Contributed to performance and UX polish across critical screens'
+    ],
+    keyProjects: [
+      'Loan Journey App Enhancements',
+      'Comms & Notifications Client Work',
+      'Experimentation & A/B Rollouts in App'
+    ],
+    technologies: ['Kotlin', 'Java', 'REST APIs'],
   },
+
+  // Click2Cloud Internship
   {
     id: 'click2cloud',
     company: 'Click2Cloud',
+    companyUrl: 'https://www.click2cloud.com/home',
     position: 'SDE Intern',
     startDate: '2022-05-01',
     endDate: '2022-07-31',
@@ -223,12 +256,11 @@ export const skills: Skill[] = [
   // Frameworks
   { name: "Spring Boot", category: "framework", level: "expert", yearsOfExperience: 3, icon: "🍃" },
   { name: "Spring Framework", category: "framework", level: "advanced", yearsOfExperience: 3, icon: "🌱" },
-  { name: "Android SDK", category: "framework", level: "intermediate", yearsOfExperience: 1, icon: "📱" },
-  { name: "Retrofit", category: "framework", level: "intermediate", yearsOfExperience: 1, icon: "🔌" },
-  { name: "Room Database", category: "framework", level: "intermediate", yearsOfExperience: 1, icon: "🗄️" },
   { name: "Hibernate", category: "framework", level: "advanced", yearsOfExperience: 2, icon: "🔄" },
   { name: "JUnit", category: "framework", level: "advanced", yearsOfExperience: 3, icon: "✅" },
   { name: "Mockito", category: "framework", level: "advanced", yearsOfExperience: 2, icon: "🎭" },
+  // Android-adjacent basics retained at beginner level
+  { name: "Room Database", category: "framework", level: "beginner", yearsOfExperience: 1, icon: "🗄️" },
   
   // Databases
   { name: "PostgreSQL", category: "database", level: "advanced", yearsOfExperience: 3, icon: "🐘" },
@@ -252,8 +284,8 @@ export const skills: Skill[] = [
   { name: "System Design", category: "other", level: "advanced", yearsOfExperience: 2, icon: "🎯" },
   { name: "API Design", category: "other", level: "advanced", yearsOfExperience: 3, icon: "🔌" },
   { name: "Performance Optimization", category: "other", level: "advanced", yearsOfExperience: 2, icon: "⚡" },
-  { name: "Mobile Development", category: "other", level: "intermediate", yearsOfExperience: 1, icon: "📱" },
-  { name: "MVVM Architecture", category: "other", level: "intermediate", yearsOfExperience: 1, icon: "🏛️" }
+  // Android-adjacent basics retained at beginner level
+  { name: "MVVM Architecture", category: "other", level: "beginner", yearsOfExperience: 1, icon: "🏛️" }
 ]
 
 export const achievements: Achievement[] = [

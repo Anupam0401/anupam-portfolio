@@ -149,10 +149,10 @@ const SkillsPage = () => {
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              {skill.yearsOfExperience}
+              {skill.yearsOfExperience < 1 ? '<1' : skill.yearsOfExperience}
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {skill.yearsOfExperience === 1 ? 'year' : 'years'}
+              {skill.yearsOfExperience < 1 ? 'year' : (skill.yearsOfExperience === 1 ? 'year' : 'years')}
             </div>
           </div>
         </div>

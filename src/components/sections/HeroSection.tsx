@@ -180,7 +180,7 @@ const HeroSection = () => {
             ))}
           </motion.div>
 
-          {/* Highlights (Recruiter KPIs) */}
+          {/* Highlights (Recruiter strengths) */}
           <motion.div
             className="flex flex-wrap justify-center gap-3 mb-12"
             initial={{ opacity: 0, y: 16 }}
@@ -189,15 +189,15 @@ const HeroSection = () => {
           >
             <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
               <ChartBarIcon className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-medium">Revenue Impact: ₹10M+ annually</span>
+              <span className="text-sm font-medium">Observability: tracing • metrics • logs</span>
             </span>
             <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
               <ShieldCheckIcon className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-medium">99.9% Uptime</span>
+              <span className="text-sm font-medium">Safe deploys: CI/CD • canary • rollbacks</span>
             </span>
             <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
               <BoltIcon className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-medium">Performance: 500ms → 50ms</span>
+              <span className="text-sm font-medium">Event-driven architecture (Kafka)</span>
             </span>
           </motion.div>
 

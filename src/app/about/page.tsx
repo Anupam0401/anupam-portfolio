@@ -1,6 +1,7 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { DocumentArrowDownIcon, AcademicCapIcon, BriefcaseIcon, TrophyIcon } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
@@ -11,6 +12,7 @@ import { personalInfo, experiences, education, achievements } from '@/data/portf
 import { calculateDuration } from '@/lib/utils'
 
 const AboutPage = () => {
+  const [imgOk, setImgOk] = useState(true)
   const handleDownloadResume = () => {
     const link = document.createElement('a')
     link.href = personalInfo.resume || '#'
@@ -73,11 +75,29 @@ const AboutPage = () => {
                 </div>
                 <div className="flex justify-center">
                   <motion.div
-                    className="w-64 h-64 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-6xl font-bold shadow-2xl"
-                    whileHover={{ scale: 1.05 }}
+                    className="relative"
+                    whileHover={{ scale: 1.03 }}
                     transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                   >
-                    AK
+                    <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden ring-1 ring-[color:var(--border-color)]/60 shadow-2xl">
+                      {imgOk ? (
+                        <Image
+                          src="/images/anupam.png"
+                          alt="Anupam Kumar"
+                          fill
+                          priority
+                          placeholder="empty"
+                          quality={95}
+                          sizes="(min-width: 1024px) 18rem, (min-width: 768px) 18rem, 16rem"
+                          className="object-cover"
+                          onError={() => setImgOk(false)}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-6xl font-bold">
+                          AK
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 </div>
               </div>
@@ -123,8 +143,19 @@ const AboutPage = () => {
                               {exp.position}
                             </h3>
                             <p className="text-blue-600 dark:text-blue-400 font-medium">
-                              {exp.company}
-                            </p>
+                            {('companyUrl' in exp && (exp as any).companyUrl) ? (
+                              <a
+                                href={(exp as any).companyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline-offset-4 hover:underline"
+                              >
+                                {exp.company}
+                              </a>
+                            ) : (
+                              exp.company
+                            )}
+                          </p>
                           </div>
                         </div>
                         <div className="flex items-center text-gray-500 dark:text-gray-400 mb-3">

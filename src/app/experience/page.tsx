@@ -86,7 +86,18 @@ const ExperiencePage = () => {
                             {exp.position}
                           </CardTitle>
                           <p className="text-blue-100 dark:text-blue-200 text-lg font-medium">
-                            {exp.company}
+                            {('companyUrl' in exp && (exp as any).companyUrl) ? (
+                              <a
+                                href={(exp as any).companyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline-offset-4 hover:underline"
+                              >
+                                {exp.company}
+                              </a>
+                            ) : (
+                              exp.company
+                            )}
                           </p>
                         </div>
                       </div>
