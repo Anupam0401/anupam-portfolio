@@ -245,8 +245,8 @@ const BlogPage = () => {
                 Featured Posts
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featuredPosts.map((post, index) => (
-                  <BlogCard key={post.id} post={post} featured={index === 0} />
+                {featuredPosts.map((post) => (
+                  <BlogCard key={post.id} post={post} />
                 ))}
               </div>
             </motion.div>
