@@ -5,6 +5,11 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
+import rehypeHighlight from 'rehype-highlight'
+import MermaidDiagram from '@/components/ui/MermaidDiagram'
 import { 
   CalendarIcon, 
   ClockIcon, 
@@ -19,6 +24,7 @@ import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { blogPosts } from '@/data/blog'
+import 'highlight.js/styles/github-dark.css'
 
 const BlogPostPage = () => {
   const params = useParams()
@@ -278,10 +284,102 @@ const BlogPostPage = () => {
                     ))}
                   </div>
                 )}
-                <div 
-                  className="prose prose-lg max-w-none dark:prose-invert"
-                  dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
-                />
+                <div className="prose prose-lg max-w-none dark:prose-invert 
+                  prose-headings:font-bold prose-headings:tracking-tight
+                  prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-12
+                  prose-h2:text-3xl prose-h2:mb-5 prose-h2:mt-12 prose-h2:border-b prose-h2:border-gray-200 prose-h2:dark:border-gray-700 prose-h2:pb-3
+                  prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-8 prose-h3:text-gray-900 prose-h3:dark:text-gray-100
+                  prose-h4:text-lg prose-h4:mb-3 prose-h4:mt-6 prose-h4:text-gray-800 prose-h4:dark:text-gray-200 prose-h4:font-semibold
+                  prose-p:text-gray-700 prose-p:dark:text-gray-300 prose-p:leading-relaxed prose-p:mb-6
+                  prose-li:text-gray-700 prose-li:dark:text-gray-300 prose-li:my-2
+                  prose-ul:my-6 prose-ol:my-6
+                  prose-strong:text-gray-900 prose-strong:dark:text-gray-100 prose-strong:font-semibold
+                  prose-code:text-sm prose-code:font-mono
+                  prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:p-4 prose-pre:rounded-lg prose-pre:my-6 prose-pre:overflow-x-auto
+                  prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:my-6
+                  prose-table:my-6
+                  prose-img:rounded-lg prose-img:my-6
+                  prose-hr:my-8 prose-hr:border-gray-300 prose-hr:dark:border-gray-700
+                  ">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                    components={{
+                      h2: ({ node, ...props }) => {
+                        const text = props.children?.toString() || ''
+                        const id = slugify(text)
+                        return <h2 id={id} className="scroll-mt-20 group" {...props}>
+                          <span>{props.children}</span>
+                        </h2>
+                      },
+                      h3: ({ node, ...props }) => {
+                        const text = props.children?.toString() || ''
+                        const id = slugify(text)
+                        return <h3 id={id} className="scroll-mt-20 group" {...props}>
+                          <span>{props.children}</span>
+                        </h3>
+                      },
+                      h4: ({ node, ...props }) => {
+                        const text = props.children?.toString() || ''
+                        const id = slugify(text)
+                        return <h4 id={id} className="scroll-mt-20" {...props}>
+                          <span>{props.children}</span>
+                        </h4>
+                      },
+                      p: ({ node, ...props }) => {
+                        return <p className="text-base leading-7" {...props} />
+                      },
+                      ul: ({ node, ...props }) => {
+                        return <ul className="list-disc pl-6 space-y-2" {...props} />
+                      },
+                      ol: ({ node, ...props }) => {
+                        return <ol className="list-decimal pl-6 space-y-2" {...props} />
+                      },
+                      table: ({ node, ...props }) => {
+                        return (
+                          <div className="overflow-x-auto my-6">
+                            <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700" {...props} />
+                          </div>
+                        )
+                      },
+                      thead: ({ node, ...props }) => {
+                        return <thead className="bg-gray-50 dark:bg-gray-800" {...props} />
+                      },
+                      tbody: ({ node, ...props }) => {
+                        return <tbody className="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900" {...props} />
+                      },
+                      th: ({ node, ...props }) => {
+                        return <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider" {...props} />
+                      },
+                      td: ({ node, ...props }) => {
+                        return <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300" {...props} />
+                      },
+                      code: ({ node, className, children, ...props }) => {
+                        const match = /language-(\w+)/.exec(className || '')
+                        const language = match ? match[1] : ''
+                        const isInline = !className
+                        
+                        if (isInline) {
+                          return <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>{children}</code>
+                        }
+                        
+                        // Handle mermaid blocks with full rendering
+                        if (language === 'mermaid') {
+                          const chartCode = String(children).replace(/\n$/, '')
+                          return <MermaidDiagram chart={chartCode} />
+                        }
+                        
+                        return (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        )
+                      },
+                    }}
+                  >
+                    {post.content}
+                  </ReactMarkdown>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
