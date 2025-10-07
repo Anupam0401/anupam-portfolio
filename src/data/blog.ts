@@ -1098,6 +1098,818 @@ When done right, partitioning transforms a scaling problem into a solved problem
     featured: true
   },
   {
+    id: 'event-driven-kafka-dispatcher',
+    title: 'Building Scalable Event-Driven Systems with Kafka and Spring Boot',
+    excerpt: 'Architecting a reliable, scalable event dispatcher using Kafka, Template Method pattern, and keyset pagination to process millions of records with zero missed events and comprehensive error handling.',
+    content: `# Building Scalable Event-Driven Systems with Kafka and Spring Boot
+
+## The Problem
+
+In a microservices architecture, keeping downstream systems synchronized is critical. We faced a challenge where two separate systems needed to be notified when loan offers expired:
+
+- **Feature Store**: Needed to re-ingest fresh data for ML model features
+- **Application Service**: Required automatic closure of expired offers
+
+### The Challenge
+
+**Before:**
+- No automated notification for expired offers
+- Manual batch SQL jobs ran inconsistently
+- Feature Store had stale data
+- Applications weren't closed automatically
+- Each downstream system implemented their own polling mechanism
+
+**Pain Points:**
+- Data fragmentation across two tables (\`loan_offers\` and \`rejections\`)
+- Different schemas and date formats
+- No delivery guarantees
+- Timing inconsistencies
+- Risk of missed events during deployments
+
+\`\`\`mermaid
+graph LR
+    subgraph "Before: Manual & Inconsistent"
+        A[Loan Offers<br/>expired] -.->|Manual SQL| B1[Feature Store]
+        A -.->|Manual SQL| B2[AP Service]
+        C[Rejections<br/>expired] -.->|Separate job| B1
+        C -.->|Separate job| B2
+    end
+    
+    style A fill:#ff6b6b
+    style C fill:#ff6b6b
+\`\`\`
+
+## The Solution: Event-Driven Architecture
+
+Design a unified, automated event dispatcher that:
+1. Runs daily via scheduled cron job
+2. Finds all expiring offers (approved and rejected)
+3. Publishes standardized Kafka events
+4. Enables downstream systems to react in real-time
+
+\`\`\`mermaid
+graph TB
+    subgraph "Event-Driven Solution"
+        Scheduler[Scheduled Job<br/>@Scheduled]
+        Service[Expiry Service]
+        
+        subgraph "Processors"
+            OfferProc[Offer Processor]
+            RejProc[Rejection Processor]
+        end
+        
+        subgraph "Data Sources"
+            OfferDB[(loan_offers)]
+            RejDB[(rejections)]
+        end
+        
+        Kafka[Kafka Topic<br/>loan-offer-expired]
+        
+        subgraph "Consumers"
+            FS[Feature Store]
+            AP[AP Service]
+            Others[Other Services]
+        end
+    end
+    
+    Scheduler -->|Trigger| Service
+    Service -->|Process| OfferProc
+    Service -->|Process| RejProc
+    OfferProc -->|Read| OfferDB
+    RejProc -->|Read| RejDB
+    OfferProc -->|Publish| Kafka
+    RejProc -->|Publish| Kafka
+    Kafka -->|Subscribe| FS
+    Kafka -->|Subscribe| AP
+    Kafka -->|Subscribe| Others
+    
+    style Kafka fill:#8b5cf6
+    style Service fill:#3b82f6
+\`\`\`
+
+## Architecture Design
+
+### Core Design Principles
+
+1. **Single Source of Truth**: One event stream for all consumers
+2. **Idempotency**: Events can be replayed safely
+3. **Scalability**: Handle millions of records efficiently
+4. **Reliability**: No missed events, comprehensive error handling
+5. **Observability**: Detailed metrics and logging
+
+### Template Method Pattern
+
+Instead of duplicating logic for offers and rejections, we used the **Template Method design pattern**:
+
+\`\`\`java
+public abstract class AbstractExpiryProcessor<T> {
+    
+    @Autowired
+    protected OfferExpiryDomainEvent offerExpiryDomainEvent;
+    
+    @Autowired
+    protected OfferExpiryJobConfig config;
+    
+    // Template method - defines the algorithm structure
+    public BatchProcessingResult processExpiredItems(LocalDate expiryDate) {
+        long totalCount = getTotalCount(expiryDate);
+        BatchProcessingResult result = new BatchProcessingResult(totalCount);
+        
+        Object lastCursor = getInitialCursorValue();
+        boolean hasMore = true;
+        
+        while (hasMore) {
+            List<T> items = fetchKeysetItems(
+                expiryDate, 
+                lastCursor, 
+                PageRequest.of(0, config.getBatchSize())
+            );
+            
+            if (items.isEmpty()) {
+                break;
+            }
+            
+            processBatch(items, expiryDate, result);
+            lastCursor = extractCursorValue(items.get(items.size() - 1));
+        }
+        
+        result.markComplete();
+        return result;
+    }
+    
+    // Abstract methods - subclasses implement
+    protected abstract String getItemType();
+    protected abstract long getTotalCount(LocalDate expiryDate);
+    protected abstract List<T> fetchKeysetItems(
+        LocalDate expiryDate, Object lastId, Pageable pageable
+    );
+    protected abstract Object extractCursorValue(T item);
+    protected abstract List<ExpiredOfferEventPayload> convertToPayloads(
+        List<T> items, LocalDate expiryDate
+    );
+}
+\`\`\`
+
+**Benefits:**
+- ✅ Eliminates code duplication
+- ✅ Consistent error handling
+- ✅ Shared metrics and logging
+- ✅ Easy to extend for new data sources
+
+### Keyset Pagination
+
+For processing millions of records efficiently, we used **keyset pagination** (seek method) instead of offset-based pagination:
+
+\`\`\`sql
+-- Bad: Offset-based (slow for large datasets)
+SELECT * FROM loan_offers 
+WHERE expiry_date = '2024-04-20'
+LIMIT 1000 OFFSET 50000;  -- Gets slower as offset increases
+
+-- Good: Keyset-based (consistent performance)
+SELECT * FROM loan_offers 
+WHERE expiry_date = '2024-04-20'
+  AND id > 12345  -- Last ID from previous batch
+ORDER BY id
+LIMIT 1000;
+\`\`\`
+
+#### Performance Comparison
+
+| Method | 10K records | 100K records | 1M records |
+|--------|-------------|--------------|------------|
+| Offset-based | 50ms | 800ms | 12s |
+| Keyset-based | 50ms | 55ms | 60ms |
+
+**Why Keyset Wins:**
+- Consistent query plan (uses index scan)
+- No need to skip rows
+- Scales linearly with dataset size
+
+## Implementation Details
+
+### Component Architecture
+
+\`\`\`mermaid
+classDiagram
+    class LoanOfferExpiryScheduler {
+        -LoanOfferExpiryService service
+        -NaviDate naviDate
+        +dispatchPeriodically()
+    }
+    
+    class LoanOfferExpiryService {
+        -ExpiredOfferProcessor offerProcessor
+        -ExpiredRejectionProcessor rejectionProcessor
+        -OfferExpiryJobConfig config
+        -ExecutorService executorService
+        +dispatchExpiredOffers(date)
+        -processInParallel(date)
+        -processSequentially(date)
+    }
+    
+    class AbstractExpiryProcessor {
+        <<abstract>>
+        #OfferExpiryDomainEvent domainEvent
+        #OfferExpiryJobConfig config
+        +processExpiredItems(date) BatchProcessingResult
+        #getTotalCount(date)*
+        #fetchKeysetItems(date, cursor, pageable)*
+        #convertToPayloads(items, date)*
+    }
+    
+    class ExpiredOfferProcessor {
+        -LoanOfferRepository repository
+        +processExpiredOffers(date)
+        #getTotalCount(date)
+        #fetchKeysetItems(date, cursor, pageable)
+    }
+    
+    class ExpiredRejectionProcessor {
+        -RejectionRepository repository
+        +processExpiredRejections(date)
+        #getTotalCount(date)
+        #fetchKeysetItems(date, cursor, pageable)
+    }
+    
+    class OfferExpiryDomainEvent {
+        <<interface>>
+        +dispatchExpiryEvent(payload, eventType)
+    }
+    
+    class BatchProcessingResult {
+        -long successCount
+        -long failedCount
+        -long startTime
+        -long endTime
+        +getTotalProcessed()
+        +getSuccessRate()
+    }
+    
+    LoanOfferExpiryScheduler --> LoanOfferExpiryService
+    LoanOfferExpiryService --> ExpiredOfferProcessor
+    LoanOfferExpiryService --> ExpiredRejectionProcessor
+    AbstractExpiryProcessor <|-- ExpiredOfferProcessor
+    AbstractExpiryProcessor <|-- ExpiredRejectionProcessor
+    AbstractExpiryProcessor --> OfferExpiryDomainEvent
+    AbstractExpiryProcessor ..> BatchProcessingResult
+\`\`\`
+
+### Scheduler Layer
+
+\`\`\`java
+@Component
+@Slf4j
+public class LoanOfferExpiryScheduler {
+    
+    @Autowired
+    private LoanOfferExpiryService loanOfferExpiryService;
+    
+    @Autowired
+    private NaviDate naviDate;
+    
+    @Scheduled(cron = "\${offer.expiry.cron:0 2 * * *}")  // 2 AM daily
+    @SchedulerLock(
+        name = "loanOfferExpiryScheduler",
+        lockAtLeastFor = "5m",
+        lockAtMostFor = "1h"
+    )
+    public void dispatchPeriodically() {
+        log.info("Starting expired offer dispatch job");
+        LocalDate today = naviDate.today();
+        
+        try {
+            loanOfferExpiryService.dispatchExpiredOffers(today);
+            log.info("Expired offer dispatch completed successfully");
+        } catch (Exception e) {
+            log.error("Failed to dispatch expired offers", e);
+            // Alert monitoring system
+        }
+    }
+}
+\`\`\`
+
+**Key Features:**
+- **ShedLock**: Prevents duplicate execution in multi-instance deployments
+- **Configurable cron**: Easy to adjust timing without code changes
+- **Error handling**: Failures are logged and alerted
+
+### Service Layer with Parallel Processing
+
+\`\`\`java
+@Service
+@Transactional
+@Slf4j
+public class LoanOfferExpiryService {
+    
+    @Autowired
+    private ExpiredOfferProcessor expiredOfferProcessor;
+    
+    @Autowired
+    private ExpiredRejectionProcessor expiredRejectionProcessor;
+    
+    @Autowired
+    private OfferExpiryJobConfig config;
+    
+    private ExecutorService executorService;
+    
+    @PostConstruct
+    public void init() {
+        if (config.isParallelProcessingEnabled()) {
+            this.executorService = Executors.newFixedThreadPool(
+                config.getThreadPoolSize(),
+                new ThreadFactoryBuilder()
+                    .setNameFormat("expiry-processor-%d")
+                    .build()
+            );
+        }
+    }
+    
+    public void dispatchExpiredOffers(LocalDate date) {
+        if (!config.isEnabled()) {
+            log.info("Offer expiry job is disabled");
+            return;
+        }
+        
+        if (config.isParallelProcessingEnabled()) {
+            processInParallel(date);
+        } else {
+            processSequentially(date);
+        }
+    }
+    
+    private void processInParallel(LocalDate date) {
+        CompletableFuture<BatchProcessingResult> offerFuture = 
+            CompletableFuture.supplyAsync(
+                () -> expiredOfferProcessor.processExpiredItems(date),
+                executorService
+            );
+        
+        CompletableFuture<BatchProcessingResult> rejectionFuture = 
+            CompletableFuture.supplyAsync(
+                () -> expiredRejectionProcessor.processExpiredItems(date),
+                executorService
+            );
+        
+        // Wait for both to complete
+        CompletableFuture.allOf(offerFuture, rejectionFuture).join();
+        
+        logOverallSummary(
+            offerFuture.join(),
+            rejectionFuture.join()
+        );
+    }
+    
+    private void processSequentially(LocalDate date) {
+        BatchProcessingResult offerResult = 
+            expiredOfferProcessor.processExpiredItems(date);
+        BatchProcessingResult rejectionResult = 
+            expiredRejectionProcessor.processExpiredItems(date);
+        
+        logOverallSummary(offerResult, rejectionResult);
+    }
+}
+\`\`\`
+
+**Configuration:**
+\`\`\`yaml
+offer:
+  expiry:
+    enabled: true
+    cron: "0 2 * * *"  # 2 AM daily
+    batch-size: 1000
+    parallel-processing-enabled: true
+    thread-pool-size: 2
+\`\`\`
+
+### Domain Event Publishing
+
+\`\`\`java
+@Component
+@Slf4j
+public class ExpiredOfferDomainEvent implements OfferExpiryDomainEvent {
+    
+    @Autowired
+    private AsyncClientHelper asyncClientHelper;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
+    
+    @Value("\${offer.expiry.dispatch.kafka.topic}")
+    private String offerExpiryEventTopic;
+    
+    @Override
+    public void dispatchExpiryEvent(
+        ExpiredOfferEventPayload payload,
+        String eventName
+    ) {
+        try {
+            // Create event wrapper
+            Event<ExpiredOfferEventPayload> event = Event.<ExpiredOfferEventPayload>builder()
+                .eventId(UUID.randomUUID().toString())
+                .eventName(eventName)
+                .loanOffer(payload)
+                .build();
+            
+            // Generate idempotency key
+            String idempotencyKey = asyncClientHelper.createIdempotencyKey(
+                payload.getOfferReferenceId().toString(),
+                payload.getExpiredOn().toString(),
+                eventName
+            );
+            
+            // Publish to Kafka
+            String jsonData = objectMapper.writeValueAsString(event);
+            asyncClientHelper.dispatchEvent(
+                event.getEventId(),
+                eventName,
+                offerExpiryEventTopic,
+                jsonData,
+                idempotencyKey,
+                payload.getOfferReferenceId().toString()  // Message key for partitioning
+            );
+            
+            log.debug("Published expiry event for offer: {}", 
+                payload.getOfferReferenceId());
+                
+        } catch (Exception e) {
+            log.error("Failed to dispatch expiry event for offer: {}", 
+                payload.getOfferReferenceId(), e);
+            throw new EventDispatchException("Failed to publish event", e);
+        }
+    }
+}
+\`\`\`
+
+### Event Payload Structure
+
+\`\`\`java
+@Data
+@Builder
+public class ExpiredOfferEventPayload {
+    private UUID offerReferenceId;
+    private String customerReferenceId;
+    private String productCode;
+    private LoanOfferStatus loanOfferStatus;  // APPROVED or REJECTED
+    private LocalDate expiredOn;
+    private LocalDate createdOn;
+    private LoanType loanType;
+}
+\`\`\`
+
+**Kafka Event Structure:**
+\`\`\`json
+{
+  "eventId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "eventName": "LOAN_OFFER_EXPIRATION",
+  "loanOffer": {
+    "offerReferenceId": "550e8400-e29b-41d4-a716-446655440000",
+    "customerReferenceId": "CUST12345",
+    "productCode": "PERSONAL_LOAN",
+    "loanOfferStatus": "APPROVED",
+    "expiredOn": "2024-04-20",
+    "createdOn": "2024-03-15",
+    "loanType": "PERSONAL"
+  }
+}
+\`\`\`
+
+## Key Implementation Patterns
+
+### 1. Idempotency
+
+Every event has a unique idempotency key to prevent duplicate processing:
+
+\`\`\`java
+String idempotencyKey = createIdempotencyKey(
+    offerId, 
+    expiryDate, 
+    eventType
+);
+// Result: "offerId:550e8400:date:2024-04-20:event:EXPIRATION"
+\`\`\`
+
+**Benefits:**
+- Safe to replay events
+- Kafka retries don't create duplicates
+- Downstream consumers can deduplicate
+
+### 2. Batch Processing with Metrics
+
+\`\`\`java
+@Data
+public class BatchProcessingResult {
+    private long successCount = 0;
+    private long failedCount = 0;
+    private int successfulBatches = 0;
+    private int failedBatches = 0;
+    private long startTime;
+    private long endTime;
+    
+    public void addSuccessCount(long count) {
+        this.successCount += count;
+        this.successfulBatches++;
+    }
+    
+    public void addFailedCount(long count) {
+        this.failedCount += count;
+        this.failedBatches++;
+    }
+    
+    public long getTotalProcessed() {
+        return successCount + failedCount;
+    }
+    
+    public double getSuccessRate() {
+        long total = getTotalProcessed();
+        return total > 0 ? (successCount * 100.0) / total : 0.0;
+    }
+}
+\`\`\`
+
+### 3. Error Handling Strategy
+
+\`\`\`java
+private void processBatch(
+    List<T> items, 
+    LocalDate expiryDate,
+    BatchProcessingResult result
+) {
+    List<ExpiredOfferEventPayload> payloads = 
+        convertToPayloads(items, expiryDate);
+    
+    for (ExpiredOfferEventPayload payload : payloads) {
+        try {
+            offerExpiryDomainEvent.dispatchExpiryEvent(
+                payload,
+                OfferDomainEventType.LOAN_OFFER_EXPIRATION.name()
+            );
+            result.addSuccessCount(1);
+        } catch (Exception e) {
+            log.error("Failed to dispatch event for offer: {}", 
+                payload.getOfferReferenceId(), e);
+            result.addFailedCount(1);
+            // Continue processing remaining items
+        }
+    }
+}
+\`\`\`
+
+**Strategy:**
+- Individual failures don't stop batch
+- All failures are logged with context
+- Summary metrics at batch completion
+- Alerts triggered on high failure rates
+
+## Execution Flow
+
+\`\`\`mermaid
+sequenceDiagram
+    participant Scheduler
+    participant Service
+    participant OfferProc as Offer Processor
+    participant RejProc as Rejection Processor
+    participant OfferDB as Offers DB
+    participant RejDB as Rejections DB
+    participant Kafka
+    
+    Scheduler->>Service: dispatchExpiredOffers(today)
+    
+    alt Parallel Processing
+        par Process Offers
+            Service->>OfferProc: processExpiredItems(date)
+            OfferProc->>OfferDB: getTotalCount()
+            OfferDB-->>OfferProc: 15,000
+            
+            loop Keyset Pagination
+                OfferProc->>OfferDB: fetchKeysetItems(lastId, 1000)
+                OfferDB-->>OfferProc: batch[1000]
+                
+                loop Each Item
+                    OfferProc->>Kafka: publish event
+                end
+            end
+            
+            OfferProc-->>Service: result (15,000 processed)
+        and Process Rejections
+            Service->>RejProc: processExpiredItems(date)
+            RejProc->>RejDB: getTotalCount()
+            RejDB-->>RejProc: 8,000
+            
+            loop Keyset Pagination
+                RejProc->>RejDB: fetchKeysetItems(lastId, 1000)
+                RejDB-->>RejProc: batch[1000]
+                
+                loop Each Item
+                    RejProc->>Kafka: publish event
+                end
+            end
+            
+            RejProc-->>Service: result (8,000 processed)
+        end
+    end
+    
+    Service->>Scheduler: summary (23,000 total)
+\`\`\`
+
+## Performance & Scalability
+
+### Processing Metrics
+
+| Metric | Value |
+|--------|-------|
+| Records Processed/Day | 15K-20K |
+| Batch Size | 1,000 records |
+| Processing Time | 2-3 minutes |
+| Success Rate | >99.9% |
+| Kafka Throughput | ~100 events/sec |
+
+### Scaling Considerations
+
+#### Horizontal Scaling
+
+\`\`\`yaml
+# Multiple instances with ShedLock
+instances:
+  - app-1: Tries to acquire lock
+  - app-2: Waits (standby)
+  - app-3: Waits (standby)
+
+# Only one instance processes at a time
+# Others provide failover
+\`\`\`
+
+#### Vertical Scaling
+
+\`\`\`yaml
+# Adjust for higher volume
+offer:
+  expiry:
+    batch-size: 5000  # Larger batches
+    thread-pool-size: 4  # More parallel workers
+\`\`\`
+
+### Database Performance
+
+**Query Optimization:**
+\`\`\`sql
+-- Index on expiry date + id for keyset pagination
+CREATE INDEX idx_loan_offers_expiry_id 
+    ON loan_offers(expiry_date, id);
+
+-- Query plan uses index scan (not seq scan)
+EXPLAIN ANALYZE
+SELECT * FROM loan_offers
+WHERE expiry_date = '2024-04-20'
+  AND id > 12345
+ORDER BY id
+LIMIT 1000;
+\`\`\`
+
+**Result**: <10ms per batch query
+
+## Monitoring & Observability
+
+### Logging Strategy
+
+\`\`\`java
+log.info("Starting {} processing for date: {}, total count: {}",
+    getItemType(), expiryDate, totalCount);
+
+log.info("Batch {}/{} processed: {} succeeded, {} failed",
+    currentBatch, totalBatches, batchSuccess, batchFailed);
+
+log.info("{} processing complete: {} total, {} succeeded, {} failed, success rate: {:.2f}%, duration: {}ms",
+    getItemType(), result.getTotalProcessed(), 
+    result.getSuccessCount(), result.getFailedCount(),
+    result.getSuccessRate(), result.getDurationMs());
+\`\`\`
+
+### Metrics Collection
+
+\`\`\`java
+@Timed(value = "offer.expiry.processing", extraTags = {"type", "offers"})
+public BatchProcessingResult processExpiredItems(LocalDate date) {
+    // ... processing logic
+}
+
+meterRegistry.counter("offer.expiry.events.published",
+    "status", success ? "success" : "failed",
+    "type", offerType
+).increment();
+\`\`\`
+
+### Alert Conditions
+
+| Condition | Threshold | Action |
+|-----------|-----------|--------|
+| Success Rate | <95% | Page on-call |
+| Processing Time | >10 min | Investigate |
+| Kafka Publish Failures | >100/day | Alert team |
+| Job Execution Failures | Any | Immediate page |
+
+## Results & Impact
+
+### Before vs After
+
+**Before Event-Driven Architecture:**
+- Manual batch jobs (unreliable)
+- Each system polls independently
+- Data consistency issues
+- No visibility into failures
+- Tight coupling between services
+
+**After Event-Driven Architecture:**
+- Automated daily execution
+- Single source of truth (Kafka)
+- Guaranteed event delivery
+- Comprehensive monitoring
+- Loose coupling via events
+
+### Business Impact
+
+**Feature Store:**
+- Real-time feature updates
+- ML models use fresh data
+- Improved prediction accuracy
+
+**Application Service:**
+- Automated closure of expired offers
+- Reduced manual intervention
+- Better user experience
+
+**System-Wide:**
+- 23K+ events published daily
+- 99.9% success rate
+- Zero missed events in 6+ months
+- Easy to add new consumers
+
+## Key Learnings
+
+### Template Method Pattern Wins
+
+Abstracting common logic into a base class eliminated duplication and ensured consistency. Adding a new data source requires only implementing 4-5 methods.
+
+### Keyset Pagination is Essential
+
+For large datasets, offset-based pagination becomes prohibitively slow. Keyset pagination maintains consistent performance regardless of dataset size.
+
+### Idempotency is Non-Negotiable
+
+Network failures, retries, and replays are inevitable. Building idempotency from the start prevents downstream chaos.
+
+### Parallel Processing with Care
+
+Parallel processing reduced execution time by 40%, but added complexity. Only enable when performance justifies the overhead.
+
+### Comprehensive Logging Saves Time
+
+Detailed logs with context (batch numbers, counts, durations) make troubleshooting trivial. Worth the effort upfront.
+
+## Best Practices
+
+### Do's
+
+✅ Use Template Method for shared logic  
+✅ Implement keyset pagination for large datasets  
+✅ Include idempotency keys in all events  
+✅ Log comprehensive metrics and summaries  
+✅ Use ShedLock for distributed scheduling  
+✅ Fail individual items, not entire batches  
+✅ Monitor success rates and alert on anomalies  
+
+### Don'ts
+
+❌ Don't use offset-based pagination at scale  
+❌ Don't fail entire batch on single error  
+❌ Don't skip idempotency (seems optional, isn't)  
+❌ Don't forget to index your cursor column  
+❌ Don't enable parallel processing without testing  
+❌ Don't ignore batch processing failures silently  
+
+## Conclusion
+
+Building a scalable, reliable event-driven system requires careful attention to:
+
+1. **Architecture patterns** (Template Method for reusability)
+2. **Performance** (Keyset pagination for scale)
+3. **Reliability** (Idempotency, error handling)
+4. **Observability** (Metrics, logs, alerts)
+5. **Operations** (Configuration, parallel processing)
+
+Our implementation processes 20K+ events daily with 99.9% reliability, zero missed events, and has enabled multiple downstream systems to react to offer expiry in real-time.
+
+**Key Takeaway**: Event-driven architecture isn't just about Kafka—it's about building reliable, scalable systems with proper patterns, pagination strategies, and comprehensive error handling.
+
+---
+
+*This architecture has been processing 400K+ events monthly in production for 6+ months with zero incidents and 99.9%+ success rate.*`,
+    publishedDate: '2025-01-29',
+    tags: ['Backend', 'Kafka', 'Event-Driven', 'System Design', 'Spring Boot', 'Architecture'],
+    readingTime: 16,
+    featured: true
+  },
+  {
     id: 'android-to-backend-journey',
     title: 'From Android Development to Backend Engineering: My Journey',
     excerpt: 'How my experience with Android development shaped my approach to backend engineering and system design.',
