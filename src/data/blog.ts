@@ -487,6 +487,617 @@ Shadow testing transformed our approach to performance optimization. By eliminat
     featured: true
   },
   {
+    id: 'postgresql-partitioning-at-scale',
+    title: 'Managing 130M+ Records: PostgreSQL Partitioning at Scale',
+    excerpt: 'How we managed a 181GB PostgreSQL table with 130M+ records using time-range partitioning, achieving automated cleanup and 85% storage reduction while maintaining query performance.',
+    content: `# Managing 130M+ Records: PostgreSQL Partitioning at Scale
+
+## The Problem
+
+Our production database was facing critical challenges:
+
+- **Table Size**: 181GB with 130M+ records
+- **Monthly Growth**: 9.3GB (13.5M records) per month
+- **Dead Tuples**: 73M dead tuples consuming space
+- **Free Space**: Only 8GB remaining out of 200GB allocated
+- **Autovacuum**: Enabled but ineffective at managing bloat
+- **User Impact**: Degrading query performance and approaching storage limits
+
+### Why This Matters
+
+Database bloat isn't just about storage costs—it directly impacts:
+- Query performance (scanning bloated pages)
+- Backup and restore times
+- I/O throughput and latency
+- Write availability (risk of disk full errors)
+
+\`\`\`mermaid
+graph LR
+    A[Table: 181GB] --> B[Live Data: 95M rows]
+    A --> C[Dead Tuples: 73M]
+    A --> D[Indexes: Bloated]
+    
+    B --> E[Used: 108GB]
+    C --> F[Wasted: 73GB]
+    
+    style F fill:#ff6b6b
+    style E fill:#90EE90
+\`\`\`
+
+## Understanding the Root Cause
+
+### The Bloat Accumulation
+
+PostgreSQL's MVCC (Multi-Version Concurrency Control) creates new row versions on updates/deletes. Over time:
+
+1. **High Churn Rate**: Frequent updates/deletes create dead tuples
+2. **Autovacuum Lag**: Can't keep up with the volume of changes
+3. **Space Not Reclaimed**: VACUUM marks space as reusable but doesn't return it to OS
+4. **Growing Pain**: Table continues to grow despite stable active data
+
+### Why Autovacuum Wasn't Helping
+
+\`\`\`text
+Autovacuum Threshold Formula:
+threshold = vacuum_threshold + (vacuum_scale_factor × total_rows)
+         = 50 + (0.1 × 130M)
+         = ~13M dead tuples before trigger
+
+With 73M dead tuples, autovacuum SHOULD have run.
+Problem: Large table size + conservative cost limits = slow progress
+\`\`\`
+
+#### Autovacuum Configuration Analysis
+
+| Parameter | Value | Impact |
+|-----------|-------|--------|
+| Max Workers | 3 | Limited to 3 concurrent operations across DB |
+| Cost Limit | 200 | Too conservative for large tables |
+| Scale Factor | 0.1 | Reasonable, but high threshold for huge tables |
+| Vacuum Threshold | 50 | Base threshold too low for scale |
+
+## The Solution: Time-Range Partitioning
+
+### Why Partitioning?
+
+Instead of one massive 181GB table, split into manageable time-based chunks:
+
+\`\`\`text
+Before Partitioning:
+[==================== 181GB Single Table ====================]
+                    (all data in one table)
+
+After Partitioning:
+[Jan] [Feb] [Mar] [Apr] [May] ... [Nov] [Dec]
+ 7GB   8GB   7GB   8GB   9GB       8GB   7GB
+\`\`\`
+
+**Benefits:**
+- **Faster Queries**: Query planner scans only relevant partitions
+- **Easy Cleanup**: DROP old partitions instantly (vs slow DELETE)
+- **Efficient Vacuuming**: Smaller tables = faster autovacuum
+- **Predictable Growth**: Each month is a new partition
+
+### Choosing pg_partman
+
+We evaluated native partitioning vs pg_partman:
+
+| Feature | Native Partitioning | pg_partman |
+|---------|---------------------|------------|
+| Partition Creation | Manual | **Automated** |
+| Retention Policy | Manual DROP | **Automated cleanup** |
+| Partition Maintenance | Custom scripts | **Built-in** |
+| Performance | Same | Same |
+| Monitoring | Manual | **Rich metadata** |
+
+**Decision**: pg_partman for automation and operational ease.
+
+## Implementation Architecture
+
+\`\`\`mermaid
+graph TB
+    subgraph "Application Layer"
+        App[Application]
+    end
+    
+    subgraph "Database Layer"
+        Parent[Parent Table<br/>request_detail_partitioned]
+        
+        subgraph "Partitions by Month"
+            P1[Jan 2024<br/>~8GB]
+            P2[Feb 2024<br/>~8GB]
+            P3[Mar 2024<br/>~9GB]
+            P4[Apr 2024<br/>~9GB]
+            Pn[... Future]
+        end
+        
+        PgPartman[pg_partman<br/>Extension]
+    end
+    
+    subgraph "Automation"
+        Cron[Cron Job<br/>run_maintenance]
+        Retention[Retention Policy<br/>Keep 2 months]
+    end
+    
+    App -->|INSERT/SELECT| Parent
+    Parent --> P1
+    Parent --> P2
+    Parent --> P3
+    Parent --> P4
+    Parent --> Pn
+    
+    PgPartman -->|Creates| Pn
+    Cron -->|Triggers| PgPartman
+    Retention -->|Drops Old| P1
+    
+    style Parent fill:#3b82f6
+    style PgPartman fill:#8b5cf6
+    style Retention fill:#ef4444
+\`\`\`
+
+### Design Decisions
+
+#### 1. Partition Strategy: Time-Range
+
+\`\`\`sql
+-- Monthly partitions based on creation timestamp
+CREATE TABLE request_detail_partitioned (
+    id BIGSERIAL,
+    created_at TIMESTAMP NOT NULL,
+    -- other columns
+) PARTITION BY RANGE (created_at);
+\`\`\`
+
+**Why monthly?**
+- Aligns with data retention policy (2 months)
+- Manageable partition size (~8-10GB each)
+- Easy to reason about and troubleshoot
+- Natural boundary for business queries
+
+#### 2. Partition Key: created_at
+
+**Considerations:**
+- Most queries filter by time range
+- Immutable (never updated)
+- Natural distribution
+- Aligns with retention policy
+
+#### 3. Retention Policy: 2 Months
+
+\`\`\`sql
+-- pg_partman configuration
+SELECT partman.create_parent(
+    p_parent_table := 'public.request_detail_partitioned',
+    p_control := 'created_at',
+    p_type := 'native',
+    p_interval := '1 month',
+    p_retention := '2 months',
+    p_retention_keep_table := false
+);
+\`\`\`
+
+**Why 2 months?**
+- Meets business requirements for recent data access
+- Balances storage costs with data availability
+- Provides buffer for reporting and analysis
+
+## Step-by-Step Implementation
+
+### Phase 1: Setup Partitioned Table
+
+\`\`\`sql
+-- Install pg_partman extension
+CREATE EXTENSION IF NOT EXISTS pg_partman;
+
+-- Create parent partitioned table
+CREATE TABLE request_detail_partitioned (
+    id BIGSERIAL NOT NULL,
+    request_id VARCHAR(255),
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    status VARCHAR(50),
+    data JSONB,
+    -- additional columns
+) PARTITION BY RANGE (created_at);
+
+-- Create primary key and indexes
+CREATE INDEX idx_req_detail_part_created 
+    ON request_detail_partitioned(created_at);
+CREATE INDEX idx_req_detail_part_request_id 
+    ON request_detail_partitioned(request_id);
+\`\`\`
+
+### Phase 2: Configure pg_partman
+
+\`\`\`sql
+-- Initialize partitioning for the table
+SELECT partman.create_parent(
+    p_parent_table := 'public.request_detail_partitioned',
+    p_control := 'created_at',
+    p_type := 'native',
+    p_interval := '1 month',
+    p_premake := 2,  -- Pre-create 2 future partitions
+    p_start_partition := '2024-04-01'
+);
+
+-- Configure retention
+UPDATE partman.part_config 
+SET retention = '2 months',
+    retention_keep_table = false,
+    retention_keep_index = false
+WHERE parent_table = 'public.request_detail_partitioned';
+\`\`\`
+
+### Phase 3: Automated Maintenance
+
+\`\`\`sql
+-- Create maintenance function
+CREATE OR REPLACE FUNCTION run_partition_maintenance()
+RETURNS void AS $$
+BEGIN
+    -- Run pg_partman maintenance
+    PERFORM partman.run_maintenance_proc();
+    
+    -- Log maintenance run
+    INSERT INTO partition_maintenance_log (run_at, status)
+    VALUES (NOW(), 'SUCCESS');
+EXCEPTION
+    WHEN OTHERS THEN
+        INSERT INTO partition_maintenance_log (run_at, status, error)
+        VALUES (NOW(), 'FAILED', SQLERRM);
+        RAISE;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Schedule via cron (pg_cron extension)
+SELECT cron.schedule(
+    'partition-maintenance',
+    '0 3 * * *',  -- Run at 3 AM daily
+    $$ SELECT run_partition_maintenance(); $$
+);
+\`\`\`
+
+### Phase 4: Dual-Write Period
+
+To ensure zero downtime, implement dual-write pattern:
+
+\`\`\`java
+@Transactional
+public void saveRequestDetail(RequestDetail detail) {
+    // Write to old table (existing code)
+    requestDetailRepository.save(detail);
+    
+    // Also write to new partitioned table
+    if (featureFlags.isPartitionedTableEnabled()) {
+        requestDetailPartitionedRepository.save(detail);
+    }
+}
+\`\`\`
+
+**Dual-Write Timeline:**
+- **Week 1-2**: Deploy dual-write, verify data consistency
+- **Week 3**: Monitor partition creation and maintenance
+- **Week 4**: Validate query performance on partitioned table
+- **Week 5**: Switch reads to partitioned table
+- **Week 6**: Deprecate old table writes
+
+## Query Performance Optimization
+
+### Partition Pruning
+
+PostgreSQL automatically prunes irrelevant partitions:
+
+\`\`\`sql
+-- Query with time filter (only scans relevant partition)
+EXPLAIN ANALYZE
+SELECT * FROM request_detail_partitioned
+WHERE created_at >= '2024-04-01'
+  AND created_at < '2024-05-01'
+  AND status = 'COMPLETED';
+
+-- Result: Only April partition scanned
+-- Partitions pruned: 11 out of 12
+\`\`\`
+
+#### Performance Comparison
+
+| Query Type | Before (Single Table) | After (Partitioned) | Improvement |
+|------------|----------------------|---------------------|-------------|
+| Recent data (1 month) | 2.3s | 0.3s | **87% faster** |
+| Time-range scan | 5.1s | 0.8s | **84% faster** |
+| Full table scan | 12.5s | 11.8s | 6% faster |
+| INSERT | 15ms | 12ms | 20% faster |
+
+### Index Strategy
+
+\`\`\`sql
+-- Indexes are automatically created on each partition
+-- Parent table indexes template child partitions
+
+-- Global index (on parent)
+CREATE INDEX idx_global_status 
+    ON request_detail_partitioned(status);
+
+-- Partition-local indexes (automatically inherited)
+-- request_detail_partitioned_p2024_04: idx_global_status
+-- request_detail_partitioned_p2024_05: idx_global_status
+\`\`\`
+
+### Query Patterns Optimized
+
+#### Pattern 1: Recent Data Access
+
+\`\`\`sql
+-- Most common: Get last 7 days
+SELECT * FROM request_detail_partitioned
+WHERE created_at >= CURRENT_DATE - INTERVAL '7 days'
+  AND request_id = 'REQ123';
+
+-- Partitions scanned: 1 (current month)
+-- Execution time: ~50ms (vs 800ms before)
+\`\`\`
+
+#### Pattern 2: Monthly Reports
+
+\`\`\`sql
+-- Monthly aggregation
+SELECT DATE_TRUNC('day', created_at) as day,
+       COUNT(*) as total_requests,
+       AVG(processing_time_ms) as avg_time
+FROM request_detail_partitioned
+WHERE created_at >= '2024-04-01'
+  AND created_at < '2024-05-01'
+GROUP BY day
+ORDER BY day;
+
+-- Single partition scan: ~200ms
+\`\`\`
+
+#### Pattern 3: Cross-Partition Queries
+
+\`\`\`sql
+-- Without time filter: scans all partitions
+SELECT COUNT(*) FROM request_detail_partitioned
+WHERE status = 'FAILED';
+
+-- Performance: Similar to original table
+-- Optimization: Add time filter when possible
+\`\`\`
+
+## Monitoring & Observability
+
+### Partition Health Check
+
+\`\`\`sql
+-- View all partitions and their sizes
+SELECT 
+    schemaname,
+    tablename,
+    pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size,
+    (SELECT COUNT(*) FROM pg_class c WHERE c.oid = (schemaname||'.'||tablename)::regclass::oid) as row_estimate
+FROM pg_tables
+WHERE tablename LIKE 'request_detail_partitioned_p%'
+ORDER BY tablename DESC;
+\`\`\`
+
+#### Sample Output
+
+\`\`\`text
+tablename                            | size   | rows
+-------------------------------------|--------|------------
+request_detail_partitioned_p2024_12  | 9.2 GB | 14.2M
+request_detail_partitioned_p2024_11  | 8.7 GB | 13.5M
+request_detail_partitioned_p2024_10  | 8.3 GB | 12.8M
+\`\`\`
+
+### Automated Alerts
+
+\`\`\`sql
+-- Check for missing future partitions
+SELECT * FROM partman.check_unique_constraint(
+    'public.request_detail_partitioned'
+);
+
+-- Alert if less than 1 future partition exists
+SELECT 
+    parent_table,
+    premake,
+    (SELECT COUNT(*) FROM pg_tables 
+     WHERE tablename LIKE parent_table || '_p%' 
+     AND tablename > parent_table || '_p' || TO_CHAR(NOW(), 'YYYY_MM'))
+    as future_partitions
+FROM partman.part_config
+WHERE parent_table = 'public.request_detail_partitioned'
+HAVING future_partitions < 1;
+\`\`\`
+
+### Maintenance Logs
+
+\`\`\`sql
+CREATE TABLE partition_maintenance_log (
+    id SERIAL PRIMARY KEY,
+    run_at TIMESTAMP DEFAULT NOW(),
+    partitions_created INT,
+    partitions_dropped INT,
+    status VARCHAR(20),
+    duration_ms INT,
+    error TEXT
+);
+
+-- Query recent maintenance runs
+SELECT 
+    run_at,
+    partitions_created,
+    partitions_dropped,
+    duration_ms,
+    status
+FROM partition_maintenance_log
+ORDER BY run_at DESC
+LIMIT 10;
+\`\`\`
+
+## Results & Impact
+
+### Storage Optimization
+
+\`\`\`mermaid
+graph LR
+    subgraph "Before"
+        B1[181GB<br/>Single Table]
+    end
+    
+    subgraph "After 2 Months"
+        A1[18GB<br/>Current Month]
+        A2[17GB<br/>Previous Month]
+        A3[Dropped<br/>146GB freed]
+    end
+    
+    B1 -.->|Migration| A1
+    B1 -.->|Migration| A2
+    B1 -.->|Cleanup| A3
+    
+    style B1 fill:#ff6b6b
+    style A1 fill:#90EE90
+    style A2 fill:#90EE90
+    style A3 fill:#ffd93d
+\`\`\`
+
+#### Metrics
+
+**Storage Impact:**
+- **Before**: 181GB total, 8GB free (96% used)
+- **After**: 35GB active, 165GB free (17% used)
+- **Reduction**: 85% storage freed
+- **Cost Savings**: ~$300/year (AWS RDS gp3 pricing)
+
+**Performance Impact:**
+- **Query Latency**: 85% reduction for time-filtered queries
+- **Autovacuum**: Now effective on smaller partitions
+- **INSERT Performance**: 20% improvement
+- **Maintenance Window**: Reduced from hours to minutes
+
+**Operational Impact:**
+- **Automated Cleanup**: No manual intervention needed
+- **Predictable Growth**: 9GB/month, old data auto-dropped
+- **Monitoring**: Clear visibility into partition health
+- **Disaster Recovery**: Faster backup/restore (smaller dataset)
+
+## Key Learnings
+
+### Start with Clear Retention Requirements
+
+Don't partition for the sake of partitioning. We had a clear business rule: "Keep 2 months of data." This drove our design.
+
+### Partition Size Matters
+
+Too small: Overhead from many partitions  
+Too large: Defeats the purpose  
+**Sweet spot**: 5-15GB per partition for our workload
+
+### Dual-Write for Safety
+
+Never directly migrate production data. Dual-write period gave us:
+- Confidence in data consistency
+- Easy rollback path
+- Validation period
+
+### Monitor Autovacuum on Partitions
+
+\`\`\`sql
+-- Check autovacuum activity per partition
+SELECT 
+    relname,
+    last_autovacuum,
+    n_dead_tup,
+    n_live_tup,
+    ROUND(100.0 * n_dead_tup / NULLIF(n_live_tup + n_dead_tup, 0), 2) as dead_ratio
+FROM pg_stat_user_tables
+WHERE relname LIKE 'request_detail_partitioned_p%'
+ORDER BY dead_ratio DESC;
+\`\`\`
+
+Smaller partitions mean autovacuum runs more frequently and completes faster.
+
+### Plan for Query Patterns
+
+Our queries mostly filtered by time → Perfect for time-range partitioning  
+If your queries don't filter by partition key → Reconsider partitioning strategy
+
+## When to Use Partitioning
+
+### ✅ Good Fit
+
+- **Time-series data** with natural retention periods
+- **Large tables** (>50GB) with query patterns filtering on partition key
+- **Write-heavy** workloads with frequent deletes
+- **Compliance requirements** for data retention/deletion
+- **Predictable growth** patterns
+
+### ❌ Not Ideal
+
+- **Small tables** (<10GB) where overhead outweighs benefits
+- **Random access patterns** not filtering by partition key
+- **Complex JOINs** across many partitions
+- **Frequently changing partition keys**
+
+## Best Practices Checklist
+
+### Planning Phase
+- [ ] Identify clear retention requirements
+- [ ] Analyze query patterns and WHERE clauses
+- [ ] Choose appropriate partition interval (daily/weekly/monthly)
+- [ ] Estimate partition sizes and growth rate
+- [ ] Plan partition key (immutable, in most queries)
+
+### Implementation Phase
+- [ ] Install pg_partman extension
+- [ ] Create partitioned parent table
+- [ ] Configure automated maintenance
+- [ ] Set up monitoring and alerts
+- [ ] Implement dual-write pattern
+
+### Testing Phase
+- [ ] Validate query performance on test data
+- [ ] Test partition creation/dropping
+- [ ] Verify autovacuum behavior
+- [ ] Load test at expected scale
+- [ ] Practice rollback procedures
+
+### Production Phase
+- [ ] Enable dual-write
+- [ ] Monitor for data consistency
+- [ ] Gradually shift read traffic
+- [ ] Validate old partition dropping
+- [ ] Document runbooks for operations team
+
+## Conclusion
+
+PostgreSQL partitioning transformed our database from a storage crisis to a well-managed, scalable system. By implementing time-range partitioning with pg_partman, we:
+
+**Achieved:**
+- 85% storage reduction (181GB → 35GB)
+- 85% faster queries for time-filtered operations
+- Automated data retention and cleanup
+- Predictable, sustainable growth pattern
+
+**Key Takeaway**: Partitioning is a powerful tool, but it's not magic. Success requires:
+1. Clear business requirements (retention policy)
+2. Query patterns that align with partition key
+3. Proper tooling (pg_partman for automation)
+4. Careful migration strategy (dual-write)
+5. Ongoing monitoring and maintenance
+
+When done right, partitioning transforms a scaling problem into a solved problem.
+
+---
+
+*This architecture has been running in production for 6+ months, managing 130M+ records with zero manual interventions and consistent sub-second query performance.*`,
+    publishedDate: '2025-01-22',
+    tags: ['Backend', 'PostgreSQL', 'Database', 'Performance', 'System Design', 'Optimization'],
+    readingTime: 14,
+    featured: true
+  },
+  {
     id: 'android-to-backend-journey',
     title: 'From Android Development to Backend Engineering: My Journey',
     excerpt: 'How my experience with Android development shaped my approach to backend engineering and system design.',
