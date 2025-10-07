@@ -21,14 +21,14 @@ export const experiences: Experience[] = [
     location: 'Bangalore, India',
     description: 'Leading backend initiatives in the Personal Loan team with focus on scalability, reliability, and performance. Mentoring engineers and driving architecture improvements.',
     achievements: [
-      'Drove system-level performance optimizations and reliability improvements across loan services',
-      'Owned high-impact roadmap items and cross-team integrations',
-      'Mentored junior engineers and improved engineering best practices'
+      'Database Optimization & Cost Savings: Optimized DB storage by partitioning large tables using pg_partman and migrating to a smaller instance, reducing overhead and saving $600 per month with zero downtime',
+      'Processing Fee Introduction: Led the end-to-end backend delivery of a new Processing Fee feature, contributing ₹1CR per day in revenue. Mentored and guided junior engineers to ensure seamless and on-time rollout',
+      'Service Scalability & Performance: Improved service performance by re-architecting backend services with asynchronous processing via Kafka and optimizing database queries, enabling a 5x increase in requests with zero downtime'
     ],
     keyProjects: [
-      'Loan Services Scale & Resilience Program',
-      'Cross-Service Contract Standardization',
-      'Observability & Performance Tuning'
+      'Database Optimization with pg_partman',
+      'Processing Fee System',
+      'Service Scalability & Kafka Integration'
     ],
     technologies: ['Java', 'Kotlin', 'Spring Boot', 'PostgreSQL', 'Apache Kafka', 'Docker', 'Kubernetes'],
     metrics: [
@@ -48,12 +48,11 @@ export const experiences: Experience[] = [
     location: 'Bangalore, India',
     description: 'Built and scaled backend services for fintech products with Java/Kotlin and Spring Boot.',
     achievements: [
-      'Processing Fee Introduction: Led end-to-end backend delivery contributing ₹1CR per day in revenue',
-      'Revamped Loan Journeys: Improved approval-to-disbursal rates and increased daily gross disbursal by 33.5% and 26.6%',
-      'EMI Date Standardization: Consolidated EMI dates to 4, improving collection efficiency',
-      'Comms in Vernacular Languages: Implemented 10 vernacular languages for customer comms',
-      'OKYC Integration: Aadhaar and PAN verification via Digilocker; +10.2% KYC completion',
-      'Workflow Optimization: Automated QA processes; reduced time from 10 minutes to < 1 minute'
+      'Revamped Loan Journeys: Redesigned Personal Loan Repeat and Top-Up flows. Increased approval-to-disbursal rates (24% → 29%, 14% → 25%) and boosted daily gross disbursal by 33.5% (₹17.6 Cr → ₹23.5 Cr) and 26.6% (₹10.5 Cr → ₹13.3 Cr)',
+      'EMI Date Standardization: Streamlined EMI date logic by consolidating to 4 dates and integrating with a decisioning service. Revamped API workflows, eliminating redundancy and significantly improving collection efficiency',
+      'Comms in Vernacular Languages: Enhanced customer experience by implementing multi-language communication in 15+ vernacular languages, optimizing workflows, and reducing redundant reads',
+      'OKYC Integration: Integrated Aadhaar and PAN verification using Digilocker, increasing KYC completion rate by 10.2% and reducing completion time',
+      'Workflow & Production Optimization: Automated QA processes (reducing time from 10 minutes to <1 minute), simplified KYC verification for faster onboarding, and resolved high-priority issues during on-call rotations to ensure minimal downtime and consistent service reliability'
     ],
     keyProjects: [
       'Personal Loan Processing Fee System',
@@ -117,6 +116,37 @@ export const experiences: Experience[] = [
 ]
 
 export const projects: Project[] = [
+  {
+    id: "evolvdb",
+    title: "EvolvDB — Educational Database Engine",
+    description: "Personal Project - A from-scratch relational database engine built in Java to deeply understand database internals",
+    longDescription: "Built a from-scratch relational DB engine in Java to deeply understand database internals, covering the full query pipeline: SQL Parsing → Planning → Optimization → Execution. Designed a modular system with catalog, planner, optimizer, and Volcano-style execution engine.",
+    technologies: ["Java", "Database Systems", "SQL Parsing", "Query Optimization", "Volcano Model"],
+    features: [
+      "Full query pipeline: SQL Parsing → Planning → Optimization → Execution",
+      "Modular system with catalog, planner, optimizer, and Volcano-style execution engine",
+      "Core relational operators implementation",
+      "Cost-based optimizer with join reordering, predicate pushdown, and projection pruning",
+      "Unit and end-to-end tests with comprehensive documentation"
+    ],
+    challenges: [
+      "Building SQL parser from scratch",
+      "Implementing cost-based query optimization",
+      "Designing efficient execution engine"
+    ],
+    learnings: [
+      "Deep understanding of database internals",
+      "Query optimization techniques",
+      "Relational algebra and execution models"
+    ],
+    links: {
+      github: "https://github.com/Anupam0401/evolvdb"
+    },
+    status: "completed",
+    featured: true,
+    startDate: "2024-06-01",
+    endDate: "2024-12-01"
+  },
   {
     id: "network-software-monitoring-tool",
     title: "Network Software Monitoring Tool",
@@ -248,6 +278,7 @@ export const skills: Skill[] = [
   // Languages
   { name: "Java", category: "language", level: "expert", yearsOfExperience: 4, icon: "☕" },
   { name: "Kotlin", category: "language", level: "advanced", yearsOfExperience: 2, icon: "🔥" },
+  { name: "C++", category: "language", level: "intermediate", yearsOfExperience: 2, icon: "⚙️" },
   { name: "Python", category: "language", level: "intermediate", yearsOfExperience: 2, icon: "🐍" },
   { name: "SQL", category: "language", level: "advanced", yearsOfExperience: 3, icon: "🗃️" },
   { name: "JavaScript", category: "language", level: "intermediate", yearsOfExperience: 2, icon: "⚡" },
@@ -259,29 +290,35 @@ export const skills: Skill[] = [
   { name: "Hibernate", category: "framework", level: "advanced", yearsOfExperience: 2, icon: "🔄" },
   { name: "JUnit", category: "framework", level: "advanced", yearsOfExperience: 3, icon: "✅" },
   { name: "Mockito", category: "framework", level: "advanced", yearsOfExperience: 2, icon: "🎭" },
+  { name: "GraphQL", category: "framework", level: "intermediate", yearsOfExperience: 1, icon: "📊" },
   // Android-adjacent basics retained at beginner level
   { name: "Room Database", category: "framework", level: "beginner", yearsOfExperience: 1, icon: "🗄️" },
   
   // Databases
   { name: "PostgreSQL", category: "database", level: "advanced", yearsOfExperience: 3, icon: "🐘" },
-  { name: "Redis", category: "database", level: "intermediate", yearsOfExperience: 2, icon: "🔴" },
+  { name: "MySQL", category: "database", level: "intermediate", yearsOfExperience: 2, icon: "🐬" },
   { name: "MongoDB", category: "database", level: "intermediate", yearsOfExperience: 1, icon: "🍃" },
+  { name: "Redis", category: "database", level: "intermediate", yearsOfExperience: 2, icon: "🔴" },
   
   // Tools
   { name: "Docker", category: "tool", level: "advanced", yearsOfExperience: 2, icon: "🐳" },
+  { name: "Kubernetes", category: "tool", level: "intermediate", yearsOfExperience: 2, icon: "⚙️" },
   { name: "Kafka", category: "tool", level: "intermediate", yearsOfExperience: 2, icon: "📡" },
-  { name: "RabbitMQ", category: "tool", level: "intermediate", yearsOfExperience: 1, icon: "🐰" },
+  { name: "Prometheus", category: "tool", level: "intermediate", yearsOfExperience: 1, icon: "📈" },
+  { name: "Grafana", category: "tool", level: "intermediate", yearsOfExperience: 1, icon: "📊" },
   { name: "Git", category: "tool", level: "advanced", yearsOfExperience: 4, icon: "🔧" },
   { name: "Maven", category: "tool", level: "advanced", yearsOfExperience: 3, icon: "📦" },
   { name: "Gradle", category: "tool", level: "intermediate", yearsOfExperience: 2, icon: "🔨" },
+  { name: "Shell", category: "tool", level: "intermediate", yearsOfExperience: 3, icon: "💻" },
   
   // Cloud
   { name: "AWS", category: "cloud", level: "intermediate", yearsOfExperience: 2, icon: "☁️" },
-  { name: "Kubernetes", category: "cloud", level: "beginner", yearsOfExperience: 1, icon: "⚙️" },
   
   // Other
   { name: "Microservices", category: "other", level: "advanced", yearsOfExperience: 2, icon: "🏗️" },
-  { name: "System Design", category: "other", level: "advanced", yearsOfExperience: 2, icon: "🎯" },
+  { name: "Low Level Design", category: "other", level: "advanced", yearsOfExperience: 2, icon: "🔧" },
+  { name: "High Level Design", category: "other", level: "advanced", yearsOfExperience: 2, icon: "🎯" },
+  { name: "Database Systems", category: "other", level: "advanced", yearsOfExperience: 3, icon: "🗄️" },
   { name: "API Design", category: "other", level: "advanced", yearsOfExperience: 3, icon: "🔌" },
   { name: "Performance Optimization", category: "other", level: "advanced", yearsOfExperience: 2, icon: "⚡" },
   // Android-adjacent basics retained at beginner level
@@ -300,21 +337,21 @@ export const achievements: Achievement[] = [
   },
   {
     id: "google-hash-code",
-    title: "Google Hash Code Top Performer",
-    description: "Achieved top ranking in Google Hash Code programming competition",
+    title: "Google Hash Code - Global Rank 2329",
+    description: "Secured Global Rank 2329 in Google Hash Code programming competition",
     date: "2022-03-20",
     type: "competition",
     organization: "Google",
     icon: "🥇"
   },
   {
-    id: "jee-percentile",
-    title: "JEE Main High Percentile",
-    description: "Secured excellent percentile in JEE Main examination",
-    date: "2019-05-01",
-    type: "milestone",
-    organization: "NTA",
-    icon: "📚"
+    id: "google-kickstart",
+    title: "Google KickStart - Global Rank 2436",
+    description: "Secured Global Rank 2436 in Google KickStart Round D",
+    date: "2021-12-01",
+    type: "competition",
+    organization: "Google",
+    icon: "🏅"
   },
   {
     id: "production-systems",
