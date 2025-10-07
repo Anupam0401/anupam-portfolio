@@ -327,6 +327,15 @@ export const skills: Skill[] = [
 
 export const achievements: Achievement[] = [
   {
+    id: "comet-award",
+    title: "Comet Award - Navi Technologies",
+    description: "Recognized for exceptional contributions and outstanding performance in delivering high-impact features and driving team excellence",
+    date: "2025-06-12",
+    type: "award",
+    organization: "Navi Technologies",
+    icon: "⭐"
+  },
+  {
     id: "sih-finalist",
     title: "Smart India Hackathon Finalist",
     description: "Reached the finals of Smart India Hackathon, one of India's biggest coding competitions",

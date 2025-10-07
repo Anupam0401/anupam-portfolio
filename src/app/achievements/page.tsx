@@ -108,7 +108,7 @@ const AchievementsPage = () => {
                     {achievement.title}
                   </CardTitle>
                   <div className="flex items-center space-x-2">
-                    <Badge variant="secondary" className="capitalize">
+                    <Badge variant="secondary" size="sm" className="capitalize">
                       {achievement.type}
                     </Badge>
                     {achievement.organization && (
