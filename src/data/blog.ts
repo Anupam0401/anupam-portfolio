@@ -2215,7 +2215,7 @@ Database design is both an art and a science. The patterns that work best are th
     publishedDate: '2024-05-15',
     tags: ['Backend', 'Database', 'System Design', 'Performance'],
     readingTime: 7,
-    featured: true
+    featured: false
   }
 ]
 

@@ -4,7 +4,6 @@ import HomeQuickAccess from '@/components/sections/HomeQuickAccess'
 import HomeFeaturedProjects from '@/components/sections/HomeFeaturedProjects'
 import HomeJourneySnapshot from '@/components/sections/HomeJourneySnapshot'
 import HomeAchievementsHighlights from '@/components/sections/HomeAchievementsHighlights'
-import HomeBlogTeasers from '@/components/sections/HomeBlogTeasers'
 import HomeContactCta from '@/components/sections/HomeContactCta'
 import HomeSkillsOverview from '@/components/sections/HomeSkillsOverview'
 
@@ -19,7 +18,6 @@ export default function Home() {
       <HomeSkillsOverview />
       <HomeFeaturedProjects />
       <HomeAchievementsHighlights />
-      <HomeBlogTeasers />
       <HomeContactCta />
     </Layout>
   )
