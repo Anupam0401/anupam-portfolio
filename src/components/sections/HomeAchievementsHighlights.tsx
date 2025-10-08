@@ -24,12 +24,12 @@ export default function HomeAchievementsHighlights() {
           <h2 id="home-achievements" className="text-2xl font-semibold text-gray-900">Achievements</h2>
           <Link href="/achievements" className="text-sm text-blue-600 hover:underline">View all</Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
           {top.map(item => {
             const Icon = iconFor(item.type)
             return (
-              <div key={item.id} className="rounded-2xl">
-                <Link href="/achievements" className="block rounded-2xl overflow-hidden border border-transparent [background:linear-gradient(rgba(255,255,255,0.06),rgba(255,255,255,0.06))_padding-box,linear-gradient(90deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25))_border-box] glass-surface p-5 min-h-[112px]">
+              <div key={item.id} className="rounded-2xl h-full">
+                <Link href="/achievements" className="flex flex-col h-full rounded-2xl overflow-hidden border border-transparent [background:linear-gradient(rgba(255,255,255,0.06),rgba(255,255,255,0.06))_padding-box,linear-gradient(90deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25))_border-box] glass-surface p-5">
                   <div className="h-0.5 w-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-3" />
                   <div className="flex items-start gap-3 mb-2">
                     <div className="p-2 rounded-lg bg-gray-100">
