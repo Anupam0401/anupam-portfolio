@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { blogPosts } from '@/data/blog'
-import { CalendarIcon, ClockIcon, BookOpenIcon, SparklesIcon } from '@heroicons/react/24/outline'
-import { Badge } from '@/components/ui/Badge'
+import { CalendarIcon, ClockIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 export default function HomeBlogTeasers() {
   const featured = blogPosts
@@ -20,19 +19,13 @@ export default function HomeBlogTeasers() {
           {featured.map(post => (
             <div key={post.id} className="h-full">
               <Link href={`/blog/${post.id}`} className="flex flex-col h-full rounded-xl ring-1 ring-[color:var(--border-color)]/60 bg-gradient-to-br from-white to-gray-50 p-5 hover:shadow-lg transition-shadow">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <div className="p-2 bg-blue-100 rounded-lg mr-3">
-                    <BookOpenIcon className="w-5 h-5 text-blue-600" />
-                  </div>
-                  {post.readingTime && (
-                    <span className="text-xs text-gray-600">{post.readingTime} min read</span>
-                  )}
+              <div className="flex items-center mb-3">
+                <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                  <BookOpenIcon className="w-5 h-5 text-blue-600" />
                 </div>
-                <Badge variant="success" size="sm" className="flex items-center gap-1">
-                  <SparklesIcon className="w-3 h-3" />
-                  Featured
-                </Badge>
+                {post.readingTime && (
+                  <span className="text-xs text-gray-600">{post.readingTime} min read</span>
+                )}
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">{post.title}</h3>
               <p className="text-sm text-gray-600 line-clamp-2 mb-3">{post.excerpt}</p>
