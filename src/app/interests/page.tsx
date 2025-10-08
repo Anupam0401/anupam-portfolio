@@ -206,9 +206,9 @@ const InterestsPage = () => {
       variants={itemVariants}
       whileHover={{ y: -5 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
-      className="self-start"
+      className="h-full"
     >
-      <Card className="shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+      <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-center justify-between mb-4">
             {(() => {
@@ -232,51 +232,53 @@ const InterestsPage = () => {
           </p>
         </CardHeader>
 
-        <CardContent className="p-6 pt-0">
-          {/* Achievements */}
-          <div className="mb-4">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
-              <StarIcon className="w-4 h-4 mr-1 text-yellow-500" />
-              Achievements
-            </h4>
-            <div className="space-y-1">
-              {interest.achievements.map((achievement: string, index: number) => (
-                <div key={index} className="text-xs text-gray-600 dark:text-gray-400">
-                  • {achievement}
-                </div>
-              ))}
+        <CardContent className="flex-1 flex flex-col p-6 pt-0">
+          <div className="flex-1">
+            {/* Achievements */}
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                <StarIcon className="w-4 h-4 mr-1 text-yellow-500" />
+                Achievements
+              </h4>
+              <div className="space-y-1">
+                {interest.achievements.map((achievement: string, index: number) => (
+                  <div key={index} className="text-xs text-gray-600 dark:text-gray-400">
+                    • {achievement}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Activities */}
-          <div className="mb-4">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
-              <PlayIcon className="w-4 h-4 mr-1 text-green-500" />
-              Current Activities
-            </h4>
-            <div className="flex flex-wrap gap-1">
-              {interest.activities.slice(0, 3).map((activity: string, index: number) => (
-                <Badge key={index} variant="secondary" size="sm" className="text-xs">
-                  {activity}
-                </Badge>
-              ))}
+            {/* Activities */}
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                <PlayIcon className="w-4 h-4 mr-1 text-green-500" />
+                Current Activities
+              </h4>
+              <div className="flex flex-wrap gap-1">
+                {interest.activities.slice(0, 3).map((activity: string, index: number) => (
+                  <Badge key={index} variant="secondary" size="sm" className="text-xs">
+                    {activity}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Gallery Preview */}
-          <div className="mb-4">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
-              <EyeIcon className="w-4 h-4 mr-1 text-blue-500" />
-              Gallery ({interest.gallery.length})
-            </h4>
-            <div className="grid grid-cols-3 gap-2">
-              {interest.gallery.slice(0, 3).map((item: any, index: number) => (
-                <div key={index} className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                  <span className="text-xs text-gray-500 dark:text-gray-400 text-center p-1">
-                    {item.title}
-                  </span>
-                </div>
-              ))}
+            {/* Gallery Preview */}
+            <div className="mb-4">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                <EyeIcon className="w-4 h-4 mr-1 text-blue-500" />
+                Gallery ({interest.gallery.length})
+              </h4>
+              <div className="grid grid-cols-3 gap-2">
+                {interest.gallery.slice(0, 3).map((item: any, index: number) => (
+                  <div key={index} className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 text-center p-1">
+                      {item.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -351,7 +353,7 @@ const InterestsPage = () => {
             animate="visible"
             className="mb-16"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {getFilteredInterests().map((interest, index) => {
                 const category = selectedCategory === 'all' 
                   ? (interests.sports.includes(interest) ? 'sports' 
