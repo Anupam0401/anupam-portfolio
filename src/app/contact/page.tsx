@@ -130,7 +130,7 @@ const ContactPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -155,7 +155,7 @@ const ContactPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Card className="shadow-xl">
+              <Card className="shadow-xl bg-gradient-to-br from-white to-gray-50">
                 <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                   <CardTitle className="text-2xl font-bold flex items-center">
                     <PaperAirplaneIcon className="w-6 h-6 mr-3" />
@@ -295,7 +295,7 @@ const ContactPage = () => {
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                               {method.title}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">
+                            <p className="text-gray-600 dark:text-gray-400 font-medium break-all sm:break-words max-w-full">
                               {method.value}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">

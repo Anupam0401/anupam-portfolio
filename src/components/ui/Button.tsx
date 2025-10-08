@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
 interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag' | 'onDragEnd' | 'onDragStart' | 'onAnimationStart' | 'onAnimationEnd'> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'contrast' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
   isLoading?: boolean
   children: React.ReactNode
@@ -11,27 +11,54 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+    const baseStyles = 'btn inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
     
     const variants = {
-      primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-lg hover:shadow-xl',
-      secondary: 'bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-500 shadow-lg hover:shadow-xl',
-      outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
-      ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800'
+      primary: [
+        'btn-primary',
+        'text-white',
+        'bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)]',
+        'shadow-lg hover:shadow-xl',
+        'ring-1 ring-[color:var(--accent-primary)]/20 hover:ring-[color:var(--accent-hover)]/40',
+        'focus-visible:ring-[color:var(--accent-hover)]/50',
+      ].join(' '),
+      secondary: [
+        'btn-secondary',
+        'text-white',
+        'bg-gray-900 hover:bg-gray-800',
+        'shadow-lg hover:shadow-xl',
+        'ring-1 ring-black/10',
+      ].join(' '),
+      outline: [
+        'btn-outline',
+        'border border-gray-300 text-gray-700 hover:bg-gray-50',
+        'focus-visible:ring-gray-400',
+        'dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
+      ].join(' '),
+      contrast: [
+        'btn-contrast',
+        'border-2 border-gray-900 text-gray-900',
+        'backdrop-blur-sm',
+        'hover:bg-gray-900 hover:text-white',
+        'focus-visible:ring-gray-900/40',
+        'dark:border-white/80 dark:text-white',
+        'dark:hover:bg-white/90 dark:hover:text-gray-900',
+      ].join(' '),
+      ghost: 'btn-ghost text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800'
     }
     
     const sizes = {
       sm: 'h-9 px-4 text-sm',
       md: 'h-11 px-6 text-base',
-      lg: 'h-12 px-8 text-lg'
+      lg: 'h-12 px-8 text-base'
     }
 
     return (
       <motion.button
         ref={ref}
         className={cn(baseStyles, variants[variant], sizes[size], className)}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ y: -2, scale: 1.01 }}
+        whileTap={{ y: 0, scale: 0.99 }}
         disabled={isLoading}
         {...props}
       >

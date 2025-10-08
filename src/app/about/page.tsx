@@ -1,8 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { DocumentArrowDownIcon, AcademicCapIcon, BriefcaseIcon, TrophyIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, AcademicCapIcon, BriefcaseIcon, TrophyIcon, HeartIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -11,6 +13,7 @@ import { personalInfo, experiences, education, achievements } from '@/data/portf
 import { calculateDuration } from '@/lib/utils'
 
 const AboutPage = () => {
+  const [imgOk, setImgOk] = useState(true)
   const handleDownloadResume = () => {
     const link = document.createElement('a')
     link.href = personalInfo.resume || '#'
@@ -20,7 +23,7 @@ const AboutPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -73,11 +76,29 @@ const AboutPage = () => {
                 </div>
                 <div className="flex justify-center">
                   <motion.div
-                    className="w-64 h-64 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-6xl font-bold shadow-2xl"
-                    whileHover={{ scale: 1.05 }}
+                    className="relative"
+                    whileHover={{ scale: 1.03 }}
                     transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
                   >
-                    AK
+                    <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden ring-1 ring-[color:var(--border-color)]/60 shadow-2xl">
+                      {imgOk ? (
+                        <Image
+                          src="/images/anupam.png"
+                          alt="Anupam Kumar"
+                          fill
+                          priority
+                          placeholder="empty"
+                          quality={95}
+                          sizes="(min-width: 1024px) 18rem, (min-width: 768px) 18rem, 16rem"
+                          className="object-cover"
+                          onError={() => setImgOk(false)}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-6xl font-bold">
+                          AK
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 </div>
               </div>
@@ -99,11 +120,11 @@ const AboutPage = () => {
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-blue-200 dark:bg-blue-800"></div>
               
               {/* Experience Items */}
-              <div className="space-y-8">
+              <div className="space-y-8 snap-y snap-proximity">
                 {experiences.map((exp, index) => (
                   <motion.div
                     key={exp.id}
-                    className={`relative flex items-center ${
+                    className={`relative flex items-center snap-start ${
                       index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                     }`}
                     initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
@@ -115,7 +136,7 @@ const AboutPage = () => {
                     
                     {/* Content */}
                     <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'} md:w-5/12`}>
-                      <Card hoverable className="p-6">
+                      <Card hoverable className="p-6 bg-gradient-to-br from-white to-gray-50">
                         <div className="flex items-center mb-4">
                           <BriefcaseIcon className="w-6 h-6 text-blue-600 mr-3" />
                           <div>
@@ -123,8 +144,19 @@ const AboutPage = () => {
                               {exp.position}
                             </h3>
                             <p className="text-blue-600 dark:text-blue-400 font-medium">
-                              {exp.company}
-                            </p>
+                            {('companyUrl' in exp && (exp as any).companyUrl) ? (
+                              <a
+                                href={(exp as any).companyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline-offset-4 hover:underline"
+                              >
+                                {exp.company}
+                              </a>
+                            ) : (
+                              exp.company
+                            )}
+                          </p>
                           </div>
                         </div>
                         <div className="flex items-center text-gray-500 dark:text-gray-400 mb-3">
@@ -271,6 +303,127 @@ const AboutPage = () => {
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+
+          {/* Interests Section */}
+          <motion.div
+            className="mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+          >
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              When I'm Not Coding
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-center mb-8 max-w-2xl mx-auto">
+              Beyond software development, I'm passionate about various activities that keep me balanced and inspired.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {/* Sports */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-3xl">
+                      🏸
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Sports
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Badminton, Table Tennis
+                  </p>
+                  <Badge variant="secondary" size="sm">Fitness & Strategy</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Arts */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-3xl">
+                      🎨
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Arts
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Drawing, Painting
+                  </p>
+                  <Badge variant="secondary" size="sm">Creative Expression</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Reading */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.3 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-3xl">
+                      📚
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Reading
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Novels, Sci-Fi, Philosophy
+                  </p>
+                  <Badge variant="secondary" size="sm">Mind Expansion</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Entertainment */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-3xl">
+                      🎬
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Entertainment
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Movies, Music, Cricket
+                  </p>
+                  <Badge variant="secondary" size="sm">Relaxation</Badge>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Call to action */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.5 }}
+            >
+              <Link href="/interests">
+                <Button variant="outline" className="group">
+                  <HeartIcon className="w-5 h-5 mr-2" />
+                  Explore My Interests
+                  <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>

@@ -12,6 +12,10 @@ const Footer = () => {
     { name: 'About', href: '/about' },
     { name: 'Experience', href: '/experience' },
     { name: 'Projects', href: '/projects' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Skills', href: '/skills' },
+    { name: 'Interests', href: '/interests' },
+    { name: 'Achievements', href: '/achievements' },
     { name: 'Contact', href: '/contact' }
   ]
 
@@ -34,7 +38,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="footer-bar glass-surface backdrop-blur-md backdrop-saturate-150 border-t border-[color:var(--border-color)]/60 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -136,7 +140,7 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <motion.div
-          className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row justify-between items-center"
+          className="mt-12 pt-8 border-t border-[color:var(--border-color)]/60 flex flex-col sm:flex-row justify-between items-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}

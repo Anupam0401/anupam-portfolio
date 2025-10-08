@@ -44,7 +44,7 @@ const ExperiencePage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -74,7 +74,7 @@ const ExperiencePage = () => {
                 variants={itemVariants}
                 className="relative"
               >
-                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div className="flex items-center space-x-4">
@@ -86,7 +86,18 @@ const ExperiencePage = () => {
                             {exp.position}
                           </CardTitle>
                           <p className="text-blue-100 dark:text-blue-200 text-lg font-medium">
-                            {exp.company}
+                            {('companyUrl' in exp && (exp as any).companyUrl) ? (
+                              <a
+                                href={(exp as any).companyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline-offset-4 hover:underline"
+                              >
+                                {exp.company}
+                              </a>
+                            ) : (
+                              exp.company
+                            )}
                           </p>
                         </div>
                       </div>

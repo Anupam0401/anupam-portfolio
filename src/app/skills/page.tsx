@@ -20,6 +20,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { skills } from '@/data/portfolio'
+import BrandIcon from '@/components/ui/BrandIcon'
+import MaterialIcon from '@/components/ui/MaterialIcon'
+import { getBrandIcon } from '@/lib/brand-icons'
 
 const SkillsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -46,6 +49,43 @@ const SkillsPage = () => {
       case 'beginner': return 'from-gray-500 to-slate-500'
       default: return 'from-gray-500 to-slate-500'
     }
+  }
+  const getMaterialNameForSkill = (skill: any): string => {
+    const n = String(skill.name || '').toLowerCase()
+    switch (skill.category) {
+      case 'language':
+        if (n.includes('sql')) return 'database'
+        if (n.includes('xml')) return 'code'
+        return 'code'
+      case 'framework':
+        if (n.includes('retrofit')) return 'link'
+        if (n.includes('room')) return 'database'
+        if (n.includes('junit')) return 'task_alt'
+        if (n.includes('mockito')) return 'rule'
+        return 'integration_instructions'
+      case 'database':
+        return 'database'
+      case 'tool':
+        return 'build'
+      case 'cloud':
+        return 'cloud'
+      default:
+        if (n.includes('microservices')) return 'account_tree'
+        if (n.includes('system design')) return 'account_tree'
+        if (n.includes('api')) return 'api'
+        if (n.includes('performance')) return 'speed'
+        if (n.includes('mobile')) return 'phone_android'
+        if (n.includes('mvvm')) return 'account_tree'
+        return 'star'
+    }
+  }
+
+  const renderSkillIcon = (skill: any) => {
+    const hasBrand = !!getBrandIcon(skill.name)
+    if (hasBrand) {
+      return <BrandIcon name={skill.name} className="w-5 h-5" />
+    }
+    return <MaterialIcon name={getMaterialNameForSkill(skill)} className="text-[20px] leading-none" />
   }
 
   const getLevelBadgeVariant = (level: string) => {
@@ -91,8 +131,8 @@ const SkillsPage = () => {
       <Card className="h-full p-6 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className={`p-3 rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg`}>
-              <span className="text-2xl font-bold">{skill.icon}</span>
+            <div className={`w-10 h-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r ${getLevelColor(skill.level)} text-white shadow-lg shrink-0`}>
+              {renderSkillIcon(skill)}
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -109,10 +149,10 @@ const SkillsPage = () => {
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              {skill.yearsOfExperience}
+              {skill.yearsOfExperience < 1 ? '<1' : skill.yearsOfExperience}
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {skill.yearsOfExperience === 1 ? 'year' : 'years'}
+              {skill.yearsOfExperience < 1 ? 'year' : (skill.yearsOfExperience === 1 ? 'year' : 'years')}
             </div>
           </div>
         </div>
@@ -156,7 +196,7 @@ const SkillsPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -315,26 +355,26 @@ const SkillsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-700 text-white">
+            <Card className="p-8 gradient-card">
               <h2 className="text-2xl font-bold mb-4">
                 Ready to Build Something Amazing?
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className="text-lg mb-6">
                 With expertise across the full backend stack, I'm ready to tackle your next challenge. 
                 Let's discuss how my skills can contribute to your project's success.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   onClick={() => window.location.href = '/contact'}
-                  variant="secondary"
+                  variant="contrast"
                   className="flex items-center"
                 >
                   <span>Get In Touch</span>
                 </Button>
                 <Button
                   onClick={() => window.location.href = '/projects'}
-                  variant="outline"
-                  className="flex items-center bg-white/10 dark:bg-white/5 text-white border-white/30 dark:border-white/20 hover:bg-white/20 dark:hover:bg-white/10"
+                  variant="primary"
+                  className="flex items-center"
                 >
                   <span>View My Work</span>
                 </Button>

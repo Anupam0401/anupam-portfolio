@@ -11,7 +11,8 @@ import {
   BookOpenIcon,
   FunnelIcon,
   MagnifyingGlassIcon,
-  PencilIcon
+  PencilIcon,
+  DocumentTextIcon
 } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -59,14 +60,15 @@ const BlogPage = () => {
     }
   }
 
-  const BlogCard = ({ post, featured = false }: { post: typeof blogPosts[0], featured?: boolean }) => (
+  const BlogCard = ({ post, featured = false }: { post: typeof blogPosts[0], featured?: boolean }) => {
+    return (
     <motion.div
       variants={itemVariants}
       className={`${featured ? 'md:col-span-2' : ''} h-full`}
       whileHover={{ y: -5 }}
       transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
     >
-      <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+      <Card className="h-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
         <CardHeader className="relative">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -81,7 +83,7 @@ const BlogPage = () => {
                   </Badge>
                 )}
               </div>
-              <CardTitle className={`${featured ? 'text-2xl' : 'text-xl'} font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors`}>
+              <CardTitle className={`${featured ? 'text-2xl' : 'text-xl'} font-semibold tracking-tight text-gray-900 dark:text-white mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors`}>
                 <Link href={`/blog/${post.id}`}>
                   {post.title}
                 </Link>
@@ -147,11 +149,11 @@ const BlogPage = () => {
         </CardContent>
       </Card>
     </motion.div>
-  )
+  )}
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -160,7 +162,7 @@ const BlogPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6">
               Blog & Writing
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
@@ -238,13 +240,13 @@ const BlogPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-8 flex items-center">
                 <StarIcon className="w-6 h-6 mr-2 text-yellow-500" />
                 Featured Posts
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featuredPosts.map((post, index) => (
-                  <BlogCard key={post.id} post={post} featured={index === 0} />
+                {featuredPosts.map((post) => (
+                  <BlogCard key={post.id} post={post} />
                 ))}
               </div>
             </motion.div>
@@ -258,7 +260,7 @@ const BlogPage = () => {
             className="mb-16"
           >
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white flex items-center">
                 <PencilIcon className="w-6 h-6 mr-2 text-blue-600" />
                 {selectedTag === 'all' && !searchTerm ? 'All Posts' : 'Search Results'}
               </h2>
@@ -275,7 +277,9 @@ const BlogPage = () => {
               </div>
             ) : (
               <div className="text-center py-16">
-                <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">📝</div>
+                <div className="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600">
+                  <DocumentTextIcon className="h-8 w-8 text-white" />
+                </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   No posts found
                 </h3>

@@ -1,4 +1,58 @@
+/* Footer bar gradient overlay (light & dark via CSS vars) */
+.footer-bar {
+  background-color: var(--footer-bg);
+  background-image: linear-gradient(135deg, var(--footer-grad-1), var(--footer-grad-2));
+  background-blend-mode: normal;
+}
 @import "tailwindcss";
+/* Material Symbols stylesheet is now loaded via <head> link in layout.tsx to satisfy CSS @import ordering rules */
+
+/* Material Symbols setup */
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em; /* inherit size via parent or utility class */
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Glass surface helper: adds a faint top highlight to convey transparency even on static backgrounds */
+.glass-surface {
+  position: relative;
+  border-radius: inherit; /* ensure children and overlays follow radius */
+  overflow: hidden; /* clip pseudo-elements to rounded corners */
+}
+.glass-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--glass-top-glow), transparent 55%);
+  pointer-events: none;
+  border-radius: inherit; /* match parent rounding */
+}
+.glass-surface::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--glass-top-shadow), transparent);
+  pointer-events: none;
+  border-radius: inherit; /* match parent rounding */
+}
+
+/* Glow classes removed intentionally for performance */
 
 /* COMPREHENSIVE DARK MODE SUPPORT FOR ALL COMPONENTS */
 
@@ -188,44 +242,91 @@ html.dark [class*="Card"] .bg-white {
 /* Professional Theme System - Senior Architect Level */
 :root {
   /* LIGHT MODE - Elegant & Professional */
-  --background: #fafafa;  /* Off-white for sophistication */
+  --background: #f3f1ed;  /* Slightly darker warm off-white for less brightness */
   --foreground: #0a0a0a;  /* Rich black for contrast */
+  color-scheme: light;
   
   /* Component backgrounds */
-  --card-bg: #ffffff;  /* Pure white cards for clean look */
-  --nav-bg: rgba(250, 250, 250, 0.85);  /* Subtle translucent nav */
-  --border-color: #e4e4e7;  /* Soft grey borders */
+  --card-bg: #fdfcfb;  /* Warmer white for softer cards */
+  /* Light nav/footer: darker yet translucent */
+  --nav-bg: rgba(222, 220, 214, 0.90);
+  --footer-bg: rgba(222, 220, 214, 0.86);
+  /* Footer gradient accents (light) */
+  --footer-grad-1: rgba(99, 102, 241, 0.10);  /* indigo */
+  --footer-grad-2: rgba(244, 114, 182, 0.08); /* pink */
+  --border-color: #ddd9d6;  /* Slightly stronger border for structure */
   
   /* Text colors - Carefully crafted hierarchy */
   --text-primary: #18181b;  /* Almost black for headers */
   --text-secondary: #52525b;  /* Balanced grey for body text */
   --text-muted: #71717a;  /* Lighter grey for metadata */
   
-  /* Gradients - Subtle and elegant */
-  --gradient-start: #fafafa;
-  --gradient-middle: #f4f4f5;
-  --gradient-end: #fafafa;
+  /* Gradients - Subtle and elegant (more visible) */
+  --gradient-start: #f3f1ed;
+  --gradient-middle: #eceae5;
+  --gradient-end: #f3f1ed;
+  /* Layered radial overlays (light) */
+  --bg-radial-1: rgba(245, 158, 11, 0.15);   /* amber-500, top-right contrast (user-tuned) */
+  --bg-radial-2: rgba(244, 114, 182, 0.15);  /* pink-400, top-left stronger */
+  --bg-radial-3: rgba(16, 185, 129, 0.17);   /* emerald-500, bottom stronger */
+  /* Ambient overlay controls (light) */
+  --ambient-1-size: 92rem 46rem;  /* keep size; already balanced */
+  --ambient-1-pos: 98% -5%;       /* bring slightly inward from edge */
+  --ambient-1-stop: 74%;          /* slightly tighter for contrast */
+  --ambient-2-size: 68rem 34rem;  /* smaller for more concentration */
+  --ambient-2-pos: -8% 22%;
+  --ambient-2-stop: 70%;          /* tighter stop to increase visibility */
+  --ambient-3-size: 88rem 44rem;  /* smaller for more concentration */
+  --ambient-3-pos: 50% 120%;
+  --ambient-3-stop: 72%;
+  --bg-noise: rgba(0,0,0,0.03);
+  
+  /* Animated blob colors (light) - brand-biased */
+  --blob-pink: rgba(244, 114, 182, 0.16);
+  --blob-amber: rgba(245, 158, 11, 0.12);
+  --blob-emerald: rgba(16, 185, 129, 0.10);
+  --blob-cyan: rgba(6, 182, 212, 0.12);
+  --blob-indigo: rgba(99, 102, 241, 0.18);
   
   /* Accent colors */
   --accent-primary: #2563eb;  /* Professional blue */
   --accent-hover: #1d4ed8;
   
   /* Surface levels for depth */
-  --surface-0: #fafafa;
+  --surface-0: #f7f6f3;
   --surface-1: #ffffff;
-  --surface-2: #f4f4f5;
-  --surface-3: #e4e4e7;
+  --surface-2: #f2f1ee;
+  --surface-3: #e7e5e4;
+  
+  /* Glass helpers */
+  --glass-top-glow: rgba(255, 255, 255, 0.18);
+  --glass-top-shadow: rgba(0, 0, 0, 0.06);
+  /* Card glow helpers removed */
+  
+  /* Typography tokens */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --ls-tight: -0.01em;
+  --ls-tighter: -0.02em;
+  --ls-normal: 0em;
+  --ls-wide: 0.01em;
 }
 
 /* DARK MODE - Modern & Sophisticated */
 .dark {
-  --background: #09090b;  /* Rich black, not pure black */
+  --background: #0b0c10;  /* Cooler deep near-black */
   --foreground: #fafafa;  /* Soft white */
+  color-scheme: dark;
   
   /* Component backgrounds */
   --card-bg: #18181b;  /* Elevated surface */
-  --nav-bg: rgba(9, 9, 11, 0.85);  /* Dark translucent nav */
-  --border-color: #27272a;  /* Subtle borders */
+  --nav-bg: rgba(13, 17, 23, 0.85);  /* Cooler translucent nav (GitHub-esque) */
+  --footer-bg: rgba(13, 17, 23, 0.78);  /* Footer slightly more translucent than nav */
+  /* Footer gradient accents (dark) */
+  --footer-grad-1: rgba(99, 102, 241, 0.16);
+  --footer-grad-2: rgba(14, 165, 233, 0.14);
+  --border-color: #2a2f3a;  /* Cooler slate-like borders */
   
   /* Text colors */
   --text-primary: #fafafa;  /* Soft white for headers */
@@ -233,9 +334,31 @@ html.dark [class*="Card"] .bg-white {
   --text-muted: #71717a;  /* Dimmed for metadata */
   
   /* Gradients - Dark and subtle */
-  --gradient-start: #18181b;
-  --gradient-middle: #09090b;
-  --gradient-end: #18181b;
+  --gradient-start: #0d1117;
+  --gradient-middle: #0b0c10;
+  --gradient-end: #0d1117;
+  /* Layered radial overlays (dark) */
+  --bg-radial-1: rgba(245, 158, 11, 0.12);  /* amber-500 for warm contrast at top-right */
+  --bg-radial-2: rgba(99, 102, 241, 0.14);  /* indigo-500, top-left */
+  --bg-radial-3: rgba(14, 165, 233, 0.16);  /* sky-500, bottom */
+  /* Ambient overlay controls (dark) */
+  --ambient-1-size: 96rem 48rem;  /* larger for better balance */
+  --ambient-1-pos: 98% -5%;       /* bring slightly inward from edge */
+  --ambient-1-stop: 76%;          /* extend presence */
+  --ambient-2-size: 76rem 38rem;
+  --ambient-2-pos: -10% 25%;
+  --ambient-2-stop: 72%;
+  --ambient-3-size: 100rem 50rem;
+  --ambient-3-pos: 50% 120%;
+  --ambient-3-stop: 74%;
+  --bg-noise: rgba(255,255,255,0.02);
+  
+  /* Animated blob colors (dark) - brand-biased */
+  --blob-pink: rgba(244, 114, 182, 0.11);
+  --blob-amber: rgba(245, 158, 11, 0.10);
+  --blob-emerald: rgba(16, 185, 129, 0.09);
+  --blob-cyan: rgba(6, 182, 212, 0.10);
+  --blob-indigo: rgba(99, 102, 241, 0.14);
   
   /* Accent colors */
   --accent-primary: #3b82f6;  /* Brighter blue in dark mode */
@@ -244,15 +367,84 @@ html.dark [class*="Card"] .bg-white {
   /* Surface levels */
   --surface-0: #09090b;
   --surface-1: #18181b;
-  --surface-2: #27272a;
-  --surface-3: #3f3f46;
+  --surface-2: #262a33; /* Slightly cooler */
+  --surface-3: #3a3f4a; /* Slightly cooler */
+  
+  /* Glass helpers */
+  --glass-top-glow: rgba(255, 255, 255, 0.07);
+  --glass-top-shadow: rgba(255, 255, 255, 0.06);
+  /* Card glow helpers removed (dark) */
+  
+  /* Typography tokens (dark shares same metrics) */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --ls-tight: -0.01em;
+  --ls-tighter: -0.02em;
+  --ls-normal: 0em;
+  --ls-wide: 0.01em;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  line-height: 1.65;
+  font-weight: var(--fw-regular, 400);
+  letter-spacing: var(--ls-normal, 0);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography defaults: headings use Geist, body uses Inter via body rule */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: var(--text-primary);
+  letter-spacing: var(--ls-tight, -0.01em);
+}
+
+/* Button typography adjustments */
+.btn {
+  font-weight: var(--fw-medium, 500);
+  letter-spacing: var(--ls-wide, 0.01em);
+  font-family: var(--font-inter-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* App-wide elegant background inspired by GitHub/ChatGPT */
+.app-background {
+  background-image:
+    radial-gradient(var(--ambient-1-size) at var(--ambient-1-pos), var(--bg-radial-1), transparent var(--ambient-1-stop)),
+    radial-gradient(var(--ambient-2-size) at var(--ambient-2-pos), var(--bg-radial-2), transparent var(--ambient-2-stop)),
+    radial-gradient(var(--ambient-3-size) at var(--ambient-3-pos), var(--bg-radial-3), transparent var(--ambient-3-stop)),
+    linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-middle) 30%, var(--gradient-end) 100%);
+  background-attachment: fixed, fixed, fixed, scroll;
+  background-repeat: no-repeat;
+  background-size: auto, auto, auto, 100% 100%;
+}
+
+/* Optional subtle grain for depth */
+.app-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, var(--bg-noise), transparent 40%),
+    radial-gradient(1px 1px at 80% 30%, var(--bg-noise), transparent 40%),
+    radial-gradient(1px 1px at 50% 80%, var(--bg-noise), transparent 40%);
+  background-repeat: repeat;
+  background-size: 12px 12px;
+  mix-blend-mode: normal;
+}
+
+/* Gradient card with readable content on vivid backgrounds */
+.gradient-card {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: rgba(255,255,255,0.96);
+}
+.gradient-card p { color: rgba(255,255,255,0.86); }
+.gradient-card h2, .gradient-card h3 { color: #fff; }
+.dark .gradient-card {
+  background: linear-gradient(135deg, #6d28d9, #db2777);
 }
 
 /* PROFESSIONAL THEME SYSTEM - Component Styling */
@@ -385,6 +577,30 @@ nav button[class*="bg-gray-100"]:hover {
   background-color: var(--surface-3) !important;
 }
 
+/* Button hover readability (for our Button variants) */
+.btn-outline:hover,
+.btn-ghost:hover {
+  background-color: var(--surface-2) !important; /* avoid pure white */
+  color: var(--text-primary) !important;        /* ensure contrast */
+}
+
+.dark .btn-outline:hover,
+.dark .btn-ghost:hover {
+  background-color: var(--surface-2) !important; /* dark surface */
+  color: var(--text-primary) !important;         /* soft white */
+}
+
+.btn-contrast:hover {
+  /* on white-ish hover bg, switch text to accent for clarity */
+  color: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+.btn-outline,
+.btn-outline:hover {
+  border-color: var(--border-color) !important;
+}
+
 /* Elegant card shadows */
 .shadow-sm {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
@@ -477,9 +693,107 @@ nav button[class*="bg-gray-100"]:hover {
   -webkit-text-fill-color: transparent !important;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
+/* Smooth transitions are now applied selectively via utility classes to avoid global overhead */
+
+/* Motion and scroll preferences */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Mobile buttery scroll and nested areas */
+.overflow-y-auto,
+.overflow-x-auto,
+.scroll-area {
+  -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */
+  overscroll-behavior: contain;      /* prevent scroll chaining */
+  touch-action: pan-y;               /* smooth vertical panning */
+}
+
+/* Avoid fixed backgrounds on mobile to prevent jank */
+@media (max-width: 768px) {
+  .app-background {
+    background-attachment: scroll, scroll, scroll, scroll;
+  }
+}
+
+/* Anchor link offset so content doesn't jump under sticky nav */
+:where(h1, h2, h3, h4, h5, h6, [id]) { scroll-margin-top: 72px; }
+
+/* Blog prose styling - explicit overrides for Tailwind v4 compatibility */
+.prose h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  margin-top: 3rem; /* mt-12 */
+  margin-bottom: 1.25rem; /* mb-5 */
+  padding-bottom: 0.75rem; /* pb-3 */
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.dark .prose h2 {
+  color: #f3f4f6;
+  border-bottom-color: #374151;
+}
+
+.prose h3 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  margin-top: 2rem; /* mt-8 */
+  margin-bottom: 1rem; /* mb-4 */
+  color: #111827;
+  line-height: 1.4;
+}
+
+.dark .prose h3 {
+  color: #f3f4f6;
+}
+
+.prose h4 {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600;
+  margin-top: 1.5rem; /* mt-6 */
+  margin-bottom: 0.75rem; /* mb-3 */
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.dark .prose h4 {
+  color: #e5e7eb;
+}
+
+.prose p {
+  margin-bottom: 1.5rem; /* mb-6 */
+  color: #374151;
+  line-height: 1.75;
+}
+
+.dark .prose p {
+  color: #d1d5db;
+}
+
+.prose ul, .prose ol {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.dark .prose li {
+  color: #d1d5db;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark .prose strong {
+  color: #f3f4f6;
 }

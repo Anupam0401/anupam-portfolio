@@ -4,8 +4,8 @@
   "description": "Backend Developer specializing in Java, Kotlin, Spring Boot",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1e40af",
-  "theme_color": "#1e40af",
+  "background_color": "#f7f6f3",
+  "theme_color": "#2563eb",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

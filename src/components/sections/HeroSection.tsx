@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, DocumentArrowDownIcon, EnvelopeIcon, ChartBarIcon, ShieldCheckIcon, BoltIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { personalInfo } from '@/data/portfolio'
@@ -57,7 +57,7 @@ const HeroSection = () => {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(71,85,105,0.15)_1px,transparent_0)] [background-size:24px_24px]"></div>
@@ -99,17 +99,35 @@ const HeroSection = () => {
         >
           {/* Greeting */}
           <motion.p
-            className="text-blue-600 dark:text-blue-400 text-lg font-medium mb-6"
+            className="text-blue-600 dark:text-blue-400 text-xl md:text-2xl font-medium mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            👋 Hello, I&apos;m
+            <span
+              className="inline-block"
+              style={{ fontFamily: 'var(--font-caveat-script)' }}
+            >
+              Hello, I'm
+            </span>
           </motion.p>
+
+          {/* Hero local top accent blob for clear presence above name */}
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 -top-10 z-0 w-[18rem] h-[18rem] md:w-[22rem] md:h-[22rem] pointer-events-none"
+            style={{
+              background: 'radial-gradient(closest-side, var(--blob-indigo) 0%, transparent 50%)',
+              filter: 'blur(24px)',
+            }}
+            initial={{ opacity: 0.0, y: -8 }}
+            animate={{ opacity: 1, y: [-6, 0, -6] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            aria-hidden="true"
+          />
 
           {/* Name */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+            className="relative z-10 text-5xl md:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -119,15 +137,15 @@ const HeroSection = () => {
             </span>
           </motion.h1>
 
-          {/* Title */}
-          <motion.h2
-            className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-8"
-            initial={{ opacity: 0, y: 20 }}
+          {/* Sub-title under name for natural reading order */}
+          <motion.p
+            className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-8"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
           >
             {personalInfo.title}
-          </motion.h2>
+          </motion.p>
 
           {/* Description */}
           <motion.p
@@ -136,9 +154,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            I craft scalable backend systems and elegant solutions with a passion for clean code, 
-            system design, and performance optimization. Currently building fintech applications 
-            that serve millions of users at{' '}
+            I craft <span className="font-medium text-gray-800 dark:text-gray-200">scalable backend systems</span> and elegant solutions with a passion for <span className="font-medium text-gray-800 dark:text-gray-200">clean code</span>, 
+            system design, and performance optimization. Currently building fintech applications that serve millions of users at{' '}
             <span className="text-blue-600 dark:text-blue-400 font-semibold">Navi Technologies</span>.
           </motion.p>
 
@@ -163,6 +180,27 @@ const HeroSection = () => {
             ))}
           </motion.div>
 
+          {/* Highlights (Recruiter strengths) */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 mb-12"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+          >
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <ChartBarIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">Observability: tracing • metrics • logs</span>
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <ShieldCheckIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">Safe deploys: CI/CD • canary • rollbacks</span>
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gray-100 text-gray-800 ring-1 ring-[color:var(--border-color)]/60">
+              <BoltIcon className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium">Event-driven architecture (Kafka)</span>
+            </span>
+          </motion.div>
+
           {/* Call to Action Buttons */}
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
@@ -180,7 +218,7 @@ const HeroSection = () => {
             </Button>
             <Button
               onClick={handleContact}
-              variant="outline"
+              variant="contrast"
               className="flex items-center gap-2 text-lg px-8 py-4"
               size="lg"
             >
@@ -233,27 +271,7 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator - Only show when at top of page */}
-        <motion.div
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ 
-            opacity: showScrollIndicator ? 1 : 0, 
-            y: showScrollIndicator ? 0 : 20 
-          }}
-          transition={{ duration: 0.3 }}
-          style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
-        >
-          <motion.button
-            onClick={scrollToNext}
-            className="flex flex-col items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            animate={{ y: showScrollIndicator ? [0, 8, 0] : 0 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <span className="text-sm font-medium mb-2">Scroll to explore</span>
-            <ChevronDownIcon className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
+        {/* Global BackToTop handles scroll affordance across pages; hero FAB removed */}
       </div>
     </section>
   )

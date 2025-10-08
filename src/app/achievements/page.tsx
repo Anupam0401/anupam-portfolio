@@ -87,11 +87,9 @@ const AchievementsPage = () => {
     return (
       <motion.div
         variants={itemVariants}
-        className="h-full"
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring" as const, stiffness: 300, damping: 30 }}
+        className="h-full transition-transform duration-200 will-change-transform hover:-translate-y-2 hover:scale-[1.02]"
       >
-        <Card className="h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
+        <Card className="h-full shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white to-gray-50">
           <CardHeader className="relative">
             {/* Background Pattern */}
             <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
@@ -100,19 +98,17 @@ const AchievementsPage = () => {
             
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-4">
-                <motion.div 
-                  className={`p-4 rounded-full bg-gradient-to-r ${colorClass} text-white shadow-lg`}
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
+                <div 
+                  className={`p-4 rounded-full bg-gradient-to-r ${colorClass} text-white shadow-lg transition-transform duration-500 hover:rotate-[360deg]`}
                 >
                   <Icon className="w-8 h-8" />
-                </motion.div>
+                </div>
                 <div>
                   <CardTitle className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     {achievement.title}
                   </CardTitle>
                   <div className="flex items-center space-x-2">
-                    <Badge variant="secondary" className="capitalize">
+                    <Badge variant="secondary" size="sm" className="capitalize">
                       {achievement.type}
                     </Badge>
                     {achievement.organization && (
@@ -123,10 +119,9 @@ const AchievementsPage = () => {
                   </div>
                 </div>
               </div>
-              
-              <div className="text-right">
-                <div className="text-2xl">
-                  {achievement.icon}
+              <div className="text-right opacity-70">
+                <div className={`inline-flex p-2 rounded-full bg-gradient-to-r ${colorClass} text-white`}>
+                  <Icon className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -150,17 +145,15 @@ const AchievementsPage = () => {
               </div>
               
               {achievement.link && (
-                <motion.a
+                <a
                   href={achievement.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-blue-600 dark:text-blue-400 hover:underline"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center text-blue-600 dark:text-blue-400 hover:underline transition-transform hover:scale-[1.05] active:scale-95"
                 >
                   <LinkIcon className="w-4 h-4 mr-1" />
                   View Details
-                </motion.a>
+                </a>
               )}
             </div>
           </CardContent>
@@ -171,7 +164,7 @@ const AchievementsPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Header Section */}
           <motion.div
@@ -344,13 +337,13 @@ const AchievementsPage = () => {
             </h2>
             <div className="relative">
               <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-blue-200 dark:bg-blue-800"></div>
-              <div className="space-y-8">
+              <div className="space-y-8 snap-y snap-proximity">
                 {achievements
                   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                   .map((achievement, index) => (
                     <motion.div
                       key={achievement.id}
-                      className={`relative flex items-center ${
+                      className={`relative flex items-center snap-start ${
                         index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                       }`}
                       initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
@@ -362,7 +355,15 @@ const AchievementsPage = () => {
                       <div className={`ml-12 md:ml-0 ${index % 2 === 0 ? 'md:mr-8' : 'md:ml-8'} md:w-5/12`}>
                         <Card className="p-6 bg-gradient-to-br from-white to-gray-50">
                           <div className="flex items-center mb-3">
-                            <div className="text-2xl mr-3">{achievement.icon}</div>
+                            {(() => {
+                              const TimelineIcon = getAchievementIcon(achievement.type)
+                              const colorClass = getAchievementColor(achievement.type)
+                              return (
+                                <div className={`mr-3 inline-flex p-2 rounded-full bg-gradient-to-r ${colorClass} text-white`}>
+                                  <TimelineIcon className="w-5 h-5" />
+                                </div>
+                              )
+                            })()}
                             <div>
                               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                 {achievement.title}
@@ -393,18 +394,18 @@ const AchievementsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <Card className="p-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-              <h2 className="text-2xl font-bold mb-4">
+            <Card className="p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                 Ready to Achieve More Together?
               </h2>
-              <p className="text-lg text-gray-300 mb-6">
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                 These achievements represent my commitment to excellence and continuous growth. 
                 I'm excited to bring this same dedication to your next project.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
                   onClick={() => window.location.href = '/contact'}
-                  variant="secondary"
+                  variant="primary"
                   className="flex items-center"
                 >
                   <span>Let's Connect</span>
@@ -412,7 +413,7 @@ const AchievementsPage = () => {
                 <Button
                   onClick={() => window.location.href = '/projects'}
                   variant="outline"
-                  className="flex items-center bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  className="flex items-center"
                 >
                   <span>View My Work</span>
                 </Button>
