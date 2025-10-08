@@ -30,7 +30,6 @@ const Navigation = () => {
     { name: 'Skills', href: '/skills' },
     { name: 'Achievements', href: '/achievements' },
     { name: 'Blog', href: '/blog' },
-    { name: 'Interests', href: '/interests' },
     { name: 'Contact', href: '/contact' }
   ]
 

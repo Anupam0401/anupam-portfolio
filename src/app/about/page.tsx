@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { DocumentArrowDownIcon, AcademicCapIcon, BriefcaseIcon, TrophyIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, AcademicCapIcon, BriefcaseIcon, TrophyIcon, HeartIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import Layout from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -302,6 +303,127 @@ const AboutPage = () => {
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+
+          {/* Interests Section */}
+          <motion.div
+            className="mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+          >
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              When I'm Not Coding
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-center mb-8 max-w-2xl mx-auto">
+              Beyond software development, I'm passionate about various activities that keep me balanced and inspired.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {/* Sports */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-3xl">
+                      🏸
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Sports
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Badminton, Table Tennis
+                  </p>
+                  <Badge variant="secondary" size="sm">Fitness & Strategy</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Arts */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-3xl">
+                      🎨
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Arts
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Drawing, Painting
+                  </p>
+                  <Badge variant="secondary" size="sm">Creative Expression</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Reading */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.3 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-3xl">
+                      📚
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Reading
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Novels, Sci-Fi, Philosophy
+                  </p>
+                  <Badge variant="secondary" size="sm">Mind Expansion</Badge>
+                </Card>
+              </motion.div>
+
+              {/* Entertainment */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+              >
+                <Card hoverable className="p-6 h-full text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-3xl">
+                      🎬
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Entertainment
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Movies, Music, Cricket
+                  </p>
+                  <Badge variant="secondary" size="sm">Relaxation</Badge>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Call to action */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.5 }}
+            >
+              <Link href="/interests">
+                <Button variant="outline" className="group">
+                  <HeartIcon className="w-5 h-5 mr-2" />
+                  Explore My Interests
+                  <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>

@@ -97,48 +97,18 @@ const InterestsPage = () => {
     ],
     writing: [
       {
-        id: 'novels',
-        name: 'Novel Writing',
-        icon: '📚',
-        level: 'Passionate Amateur',
-        description: 'Working on a science fiction novel exploring the intersection of AI and human consciousness.',
-        achievements: ['First draft completed', 'Writing group member'],
-        activities: ['Daily writing sessions', 'Story plotting', 'Character development'],
-        why: 'Novel writing improves my ability to think through complex systems and user journeys. The narrative structure helps me design better software architectures.',
-        gallery: [
-          { type: 'manuscript', title: '"Digital Dreams" - First Novel', year: '2024' },
-          { type: 'workshop', title: 'Creative Writing Workshop', year: '2023' },
-          { type: 'reading', title: 'Book Club Leadership', year: '2022' }
-        ]
-      },
-      {
-        id: 'short-stories',
-        name: 'Short Stories',
-        icon: '📖',
-        level: 'Intermediate',
-        description: 'Science fiction and contemporary fiction exploring technology\'s impact on humanity.',
-        achievements: ['Published in local magazine', '20+ completed stories'],
-        activities: ['Weekly writing prompts', 'Story competitions', 'Online writing communities'],
-        why: 'Short stories teach conciseness and impact - valuable skills for writing clean, efficient code and technical documentation.',
-        gallery: [
-          { type: 'publication', title: 'First Published Story', year: '2023' },
-          { type: 'contest', title: 'Writing Contest Finalist', year: '2022' },
-          { type: 'collection', title: 'Personal Story Collection', year: '2024' }
-        ]
-      },
-      {
-        id: 'poetry',
-        name: 'Poetry',
-        icon: '✨',
+        id: 'creative-writing',
+        name: 'Creative Writing',
+        icon: '✍️',
         level: 'Passionate',
-        description: 'Free verse and structured poetry about technology, nature, and human experience.',
-        achievements: ['Poetry reading participant', 'Online poetry featured'],
-        activities: ['Daily poetry practice', 'Open mic nights', 'Poetry communities'],
-        why: 'Poetry enhances my ability to express complex ideas concisely and beautifully - crucial for code comments, documentation, and user interface copy.',
+        description: 'Writing short stories and poetry exploring technology, human nature, and philosophical themes.',
+        achievements: ['Published in local magazine', 'Poetry reading participant', '30+ pieces completed'],
+        activities: ['Daily writing practice', 'Story competitions', 'Poetry open mic nights', 'Online writing communities'],
+        why: 'Creative writing enhances my ability to think through complex narratives and express ideas concisely - skills that translate to better code architecture, documentation, and problem-solving.',
         gallery: [
-          { type: 'reading', title: 'Poetry Open Mic Night', year: '2024' },
-          { type: 'feature', title: 'Featured Online Poet', year: '2023' },
-          { type: 'collection', title: 'Personal Poetry Journal', year: '2024' }
+          { type: 'publication', title: 'Published Short Story', year: '2023' },
+          { type: 'workshop', title: 'Creative Writing Workshop', year: '2023' },
+          { type: 'reading', title: 'Poetry Open Mic Night', year: '2024' }
         ]
       },
       {
